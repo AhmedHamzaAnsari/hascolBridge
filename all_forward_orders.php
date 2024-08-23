@@ -513,7 +513,7 @@
             var data = new FormData(this);
 
             $.ajax({
-                url: "<?php echo $api_url; ?>update/approved_orders.php",
+                url: "<?php echo $api_url; ?>update/pushed_forward_orders.php",
                 cache: false,
                 contentType: false,
                 processData: false,
