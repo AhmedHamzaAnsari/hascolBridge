@@ -924,8 +924,8 @@
                                 <div class="col-md-4">
                                     <label for="inputEmail4">Receive File</label>
                                     <div>
-                                    <img class='w-50' src="<?php echo $api_url; ?>/uploads/${data.file}" alt="">
-                                    <a href="<?php echo $api_url; ?>/uploads/${data.file}" target="_blank">View File</a>
+                                    <img class='w-50' src="<?php echo $api_url_files; ?>uploads/${data.file}" alt="">
+                                    <a href="<?php echo $api_url_files; ?>uploads/${data.file}" target="_blank">View File</a>
                                     </div>
                                 </div>
                             </div><hr>`;

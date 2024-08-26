@@ -2428,7 +2428,7 @@
 
                 var banner = response[0]['banner'];
                 var logo = response[0]['logo'];
-                var base_url = '<?php echo $api_url; ?>';
+                var base_url = '<?php echo $api_url_files; ?>';
 
                 if (banner != '') {
                     banner = base_url + 'uploads/' + banner;

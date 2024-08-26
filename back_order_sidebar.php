@@ -689,8 +689,8 @@ function get_settings() {
             var image = $(".logo_image");
 
             // Change the src attribute of the image
-            image.attr("src", "<?php echo $api_url; ?>" + logo);
-            $(".small_logo").attr("src", "<?php echo $api_url; ?>" + logo);
+            image.attr("src", "<?php echo $api_url_files; ?>" + logo);
+            $(".small_logo").attr("src", "<?php echo $api_url_files; ?>" + logo);
             $('.project_name').text(username);
 
             console.log(username)

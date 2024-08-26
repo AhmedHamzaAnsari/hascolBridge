@@ -159,7 +159,7 @@ foreach ($array as $category) {
 
         $sign = '';
         if ($product["sign"] != "" || $category['tracker_status'] == 'With-Tracker Trips') {
-            $sign = '<a href="http://151.106.17.246:8080/hascolbridgeApis/uploads/' . $product["sign"] . '" target="_blank">View Sign</a>';
+            $sign = '<a href="http://151.106.17.246:8080/hascolBridge_files/uploads/' . $product["sign"] . '" target="_blank">View Sign</a>';
             $data = json_decode($shortage_json, true);
 
             // Check if json_decode succeeded

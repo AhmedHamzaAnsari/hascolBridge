@@ -1614,7 +1614,7 @@
                     var stock_recon = (data.stock_recon == 1) ? stock_recon_btn : "---";
 
                     var dealer_sign = (data.dealer_sign != null) ?
-                        '<a href="<?php echo $api_url; ?>uploads/' + data.dealer_sign +
+                        '<a href="<?php echo $api_url_files; ?>uploads/' + data.dealer_sign +
                         '" target="_blank"><i class="fas fa-file-image text-success" style="font-size: 20px;font-weight: bold;"></i></a>' :
                         "---";
 
@@ -2206,7 +2206,7 @@
                     ''));
                 row.append($('<td>').text(question.comment));
                 row.append($('<td>').html(question.cancel_file === null ? '---' :
-                    '<a href="<?php echo $api_url; ?>uploads/' + question.cancel_file +
+                    '<a href="<?php echo $api_url_files; ?>uploads/' + question.cancel_file +
                     '" target="_blank"><i class="fas fa-file-image text-success" style="font-size: 20px;font-weight: bold;"></i></a>'
                 ));
                 tableBody.append(row);

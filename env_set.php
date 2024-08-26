@@ -1,5 +1,6 @@
 <?php
 $api_url = "http://151.106.17.246:8080/hascolbridgeApis/";
+$api_url_files = "http://151.106.17.246:8080/hascolBridge_files/";
 
 
 

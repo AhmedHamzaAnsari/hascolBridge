@@ -455,9 +455,9 @@
                         parseFloat(quantity_less_L).toLocaleString(),
                         temperature,
                         Density,
-                        '<a href="<?php echo $api_url; ?>/uploads/'+data.file+'" target="_blank">View File</a>',
-                        '<a href="<?php echo $api_url; ?>/uploads/'+data.sign+'" target="_blank">View File</a>',
-                        '<a href="<?php echo $api_url; ?>/uploads/'+data.dealer_sign+'" target="_blank">View File</a>'
+                        '<a href="<?php echo $api_url_files; ?>uploads/'+data.file+'" target="_blank">View File</a>',
+                        '<a href="<?php echo $api_url_files; ?>uploads/'+data.sign+'" target="_blank">View File</a>',
+                        '<a href="<?php echo $api_url_files; ?>uploads/'+data.dealer_sign+'" target="_blank">View File</a>'
                         
                        
                     ]).draw(false);

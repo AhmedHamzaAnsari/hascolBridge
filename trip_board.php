@@ -812,10 +812,10 @@ i.fa {
 
 
                         var i = 0;
-                        const image = "<?php echo $api_url; ?>uploads/rec.png";
-                        const start = "<?php echo $api_url; ?>uploads/icon/start1.png";
-                        const end = "<?php echo $api_url; ?>uploads/icon/car_red.png";
-                        const stops = "<?php echo $api_url; ?>uploads/stop-sign1.png";
+                        const image = "<?php echo $api_url_files; ?>uploads/rec.png";
+                        const start = "<?php echo $api_url_files; ?>uploads/icon/start1.png";
+                        const end = "<?php echo $api_url_files; ?>uploads/icon/car_red.png";
+                        const stops = "<?php echo $api_url_files; ?>uploads/stop-sign1.png";
                         data.forEach(obj => {
 
                             var vehicle_name = data[i]['vehicle_name'];
@@ -961,9 +961,9 @@ i.fa {
             ids = device_id;
 
 
-            const image = "<?php echo $api_url; ?>uploads/icon/car_icon_blue.png";
-            const fimage = "<?php echo $api_url; ?>uploads/icon/car_icon_green.png";
-            const nr = "<?php echo $api_url; ?>uploads/icon/car_red.png";
+            const image = "<?php echo $api_url_files; ?>uploads/icon/car_icon_blue.png";
+            const fimage = "<?php echo $api_url_files; ?>uploads/icon/car_icon_green.png";
+            const nr = "<?php echo $api_url_files; ?>uploads/icon/car_red.png";
 
 
             const mark = fimage;
@@ -1008,9 +1008,9 @@ i.fa {
 
 
 
-            const image = "<?php echo $api_url; ?>uploads/pump.png";
-            const fimage = "<?php echo $api_url; ?>uploads/pump.png";
-            const nr = "<?php echo $api_url; ?>uploads/pump.png";
+            const image = "<?php echo $api_url_files; ?>uploads/pump.png";
+            const fimage = "<?php echo $api_url_files; ?>uploads/pump.png";
+            const nr = "<?php echo $api_url_files; ?>uploads/pump.png";
             // const mark = (speed > 0) ? fimage : image;
             var diffDays = 20;
 

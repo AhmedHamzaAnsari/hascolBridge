@@ -388,11 +388,11 @@
             const lineSymbol = {
                 path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
             };
-            const image = "<?php echo $api_url; ?>uploads/rec.png";
-            const start = "<?php echo $api_url; ?>uploads/icon/car_icon_blue.png";
-            const end = "<?php echo $api_url; ?>uploads/icon/car_red.png";
-            const stops = "<?php echo $api_url; ?>uploads/stop-sign1.png";
-            const running = "<?php echo $api_url; ?>uploads/icon/car_icon_green.png";
+            const image = "<?php echo $api_url_files; ?>uploads/rec.png";
+            const start = "<?php echo $api_url_files; ?>uploads/icon/car_icon_blue.png";
+            const end = "<?php echo $api_url_files; ?>uploads/icon/car_red.png";
+            const stops = "<?php echo $api_url_files; ?>uploads/stop-sign1.png";
+            const running = "<?php echo $api_url_files; ?>uploads/icon/car_icon_green.png";
             var div = '';
             if (vehicle != "" && from_ != "" && to_ != "") {
                 flightPlanCoordinates = [];
@@ -1158,7 +1158,7 @@
             .catch(error => console.log('error', error));
 
         function marker_creation(lat, lng, consignee) {
-            const image = "<?php echo $api_url; ?>uploads/rec.png";
+            const image = "<?php echo $api_url_files; ?>uploads/rec.png";
             var positiona = new google.maps.LatLng(lat, lng);
             var marker = new google.maps.Marker({
                 position: positiona,

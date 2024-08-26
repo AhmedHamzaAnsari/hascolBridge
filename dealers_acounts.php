@@ -1569,9 +1569,9 @@ dea
                         // document.getElementById("zm").value = response[0]['zm'];
                         // document.getElementById("tm").value = response[0]['tm'];
                         // document.getElementById("asm").value = response[0]['asm'];
-                        document.getElementById("imagePreview2").src = "<?php echo $api_url; ?>uploads/" +
+                        document.getElementById("imagePreview2").src = "<?php echo $api_url_files; ?>uploads/" +
                             response[0]['logo'] + "";
-                        document.getElementById("imagePreview").src = "<?php echo $api_url; ?>uploads/" +
+                        document.getElementById("imagePreview").src = "<?php echo $api_url_files; ?>uploads/" +
                             response[0]['banner'] + "";
                         var settings = {
                             "url": "<?php echo $api_url; ?>get/dealer_depot.php?key=03201232927&dealer_id=" +

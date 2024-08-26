@@ -2495,7 +2495,7 @@ function fetchtable() {
 
             var banner = response[0]['banner'];
             var logo = response[0]['logo'];
-            var base_url = '<?php echo $api_url; ?>';
+            var base_url = '<?php echo $api_url_files; ?>';
 
             if (banner != '') {
                 banner = base_url + 'uploads/' + banner;
@@ -5123,7 +5123,7 @@ function create_div(response) {
                 ''));
             row.append($('<td>').text(question.comment));
             row.append($('<td>').html(question.cancel_file === null ? '---' :
-                '<a href="<?php echo $api_url; ?>uploads/' + question.cancel_file +
+                '<a href="<?php echo $api_url_files; ?>uploads/' + question.cancel_file +
                 '" target="_blank"><i class="fas fa-file-image text-success" style="font-size: 20px;font-weight: bold;"></i></a>'
             ));
             tableBody.append(row);

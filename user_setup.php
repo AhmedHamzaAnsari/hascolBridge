@@ -1988,7 +1988,7 @@
 
                 var banner = response[0]['banner'];
                 var logo = response[0]['logo'];
-                var base_url = '<?php echo $api_url; ?>';
+                var base_url = '<?php echo $api_url_files; ?>';
 
                 if (banner != '') {
                     banner = base_url + 'uploads/' + banner;
@@ -3834,7 +3834,7 @@
                 } else {
                     if (question.cancel_file != null) {
                         $questionDiv.append(
-                            'Answer: <i class="text-danger" style="font-size: 20px;font-weight: bold;">X</i><a href="<?php echo $api_url; ?>uploads/' +
+                            'Answer: <i class="text-danger" style="font-size: 20px;font-weight: bold;">X</i><a href="<?php echo $api_url_files; ?>uploads/' +
                             question.cancel_file +
                             '" target="_blank" style="margin-left: 20px;"><i class="fas fa-image text-info" style="font-size: 20px;font-weight: bold;"></i></a><br>'
                         );
