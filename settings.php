@@ -157,7 +157,7 @@
             var data = new FormData(this);
 
             $.ajax({
-                url: "http://localhost/hascol_apis/create/settings.php",
+                url: "<?php echo $api_url; ?>create/settings.php",
                 cache: false,
                 contentType: false,
                 processData: false,

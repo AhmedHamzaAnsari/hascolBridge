@@ -126,18 +126,17 @@
                         <button type="button" class="btn header-item bg-soft-light border-start border-end"
                             id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true"
                             aria-expanded="false">
-                            <img class="rounded-circle header-profile-user small_logo" src="assets/images/gno.png"
-                                alt="Header Avatar">
+                            <img class="rounded-circle header-profile-user small_logo" src="" alt="Header Avatar">
                             <span class="d-none d-xl-inline-block ms-1 fw-medium project_name" id="project_name"></span>
                             <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                         </button>
                         <div class="dropdown-menu dropdown-menu-end">
                             <!-- item-->
 
-                            <a class="dropdown-item" href="../logout.php">
+                            <!-- <a class="dropdown-item" href="../logout.php">
                                 <i class="mdi mdi-logout font-size-16 align-middle me-1"></i>
                                 Logout
-                            </a>
+                            </a> -->
                         </div>
                     </div>
                 </div>
@@ -400,8 +399,8 @@
                 var image = $(".logo_image");
 
                 // Change the src attribute of the image
-                image.attr("src", "<?php echo $api_url;?>" + logo);
-                $(".small_logo").attr("src", "<?php echo $api_url;?>" + logo);
+                image.attr("src", "<?php echo $api_url_files;?>" + logo);
+                $(".small_logo").attr("src", "<?php echo $api_url_files;?>" + logo);
                 $('.project_name').text(username);
 
                 console.log(username)
@@ -720,7 +719,20 @@
         };
 
         $.ajax(settings).done(function(response) {
-            const data = JSON.parse(response);
+            var data;
+            if (typeof response === "object") {
+                data = response;
+            } else {
+                // Otherwise, parse the JSON string
+                try {
+                    data = JSON.parse(response);
+                } catch (e) {
+                    console.error("Error parsing JSON:", e);
+                    return;
+                }
+            }
+
+            console.log("Parsed data:", data);
             //console.log(data.length);
             $("#d2").empty();
 
@@ -822,7 +834,20 @@
             cache: false,
             success: function(response) {
                 // $('.info').append(html);
-                const data = JSON.parse(response);
+                var data;
+                if (typeof response === "object") {
+                    data = response;
+                } else {
+                    // Otherwise, parse the JSON string
+                    try {
+                        data = JSON.parse(response);
+                    } catch (e) {
+                        console.error("Error parsing JSON:", e);
+                        return;
+                    }
+                }
+
+                console.log("Parsed data:", data);
                 for (var i = 0; i < data.length; i++) {
 
 
@@ -853,7 +878,20 @@
             cache: false,
             success: function(response) {
                 // $('.info').append(html);
-                const data = JSON.parse(response);
+                var data;
+                if (typeof response === "object") {
+                    data = response;
+                } else {
+                    // Otherwise, parse the JSON string
+                    try {
+                        data = JSON.parse(response);
+                    } catch (e) {
+                        console.error("Error parsing JSON:", e);
+                        return;
+                    }
+                }
+
+                console.log("Parsed data:", data);
                 for (var i = 0; i < data.length; i++) {
                     $('#endu').append('<li class="ss3" id="' + data[i]['end_user_id'] + '">' + data[
                         i]['enduser_name'] + '</li>');
@@ -886,7 +924,20 @@
         };
 
         $.ajax(settings).done(function(response) {
-            const data = JSON.parse(response);
+            var data;
+            if (typeof response === "object") {
+                data = response;
+            } else {
+                // Otherwise, parse the JSON string
+                try {
+                    data = JSON.parse(response);
+                } catch (e) {
+                    console.error("Error parsing JSON:", e);
+                    return;
+                }
+            }
+
+            console.log("Parsed data:", data);
             //console.log(data.length);
             $("#d2").empty();
 
@@ -1056,7 +1107,20 @@
                 //console.log("<?php echo $api_url;?>map_apis/selected_vehicle.php?vehi=" + vehcile_selection + "&accesskey=12345");
 
                 $.ajax(settings).done(function(response) {
-                    const data = JSON.parse(response);
+                    var data;
+                    if (typeof response === "object") {
+                        data = response;
+                    } else {
+                        // Otherwise, parse the JSON string
+                        try {
+                            data = JSON.parse(response);
+                        } catch (e) {
+                            console.error("Error parsing JSON:", e);
+                            return;
+                        }
+                    }
+
+                    console.log("Parsed data:", data);
                     for (i = 0; i < data.length; i++) {
                         var lat = data[i]['lat'];
                         var lng = data[i]['lng'];
@@ -1142,7 +1206,20 @@
             };
 
             $.ajax(settings).done(function(response) {
-                const data = JSON.parse(response);
+                var data;
+                if (typeof response === "object") {
+                    data = response;
+                } else {
+                    // Otherwise, parse the JSON string
+                    try {
+                        data = JSON.parse(response);
+                    } catch (e) {
+                        console.error("Error parsing JSON:", e);
+                        return;
+                    }
+                }
+
+                console.log("Parsed data:", data);
                 //console.log(data.length);
                 var i;
                 for (i = 0; i < data.length; i++) {
@@ -1493,7 +1570,20 @@
             //console.log("<?php echo $api_url;?>map_apis/selected_vehicle.php?vehi=" + focused + "&accesskey=12345");
 
             $.ajax(settings).done(function(response) {
-                const data = JSON.parse(response);
+                var data;
+                if (typeof response === "object") {
+                    data = response;
+                } else {
+                    // Otherwise, parse the JSON string
+                    try {
+                        data = JSON.parse(response);
+                    } catch (e) {
+                        console.error("Error parsing JSON:", e);
+                        return;
+                    }
+                }
+
+                console.log("Parsed data:", data);
                 for (i = 0; i < data.length; i++) {
                     var lat = data[i]['lat'];
                     var lng = data[i]['lng'];
@@ -1616,7 +1706,20 @@
         };
 
         $.ajax(settings).done(function(response) {
-            const data = JSON.parse(response);
+            var data;
+            if (typeof response === "object") {
+                data = response;
+            } else {
+                // Otherwise, parse the JSON string
+                try {
+                    data = JSON.parse(response);
+                } catch (e) {
+                    console.error("Error parsing JSON:", e);
+                    return;
+                }
+            }
+
+            console.log("Parsed data:", data);
             //console.log(data.length);
             $("#d2").empty();
             var i;
@@ -1729,7 +1832,20 @@
         };
 
         $.ajax(settings).done(function(response) {
-            const data = JSON.parse(response);
+            var data;
+            if (typeof response === "object") {
+                data = response;
+            } else {
+                // Otherwise, parse the JSON string
+                try {
+                    data = JSON.parse(response);
+                } catch (e) {
+                    console.error("Error parsing JSON:", e);
+                    return;
+                }
+            }
+
+            console.log("Parsed data:", data);
             //console.log(data.length);
             $("#d2").empty();
             var i;
@@ -1835,7 +1951,20 @@
         };
 
         $.ajax(settings).done(function(response) {
-            const data = JSON.parse(response);
+            var data;
+            if (typeof response === "object") {
+                data = response;
+            } else {
+                // Otherwise, parse the JSON string
+                try {
+                    data = JSON.parse(response);
+                } catch (e) {
+                    console.error("Error parsing JSON:", e);
+                    return;
+                }
+            }
+
+            console.log("Parsed data:", data);
             //console.log(data.length);
             $("#d2").empty();
             var i;
@@ -1951,7 +2080,20 @@
         };
 
         $.ajax(settings).done(function(response) {
-            const data = JSON.parse(response);
+            var data;
+            if (typeof response === "object") {
+                data = response;
+            } else {
+                // Otherwise, parse the JSON string
+                try {
+                    data = JSON.parse(response);
+                } catch (e) {
+                    console.error("Error parsing JSON:", e);
+                    return;
+                }
+            }
+
+            console.log("Parsed data:", data);
             //console.log(data.length);
             $("#d2").empty();
             var i;
@@ -2086,7 +2228,20 @@
         };
 
         $.ajax(settings).done(function(response) {
-            const data = JSON.parse(response);
+            var data;
+            if (typeof response === "object") {
+                data = response;
+            } else {
+                // Otherwise, parse the JSON string
+                try {
+                    data = JSON.parse(response);
+                } catch (e) {
+                    console.error("Error parsing JSON:", e);
+                    return;
+                }
+            }
+
+            console.log("Parsed data:", data);
             //console.log(data.length);
             $("#d2").empty();
             var i;
@@ -2206,7 +2361,20 @@
         };
 
         $.ajax(settings).done(function(response) {
-            const data = JSON.parse(response);
+            var data;
+            if (typeof response === "object") {
+                data = response;
+            } else {
+                // Otherwise, parse the JSON string
+                try {
+                    data = JSON.parse(response);
+                } catch (e) {
+                    console.error("Error parsing JSON:", e);
+                    return;
+                }
+            }
+
+            console.log("Parsed data:", data);
             //console.log(data.length);
             $("#d2").empty();
 
@@ -2305,7 +2473,20 @@
                 };
 
                 $.ajax(settings).done(function(response) {
-                    const data = JSON.parse(response);
+                    var data;
+                    if (typeof response === "object") {
+                        data = response;
+                    } else {
+                        // Otherwise, parse the JSON string
+                        try {
+                            data = JSON.parse(response);
+                        } catch (e) {
+                            console.error("Error parsing JSON:", e);
+                            return;
+                        }
+                    }
+
+                    console.log("Parsed data:", data);
                     var l;
                     if (data.length < 100) {
                         l = data.length;
@@ -2540,6 +2721,7 @@
 
 
     function activity() {
+        console.log("<?php echo $api_url;?>map_apis/running_count.php?vehi=" + focused + "&accesskey=12345");
         var settings = {
             "url": "<?php echo $api_url;?>map_apis/running_count.php?vehi=" + focused + "&accesskey=12345",
             "method": "GET",
@@ -2547,7 +2729,20 @@
         };
 
         $.ajax(settings).done(function(response) {
-            const data = JSON.parse(response);
+            var data;
+            if (typeof response === "object") {
+                data = response;
+            } else {
+                // Otherwise, parse the JSON string
+                try {
+                    data = JSON.parse(response);
+                } catch (e) {
+                    console.error("Error parsing JSON:", e);
+                    return;
+                }
+            }
+
+            console.log("Parsed data:", data);
             // //console.log(data);
             document.getElementById("runn").innerHTML = toHoursAndMinutes(data['run']);
             document.getElementById("stopp").innerHTML = toHoursAndMinutes(data['stop']);
@@ -2649,7 +2844,20 @@
         };
 
         $.ajax(settings).done(function(response) {
-            const data = JSON.parse(response);
+            var data;
+            if (typeof response === "object") {
+                data = response;
+            } else {
+                // Otherwise, parse the JSON string
+                try {
+                    data = JSON.parse(response);
+                } catch (e) {
+                    console.error("Error parsing JSON:", e);
+                    return;
+                }
+            }
+
+            console.log("Parsed data:", data);
             // //console.log(data[0]["odometer"]);
             avg = parseInt(data[0]["avg"]);
             max = parseInt(data[0]["max"]);
@@ -2668,7 +2876,20 @@
         };
 
         $.ajax(settings).done(function(response) {
-            const data = JSON.parse(response);
+            var data;
+            if (typeof response === "object") {
+                data = response;
+            } else {
+                // Otherwise, parse the JSON string
+                try {
+                    data = JSON.parse(response);
+                } catch (e) {
+                    console.error("Error parsing JSON:", e);
+                    return;
+                }
+            }
+
+            console.log("Parsed data:", data);
             //console.log(data[0]["odometer"]);
             odo = parseInt(data[0]["odometer"]);
             odo = odo_n - odo;
@@ -2684,7 +2905,20 @@
         };
 
         $.ajax(settings).done(function(response) {
-            const data = JSON.parse(response);
+            var data;
+            if (typeof response === "object") {
+                data = response;
+            } else {
+                // Otherwise, parse the JSON string
+                try {
+                    data = JSON.parse(response);
+                } catch (e) {
+                    console.error("Error parsing JSON:", e);
+                    return;
+                }
+            }
+
+            console.log("Parsed data:", data);
             //console.log(data);
             flightPath = new google.maps.Polyline({
                 path: data,
@@ -2738,11 +2972,24 @@
         };
 
         $.ajax(settings).done(function(response) {
-            const data = JSON.parse(response);
+            var data;
+            if (typeof response === "object") {
+                data = response;
+            } else {
+                // Otherwise, parse the JSON string
+                try {
+                    data = JSON.parse(response);
+                } catch (e) {
+                    console.error("Error parsing JSON:", e);
+                    return;
+                }
+            }
+
+            console.log("Parsed data:", data);
 
             var i;
             for (i = 0; i < data.length; i++) {
-                var div="";
+                var div = "";
                 var server_time = moment(data[i]['time']).format('MM/DD/YYYY hh:mm A');
                 var current_time = moment().format('MM/DD/YYYY hh:mm A');
                 var a = moment(server_time, 'MM/DD/YYYY hh:mm A');
@@ -2959,31 +3206,57 @@
     }
 
     function count() {
+        console.log("<?php echo $api_url;?>map_apis/counts.php?accesskey=12345&user=" + user_id);
+
         var settings = {
-            "url": "<?php echo $api_url;?>map_apis/counts.php?accesskey=12345&user=" + user_id + "",
+            "url": "<?php echo $api_url;?>map_apis/counts.php?accesskey=12345&user=" + user_id,
             "method": "GET",
             "timeout": 0,
         };
 
         $.ajax(settings).done(function(response) {
-            const data = JSON.parse(response);
+            // If response is an object, no need to parse it
+            var data;
+            if (typeof response === "object") {
+                data = response;
+            } else {
+                // Otherwise, parse the JSON string
+                try {
+                    data = JSON.parse(response);
+                } catch (e) {
+                    console.error("Error parsing JSON:", e);
+                    return;
+                }
+            }
+
+            console.log("Parsed data:", data);
+
             $("#stop").html(
                 '<i class="far fa-stop-circle d-block font-size-16" style="color: rgb(250, 8, 8);"></i><b>' +
-                data["stop"] + '</b>');
+                data["stop"] + '</b>'
+            );
             $("#running").html(
                 '<i class="fas fa-location-arrow d-block font-size-16" style="color: rgb(29, 115, 141);"></i><b>' +
-                data["running"] + '</b>');
+                data["running"] + '</b>'
+            );
             $("#idle").html(
                 '<i class="fas fa-hourglass-half d-block font-size-16" style="color: #E6B730;"></i><b>' +
-                data["idle"] + '</b>');
-            $("#inactive").html('<i class="fas fa-ban d-block font-size-16" style="color: #751386;"></i><b>' +
-                data["inactive"] + '</b>');
+                data["idle"] + '</b>'
+            );
+            $("#inactive").html(
+                '<i class="fas fa-ban d-block font-size-16" style="color: #751386;"></i><b>' +
+                data["inactive"] + '</b>'
+            );
             $("#nodata").html(
                 '<i class="fab fa-creative-commons-zero d-block font-size-16" style="color: #a70000;"></i><b>' +
-                data["nodata"] + '</b>');
+                data["nodata"] + '</b>'
+            );
             $("#total").html(
                 '<i class="fas fa-check-double align-middle d-block font-size-16" style="color: rgb(89, 7, 184);"></i><b>' +
-                data["total"] + '</b>');
+                data["total"] + '</b>'
+            );
+        }).fail(function(jqXHR, textStatus, errorThrown) {
+            console.error("AJAX error:", textStatus, errorThrown);
         });
     }
     </script>

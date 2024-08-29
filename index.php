@@ -49,9 +49,9 @@
 
                         <div class="mb-4 pb-2">
                             <a href="index.html" class="d-block auth-logo">
-                                <img src="<?php echo $api_url.''.$logo;?>" alt="" height="60"
+                                <img src="<?php echo $api_url_files.''.$logo;?>" alt="" height="60"
                                     class="auth-logo-dark me-start">
-                                <img src="<?php echo $api_url.''.$logo;?>" alt="" height="60"
+                                <img src="<?php echo $api_url_files.''.$logo;?>" alt="" height="60"
                                     class="auth-logo-light me-start">
                             </a>
                         </div>
