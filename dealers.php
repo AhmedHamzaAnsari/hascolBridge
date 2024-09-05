@@ -340,7 +340,7 @@
                         </div>
                         <div class="form-group col-md-2">
                             <label for="inputAddress">Co-Ordinates</label>
-                            <input type="text" class="form-control" id="lati" name="lati" required readonly>
+                            <input type="text" class="form-control" id="lati" name="lati" required >
 
                             <input type="hidden" name="type" id="type" required>
 

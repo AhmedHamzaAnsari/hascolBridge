@@ -63,7 +63,7 @@
                             <label for="inputEmail4">From</label>
 
                             <input type="date" class="form-control" name="fromdate" id="fromdate"
-                                value="<?php echo date('Y-m-01') ?>">
+                                value="<?php echo date('Y-m-d') ?>">
 
                         </div>
                         <div class="col-md-3">
@@ -643,9 +643,9 @@
             redirect: 'follow'
         };
         console.log(
-            "<?php echo $api_url; ?>get/get_all_orders.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>&from=" +fromdate + "&to=" + todate + ""
+            "<?php echo $api_url; ?>get/get_all_forward_pushed_orders.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>&from=" +fromdate + "&to=" + todate + ""
         );
-        fetch("<?php echo $api_url; ?>get/get_all_orders.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>&from=" +fromdate + "&to=" + todate + "",
+        fetch("<?php echo $api_url; ?>get/get_all_forward_pushed_orders.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>&from=" +fromdate + "&to=" + todate + "",
                 requestOptions)
             .then(response => response.json())
             .then(response => {

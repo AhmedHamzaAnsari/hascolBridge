@@ -627,7 +627,7 @@
                 var formData = new FormData($('#approved_orders')[0]);
 
                 $.ajax({
-                    url: "<?php echo $api_url; ?>update/approved_orders.php",
+                    url: "<?php echo $api_url; ?>update/pushed_forward_orders.php",
                     cache: false,
                     contentType: false,
                     processData: false,

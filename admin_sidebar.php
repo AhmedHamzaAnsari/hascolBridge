@@ -80,7 +80,10 @@
                                 <li><a href="all_special_approcal_orders.php" data-key="t-level-1.3"> Special Approval Orders </a></li>
                                 <li><a href="all_release_orders.php" data-key="t-level-1.3"> Released Orders </a></li>
                                 <li><a href="all_complete_orders.php" data-key="t-level-1.3"> Completed Orders </a></li> -->
-                                <li><a href="all_order.php" data-key="t-level-1.3"> APP Orders </a></li> 
+                                <li><a href="all_order.php" data-key="t-level-1.3">All APP Orders </a></li> 
+                                <li><a href="all_pending_app_orders.php" data-key="t-level-1.3"> All Pending APP Orders </a></li> 
+                                <li><a href="manage_order2.php" data-key="t-level-1.3"> Order Report </a></li> 
+                                <li><a href="current_day_coco_order_report.php" data-key="t-level-1.3">Current Day COCO Order Report </a></li> 
                                 <li><a href="all_forward_orders.php" data-key="t-level-1.3"> Forwarded Orders </a></li> 
                                 
                                 <li><a href="all_sales_invoice.php" data-key="t-level-1.3"> Sales Orders JD</a></li> 

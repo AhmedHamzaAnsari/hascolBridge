@@ -58,6 +58,30 @@
         <div class="main-content">
             <div class="page-content">
                 <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="inputEmail4">From</label>
+
+                            <input type="date" class="form-control" name="fromdate" id="fromdate"
+                                value="<?php echo date('Y-m-d') ?>">
+
+                        </div>
+                        <div class="col-md-3">
+                            <label for="inputEmail4">To</label>
+
+                            <input type="date" class="form-control" name="todate" id="todate"
+                                value="<?php echo date('Y-m-30') ?>">
+
+                        </div>
+                        <div class="col-md-3">
+
+                            <input type="btn" class="btn btn-primary mt-3" name="btn_get" id="btn_get" value="Get"
+                                onclick="fetchtable()">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="container-fluid">
                     <!-- <div class="row">
 
                         <div class="col-md-6">
@@ -78,6 +102,7 @@
                                         <th class="text-center">Date</th>
                                         <th class="text-center">JD Code</th>
                                         <th class="text-center">Site Name</th>
+                                        <th class="text-center">Site Depots</th>
                                         <th class="text-center">Depot</th>
                                         <th class="text-center">Type</th>
                                         <th class="text-center">Total Amount</th>
@@ -674,15 +699,16 @@
 
 
     function fetchtable() {
-
+        var fromdate = $('#fromdate').val();
+        var todate = $('#todate').val();
         var requestOptions = {
             method: 'GET',
             redirect: 'follow'
         };
         console.log(
-            "<?php echo $api_url; ?>get/get_all_orders.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>"
+            "<?php echo $api_url; ?>get/get_all_orders.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>&from=" +fromdate + "&to=" + todate + ""
         );
-        fetch("<?php echo $api_url; ?>get/get_all_orders.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>",
+        fetch("<?php echo $api_url; ?>get/get_all_orders.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>&from=" +fromdate + "&to=" + todate + "",
                 requestOptions)
             .then(response => response.json())
             .then(response => {
@@ -752,8 +778,7 @@
                         status_value =
                             '<span id=' + data.id +
                             ' class="badge rounded-pill cursor-pointer bg-success" data-key="t-new">Forwarded</span>';
-                    }
-                    else if (status == 6) {
+                    } else if (status == 6) {
                         // alert(status)
                         status_value =
                             '<span id=' + data.id +
@@ -787,6 +812,7 @@
                         data.created_at,
                         data.sap_no,
                         data.name,
+                        data.dealers_depots,
                         data.depot,
                         data.rettype_desc,
                         parseFloat(data.total_amount).toLocaleString(),
@@ -817,6 +843,7 @@
                                         response23[i]['date'],
                                         response23[i]['sap_no'],
                                         response23[i]['name'],
+                                        '',
                                         '',
                                         '',
                                         '',

@@ -44,8 +44,13 @@
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
                               
-                                <li><a href="all_order.php" data-key="t-level-1.3"> APP Orders </a></li> 
+                                <li><a href="all_pending_app_orders.php" data-key="t-level-1.3"> TM Hold Orders </a></li> 
+                                <li><a href="manage_app_order.php" data-key="t-level-1.3"> TM Released  Orders </a></li> 
+                                <li><a href="manage_forward_pushed_orders.php" data-key="t-level-1.3"> Forwarded Orders </a></li> 
+
                                 
+                                <li><a href="manage_order2.php" data-key="t-level-1.3"> Order Report </a></li> 
+                                <li><a href="current_day_coco_order_report.php" data-key="t-level-1.3">Current Day COCO Order Report </a></li> 
 
 
                             </ul>

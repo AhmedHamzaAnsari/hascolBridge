@@ -31,7 +31,7 @@ elseif ($_SESSION['privilege'] == 'Logistics') {
 
 }
 elseif ($_SESSION['privilege'] == 'App_order') {
-    $redirectUrl = "all_order.php";
+    $redirectUrl = "manage_app_order.php";
     header("Location: $redirectUrl");
 
 }

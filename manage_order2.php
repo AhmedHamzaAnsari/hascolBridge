@@ -47,6 +47,30 @@
         <div class="main-content">
             <div class="page-content">
                 <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="inputEmail4">From</label>
+
+                            <input type="date" class="form-control" name="fromdate" id="fromdate"
+                                value="<?php echo date('Y-m-d') ?>">
+
+                        </div>
+                        <div class="col-md-3">
+                            <label for="inputEmail4">To</label>
+
+                            <input type="date" class="form-control" name="todate" id="todate"
+                                value="<?php echo date('Y-m-30') ?>">
+
+                        </div>
+                        <div class="col-md-3">
+
+                            <input type="btn" class="btn btn-primary mt-3" name="btn_get" id="btn_get" value="Get"
+                                onclick="fetchtable()">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="container-fluid">
                     <!-- <div class="row">
 
                         <div class="col-md-6">
@@ -65,16 +89,20 @@
                                     <tr>
                                         <th class="text-center">S.No</th>
                                         <th class="text-center">Date</th>
+                                        <th class="text-center">JD Code</th>
+                                        <th class="text-center">Region</th>
                                         <th class="text-center">Site Name</th>
-                                        <th class="text-center">Type</th>
-                                        <th class="text-center">Depot</th>
-                                        <th class="text-center">Product Name</th>
-                                        <th class="text-center">Indent Price</th>
-                                        <th class="text-center">Product Quantity</th>
-                                        <th class="text-center">Product Amount</th>
-                                        <th class="text-center">Total Amount</th>
-                                        <th class="text-center">Ledger Amount</th>
-                                        <th class="text-center">Status</th>
+                                        <th class="text-center">Site Depots</th>
+                                        <!-- <th class="text-center">Depot</th> -->
+                                        <!-- <th class="text-center">Type</th> -->
+                                        <!-- <th class="text-center">Total Amount</th> -->
+                                        <!-- <th class="text-center">Ledger Amount</th> -->
+                                        <!-- <th class="text-center">View Orders</th> -->
+                                        <!-- <th class="text-center">Push Status</th> -->
+                                        <th class="text-center">Product</th>
+                                        <!-- <th class="text-center">Rate</th> -->
+                                        <th class="text-center">Quantity</th>
+                                        <!-- <th class="text-center">Bill Amount</th> -->
                                         <!-- <th class="text-center">View Orders</th> -->
                                         <!-- <th class="text-center">Delete</th> -->
                                     </tr>
@@ -373,413 +401,413 @@
     <?php include 'script_tags.php'; ?>
 
     <script>
-        var table;
-        var type;
-        var subtype;
-        $(document).ready(function () {
+    var table;
+    var type;
+    var subtype;
+    $(document).ready(function() {
 
-            table = $('#myTable').DataTable({
-                dom: 'Bfrtip',
-                // columnDefs: [
-                //     { targets: [5], visible: false } // Hide the "Order ID" column
-                // ],
+        table = $('#myTable').DataTable({
+            dom: 'Bfrtip',
+            buttons: ['copy', 'excel', 'csv', 'pdf', 'print'],
+           // Sort by created_at in descending order
+            paging: false, // Disable pagination
+            pageLength: -1 // Show all rows
+            // drawCallback: function(settings) {
+            //     var api = this.api();
+            //     var rows = api.rows({
+            //         page: 'current'
+            //     }).nodes();
+            //     var last = null;
 
-                buttons: ['copy', 'excel', 'csv', 'pdf', 'print'],
-                columnDefs: [
-                    { targets: [0], visible: false } // Hide the "Order ID" column
-                ],
-                order: [[1, 'desc']], // Sort by created_at in descending order
-                drawCallback: function (settings) {
-                    var api = this.api();
-                    var rows = api.rows({ page: 'current' }).nodes();
-                    var last = null;
+            //     api.column(0, {
+            //         page: 'current'
+            //     }).data().each(function(orderId, i) {
+            //         var displayOrderId = orderId ||
+            //         ''; // Use an empty string if order ID is null
+            //         if (last !== displayOrderId) {
+            //             $(rows).eq(i).before(
+            //                 '<tr class="group"><td colspan="13">Order ID: ' +
+            //                 displayOrderId + '</td></tr>'
+            //             );
 
-                    api.column(0, { page: 'current' }).data().each(function (orderId, i) {
-                        var displayOrderId = orderId || ''; // Use an empty string if order ID is null
-                        if (last !== displayOrderId) {
-                            $(rows).eq(i).before(
-                                '<tr class="group"><td colspan="13">Order ID: ' + displayOrderId + '</td></tr>'
-                            );
-
-                            last = displayOrderId;
-                        }
-                    });
-                }
-
-            });
-
-            product_price_backlog = $('#product_price_backlog').DataTable({
-                dom: 'Bfrtip',
+            //             last = displayOrderId;
+            //         }
+            //     });
+            // }
+        });
 
 
-                buttons: ['copy', 'excel', 'csv', 'pdf', 'print']
 
-            });
+        product_price_backlog = $('#product_price_backlog').DataTable({
+            dom: 'Bfrtip',
 
-            fetchtable();
-            $('#add_btn').click(function () {
 
-                $('#row_id').val("");
+            buttons: ['copy', 'excel', 'csv', 'pdf', 'print']
 
-                $('#insert_form')[0].reset();
+        });
 
-            });
+        fetchtable();
+        $('#add_btn').click(function() {
 
-            $('#insert_form').on("submit", function (event) {
-                event.preventDefault();
-                // alert("Name")
-                var data = new FormData(this);
+            $('#row_id').val("");
 
-                $.ajax({
-                    url: "<?php echo $api_url; ?>create/users.php",
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    method: "POST",
-                    data: data,
-                    beforeSend: function () {
-                        $('#insert').val("Saving");
-                        document.getElementById("insert").disabled = true;
+            $('#insert_form')[0].reset();
 
-                    },
-                    success: function (data) {
-                        console.log(data)
+        });
 
-                        if (data != 1) {
+        $('#insert_form').on("submit", function(event) {
+            event.preventDefault();
+            // alert("Name")
+            var data = new FormData(this);
+
+            $.ajax({
+                url: "<?php echo $api_url; ?>create/users.php",
+                cache: false,
+                contentType: false,
+                processData: false,
+                method: "POST",
+                data: data,
+                beforeSend: function() {
+                    $('#insert').val("Saving");
+                    document.getElementById("insert").disabled = true;
+
+                },
+                success: function(data) {
+                    console.log(data)
+
+                    if (data != 1) {
+                        Swal.fire(
+                            'Server Error!',
+                            'Record Not Created',
+                            'error'
+                        )
+                        $('#insert').val("Save");
+                        document.getElementById("insert").disabled = false;
+                    } else {
+
+
+                        setTimeout(function() {
                             Swal.fire(
-                                'Server Error!',
-                                'Record Not Created',
-                                'error'
+                                'Success!',
+                                'Record Created Successfully',
+                                'success'
                             )
+                            $('#insert_form')[0].reset();
+                            $('#offcanvasRight').modal('hide');
+                            fetchtable();
                             $('#insert').val("Save");
                             document.getElementById("insert").disabled = false;
-                        } else {
 
-
-                            setTimeout(function () {
-                                Swal.fire(
-                                    'Success!',
-                                    'Record Created Successfully',
-                                    'success'
-                                )
-                                $('#insert_form')[0].reset();
-                                $('#offcanvasRight').modal('hide');
-                                fetchtable();
-                                $('#insert').val("Save");
-                                document.getElementById("insert").disabled = false;
-
-                            }, 2000);
-
-                        }
+                        }, 2000);
 
                     }
-                });
 
+                }
             });
 
-            $('#approved_orders').on("submit", function (event) {
-                event.preventDefault();
-                // alert("Name")
-                var data = new FormData(this);
+        });
 
-                $.ajax({
-                    url: "<?php echo $api_url; ?>update/approved_orders.php",
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    method: "POST",
-                    data: data,
-                    beforeSend: function () {
-                        $('#app_btn').val("Saving");
-                        document.getElementById("app_btn").disabled = true;
+        $('#approved_orders').on("submit", function(event) {
+            event.preventDefault();
+            // alert("Name")
+            var data = new FormData(this);
 
-                    },
-                    success: function (data) {
-                        console.log(data)
+            $.ajax({
+                url: "<?php echo $api_url; ?>update/approved_orders.php",
+                cache: false,
+                contentType: false,
+                processData: false,
+                method: "POST",
+                data: data,
+                beforeSend: function() {
+                    $('#app_btn').val("Saving");
+                    document.getElementById("app_btn").disabled = true;
 
-                        if (data != 1) {
+                },
+                success: function(data) {
+                    console.log(data)
+
+                    if (data != 1) {
+                        Swal.fire(
+                            'Server Error!',
+                            'Record Not Created',
+                            'error'
+                        )
+                        $('#app_btn').val("Save");
+                        document.getElementById("app_btn").disabled = false;
+                    } else {
+
+
+                        setTimeout(function() {
                             Swal.fire(
-                                'Server Error!',
-                                'Record Not Created',
-                                'error'
+                                'Success!',
+                                'Record Created Successfully',
+                                'success'
                             )
+                            $('#approved_orders')[0].reset();
+                            $('#approved_order_modal').modal('hide');
+                            fetchtable();
                             $('#app_btn').val("Save");
                             document.getElementById("app_btn").disabled = false;
-                        } else {
 
-
-                            setTimeout(function () {
-                                Swal.fire(
-                                    'Success!',
-                                    'Record Created Successfully',
-                                    'success'
-                                )
-                                $('#approved_orders')[0].reset();
-                                $('#approved_order_modal').modal('hide');
-                                fetchtable();
-                                $('#app_btn').val("Save");
-                                document.getElementById("app_btn").disabled = false;
-
-                            }, 2000);
-
-                        }
+                        }, 2000);
 
                     }
-                });
 
+                }
             });
 
-            $('#ins_orders_update').on("submit", function (event) {
-                event.preventDefault();
-                alert("Name")
-                var data = new FormData(this);
+        });
 
-                $.ajax({
-                    url: "<?php echo $api_url; ?>update/send_special_approval.php",
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    method: "POST",
-                    data: data,
-                    beforeSend: function () {
-                        $('#sp_btn').val("Saving");
-                        document.getElementById("sp_btn").disabled = true;
+        $('#ins_orders_update').on("submit", function(event) {
+            event.preventDefault();
+            alert("Name")
+            var data = new FormData(this);
 
-                    },
-                    success: function (data) {
-                        console.log(data)
+            $.ajax({
+                url: "<?php echo $api_url; ?>update/send_special_approval.php",
+                cache: false,
+                contentType: false,
+                processData: false,
+                method: "POST",
+                data: data,
+                beforeSend: function() {
+                    $('#sp_btn').val("Saving");
+                    document.getElementById("sp_btn").disabled = true;
 
-                        if (data != 1) {
+                },
+                success: function(data) {
+                    console.log(data)
+
+                    if (data != 1) {
+                        Swal.fire(
+                            'Server Error!',
+                            'Record Not Created',
+                            'error'
+                        )
+                        $('#sp_btn').val("Save");
+                        document.getElementById("sp_btn").disabled = false;
+                    } else {
+
+
+                        setTimeout(function() {
                             Swal.fire(
-                                'Server Error!',
-                                'Record Not Created',
-                                'error'
+                                'Success!',
+                                'Record Created Successfully',
+                                'success'
                             )
+                            $('#ins_orders_update')[0].reset();
+                            $('#in_balanced_order_modal').modal('hide');
+                            fetchtable();
                             $('#sp_btn').val("Save");
                             document.getElementById("sp_btn").disabled = false;
-                        } else {
 
-
-                            setTimeout(function () {
-                                Swal.fire(
-                                    'Success!',
-                                    'Record Created Successfully',
-                                    'success'
-                                )
-                                $('#ins_orders_update')[0].reset();
-                                $('#in_balanced_order_modal').modal('hide');
-                                fetchtable();
-                                $('#sp_btn').val("Save");
-                                document.getElementById("sp_btn").disabled = false;
-
-                            }, 2000);
-
-                        }
+                        }, 2000);
 
                     }
+
+                }
+            });
+
+        });
+
+        $(document).on('click', '.approved_check', function() {
+
+            var id = $(this).attr("id");
+            // alert(employee_id)
+            $('#order_approval').val(id);
+            $('#approved_order_modal').modal('show');
+        });
+
+        $(document).on('click', '.insuficient_check', function() {
+
+            var id = $(this).attr("id");
+            // alert(employee_id)
+            $('#spe_approval').val(id);
+            $('#in_balanced_order_modal').modal('show');
+        });
+
+    })
+
+
+
+    function fetchtable() {
+        var fromdate = $('#fromdate').val();
+        var todate = $('#todate').val();
+        var requestOptions = {
+            method: 'GET',
+            redirect: 'follow'
+        };
+
+        fetch("<?php echo $api_url; ?>get/get_all_main_orders.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>&from=" +fromdate + "&to=" + todate + "",
+                requestOptions)
+            .then(response => response.json())
+            .then(response => {
+                console.log(response)
+
+                table.clear().draw();
+
+                $.each(response, function(index, data) {
+                    var status = data.status;
+                    var status_value = '';
+
+                    var order_amount = parseFloat(data.total_amount);
+                    var legder_balance = data.legder_balance;
+                    var credit_limit = data.credit_limit;
+                    if (legder_balance <= 0 && order_amount > credit_limit) {
+                        console.log(
+                            "Order blocked"); // Replace this with your action for blocking the order
+                    } else if (order_amount <= credit_limit && legder_balance <= 0) {
+                        console.log(
+                            "Order approved"); // Replace this with your action for approving the order
+                    } else if (legder_balance >= order_amount) {
+                        console.log(
+                            "Order approved"); // Replace this with your action if conditions are not met
+                    }
+
+                    var approved = '';
+                    var st = '';
+
+                    if (status == 0) {
+
+                        if (legder_balance >= order_amount) {
+                            console.log(
+                                "Order approved"
+                            ); // Replace this with your action if conditions are not met
+                            approved = '';
+                            st = 'Pending';
+
+                        } else {
+                            console.log("else");
+                            approved = '';
+                            st = 'Insuficient Balance';
+                        }
+
+
+
+                        status_value =
+                            '<span id=' + data.id +
+                            ' class="badge rounded-pill cursor-pointer bg-primary ' + approved +
+                            '" data-key="t-new">' + st + '</span>';
+                    } else if (status == 1) {
+                        status_value =
+                            '<span id=' + data.id +
+                            ' class="badge rounded-pill cursor-pointer bg-info" data-key="t-new">Approved</span>';
+                    } else if (status == 2) {
+                        status_value =
+                            '<span id=' + data.id +
+                            ' class="badge rounded-pill cursor-pointer bg-danger" data-key="t-new">Blocked</span>';
+                    } else if (status == 3) {
+                        status_value =
+                            '<span id=' + data.id +
+                            ' class="badge rounded-pill cursor-pointer bg-dark" data-key="t-new">Special Approval</span>';
+                    } else if (status == 4) {
+                        status_value =
+                            '<span id=' + data.id +
+                            ' class="badge rounded-pill cursor-pointer bg-warning" data-key="t-new">Released</span>';
+                    } else if (status == 5) {
+                        // alert(status)
+                        status_value =
+                            '<span id=' + data.id +
+                            ' class="badge rounded-pill cursor-pointer bg-success" data-key="t-new">Forwarded</span>';
+                    } else if (status == 6) {
+                        // alert(status)
+                        status_value =
+                            '<span id=' + data.id +
+                            ' class="badge rounded-pill cursor-pointer bg-success" data-key="t-new">Processed</span>';
+                    }
+                    var ret = '';
+                    var ledger_balance = '';
+
+                    var rettype_desc = $.trim(data.rettype_desc);
+                    if (rettype_desc == 'COCO site') {
+                        ledger_balance = '---';
+                        status_value = '---';
+                    } else {
+                        ledger_balance = parseFloat(data.legder_balance).toLocaleString();
+
+
+                    }
+                    var push_status = '';
+                    if (data.status != '6') {
+                        push_status = data.status_value;
+                    } else {
+                        push_status = data.status_value;
+                        // push_status = '<button type="button" id=' + data.id +
+                        //     ' name="delete" class="btn btn-soft-danger waves-effect waves-light approved_check"><i class="fas fa-align-justify font-size-16 align-middle"></i></button>';
+
+                    }
+
+
+                    // $.each(JSON.parse(data.product_json), function(i, product) {
+                    // if (data.quantity > 0) {
+                    table.row.add([
+                        data.id,
+                        data.created_at,
+                        data.sap_no,
+                        data.region,
+                        data.name,
+                        data.dealers_depots,
+                        // data.depot,
+                        // data.rettype_desc,
+                        // parseFloat(data.total_amount).toLocaleString(),
+                        // parseFloat(data.legder_balance).toLocaleString(),
+                        // push_status,
+                        data.product_name,
+                        // parseFloat(data.rate).toLocaleString(),
+                        parseFloat(data.quantity).toLocaleString(),
+                        // parseFloat(data.amount).toLocaleString(),
+                        // '<button type="button" id="view_order" name="view_order" onclick="view_order(' + order.id + ')" class="btn btn-soft-danger waves-effect waves-light"><i class="fas fa-eye font-size-16 align-middle"></i></button>',
+                    ]).draw(false);
+                    // }
+                    // });
                 });
 
-            });
 
-            $(document).on('click', '.approved_check', function () {
-
-                var id = $(this).attr("id");
-                // alert(employee_id)
-                $('#order_approval').val(id);
-                $('#approved_order_modal').modal('show');
-            });
-
-            $(document).on('click', '.insuficient_check', function () {
-
-                var id = $(this).attr("id");
-                // alert(employee_id)
-                $('#spe_approval').val(id);
-                $('#in_balanced_order_modal').modal('show');
-            });
-
-        })
+            })
+            .catch(error => console.log('error', error));
 
 
+    }
 
-        function fetchtable() {
-
+    function view_order(id) {
+        if (id != "") {
             var requestOptions = {
                 method: 'GET',
                 redirect: 'follow'
             };
-
-            fetch("<?php echo $api_url; ?>get/get_all_main_orders.php?key=03201232927", requestOptions)
+            console.log("<?php echo $api_url; ?>get/get_main_sub_orders.php?key=03201232927&id=" + id + "");
+            fetch("<?php echo $api_url; ?>get/get_main_sub_orders.php?key=03201232927&id=" + id + "", requestOptions)
                 .then(response => response.json())
                 .then(response => {
                     console.log(response)
+                    if (response.length > 0) {
+                        product_price_backlog.clear().draw();
 
-                    table.clear().draw();
+                        $.each(response, function(index, data) {
+                            product_price_backlog.row.add([
+                                index + 1,
+                                data.date,
+                                data.name,
+                                // data.name,
+                                data.product_name,
+                                data.rate,
+                                data.quantity,
+                                data.delivery_based,
+                                data.consignee_name,
+                                data.amount
 
-                    $.each(response, function(index, order) {
-                var status = order.status;
-                var status_value = '';
+                            ]).draw(false);
 
-                if (status == 0) {
-                    status_value = '<span id=' + order.id + ' class="badge rounded-pill cursor-pointer bg-primary approved_check" data-key="t-new">Pending</span>';
-                } else if (status == 1) {
-                    status_value = '<span id=' + order.id + ' class="badge rounded-pill cursor-pointer bg-info" data-key="t-new">Approved</span>';
-                } else if (status == 2) {
-                    status_value = '<span id=' + order.id + ' class="badge rounded-pill cursor-pointer bg-success" data-key="t-new">Complete</span>';
-                } else if (status == 3) {
-                    status_value = '<span id=' + order.id + ' class="badge rounded-pill cursor-pointer bg-danger" data-key="t-new">Cancel</span>';
-                } else if (status == 4) {
-                    status_value = '<span id=' + order.id + ' class="badge rounded-pill cursor-pointer bg-warning" data-key="t-new">Special Approval</span>';
-                } else if (status == 5) {
-                    status_value = '<span id=' + order.id + ' class="badge rounded-pill cursor-pointer bg-dark approved_check" data-key="t-new">ASM Approved</span>';
-                }
-
-                $.each(JSON.parse(order.product_json), function(i, product) {
-                    if (product.quantity > 0) {
-                        table.row.add([
-                            order.id,
-                            order.created_at,
-                            order.name,
-                            order.type,
-                            order.consignee_name,
-                            product.product_name,
-                            product.indent_price,
-                            product.quantity,
-                            product.amount,
-                            order.total_amount,
-                            order.legder_balance,
-                            status_value,
-                            // '<button type="button" id="view_order" name="view_order" onclick="view_order(' + order.id + ')" class="btn btn-soft-danger waves-effect waves-light"><i class="fas fa-eye font-size-16 align-middle"></i></button>',
-                        ]).draw(false);
+                        });
                     }
-                });
-            });
-
-                    // $.each(response, function (index, order) {
-                    //     var orderAppended = false; // Flag to track whether order information is appended
-                    //     var status = order.status;
-                    //     console.log(status)
-                    //     var status_value = '';
-
-                    //     if (status == 0) {
-                    //         status_value =
-                    //             '<span id=' + order.id +
-                    //             ' class="badge rounded-pill cursor-pointer bg-primary approved_check" data-key="t-new">Pending</span>';
-                    //     } else if (status == 1) {
-                    //         status_value =
-                    //             '<span id=' + order.id +
-                    //             ' class="badge rounded-pill cursor-pointer bg-info" data-key="t-new">Approved</span>';
-                    //     } else if (status == 2) {
-                    //         status_value =
-                    //             '<span id=' + order.id +
-                    //             ' class="badge rounded-pill cursor-pointer bg-success" data-key="t-new">Complete</span>';
-                    //     } else if (status == 3) {
-                    //         status_value =
-                    //             '<span id=' + order.id +
-                    //             ' class="badge rounded-pill cursor-pointer bg-danger" data-key="t-new">Cancel</span>';
-                    //     } else if (status == 4) {
-                    //         status_value =
-                    //             '<span id=' + order.id +
-                    //             ' class="badge rounded-pill cursor-pointer bg-warning" data-key="t-new">Special Approval</span>';
-                    //     } else if (status == 5) {
-                    //         status_value =
-                    //             '<span id=' + order.id +
-                    //             ' class="badge rounded-pill cursor-pointer bg-dark approved_check" data-key="t-new">ASM Approved</span>';
-                    //     }
-                    //     $.each(JSON.parse(order.product_json), function (i, product) {
-                    //         if (product.quantity > 0) {
-                    //             if (!orderAppended) {
-                    //                 table.row.add([
-                    //                     order.id,
-                    //                     order.created_at,
-                    //                     order.name,
-                    //                     // data.name,
-                    //                     order.type,
-                    //                     order.consignee_name,
-                    //                     product.product_name,
-                    //                     product.indent_price,
-                    //                     product.quantity,
-                    //                     product.amount,
-                    //                     order.total_amount,
-                    //                     order.legder_balance,
-                    //                     status_value,
-                    //                     '<button type="button" id="view_order" name="view_order" onclick="view_order(' +
-                    //                     order.id +
-                    //                     ')" class="btn btn-soft-danger waves-effect waves-light"><i class="fas fa-eye font-size-16 align-middle"></i></button>',
-                    //                     // '<button type="button" id="delete" name="delete" onclick="deleteData(' +
-                    //                     // data.id +
-                    //                     // ')" class="btn btn-soft-danger waves-effect waves-light"><i class="bx bx-trash-alt font-size-16 align-middle"></i></button>'
-                    //                 ]).draw(false);
-                    //                 // $('#myTable tbody').append('<tr><td>' + order.id + '</td><td>' + order.created_at + '</td><td>' + order.name + '</td><td>' + order.type + '</td><td>' + order.consignee_name + '</td><td style="display:none;">' + order.id + '</td><td>' + product.product_name + '</td><td>' + product.quantity + '</td><td>' + product.indent_price + '</td><td>' + product.amount + '</td><td>' + order.total_amount + '</td><td>' + order.legder_balance + '</td><td>' + status_value + '</td><td>' + order.legder_balance + '</td></tr>');
-                    //                 orderAppended = true;
-                    //             } else {
-                    //                 table.row.add([
-                    //                     '',
-                    //                     '',
-                    //                     '',
-                    //                     // data.name,
-                    //                     '',
-                    //                     '',
-                    //                     product.product_name,
-                    //                     product.indent_price,
-                    //                     product.quantity,
-                    //                     product.amount,
-                    //                     '',
-                    //                     '',
-                    //                     '',
-                    //                     //'<button type="button" id="view_order" name="view_order" onclick="view_order(' +order.id +')" class="btn btn-soft-danger waves-effect waves-light"><i class="fas fa-eye font-size-16 align-middle"></i></button>',
-                    //                     // '<button type="button" id="delete" name="delete" onclick="deleteData(' +
-                    //                     // data.id +
-                    //                     // ')" class="btn btn-soft-danger waves-effect waves-light"><i class="bx bx-trash-alt font-size-16 align-middle"></i></button>'
-                    //                 ]).draw(false);
-                    //                 // $('#myTable tbody').append('<tr><td></td><td></td><td></td><td></td><td></td><td style="display:none;">' + order.id + '</td><td>' + product.product_name + '</td><td>' + product.quantity + '</td><td>' + product.indent_price + '</td><td>' + product.amount + '</td><td></td><td></td></tr>');
-                    //             }
-                    //         }
-                    //     });
-                    // });
+                    $('#products_price_backlog_modal').modal('show');
                 })
                 .catch(error => console.log('error', error));
 
-
         }
 
-        function view_order(id) {
-            if (id != "") {
-                var requestOptions = {
-                    method: 'GET',
-                    redirect: 'follow'
-                };
-                console.log("<?php echo $api_url; ?>get/get_main_sub_orders.php?key=03201232927&id=" + id + "");
-                fetch("<?php echo $api_url; ?>get/get_main_sub_orders.php?key=03201232927&id=" + id + "", requestOptions)
-                    .then(response => response.json())
-                    .then(response => {
-                        console.log(response)
-                        if (response.length > 0) {
-                            product_price_backlog.clear().draw();
-
-                            $.each(response, function (index, data) {
-                                product_price_backlog.row.add([
-                                    index + 1,
-                                    data.date,
-                                    data.name,
-                                    // data.name,
-                                    data.product_name,
-                                    data.rate,
-                                    data.quantity,
-                                    data.delivery_based,
-                                    data.consignee_name,
-                                    data.amount
-
-                                ]).draw(false);
-
-                            });
-                        }
-                        $('#products_price_backlog_modal').modal('show');
-                    })
-                    .catch(error => console.log('error', error));
-
-            }
-
-        }
+    }
     </script>
 </body>
 
