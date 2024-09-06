@@ -13,11 +13,10 @@ $withtracker = 0;
 $withouttracker = 0;
 
 $curl = curl_init();
-
 curl_setopt_array(
     $curl,
     array(
-        CURLOPT_URL => 'http://151.106.17.246:8080/hascolbridgeApis/get/puma_sap_order/get_sap_order_data.php?key=03201232927&from=' . $currnt_date . '&to=' . $tommorrow . '',
+        CURLOPT_URL => ''.$api_url.'get/puma_sap_order/get_sap_order_data.php?key=03201232927&from=' . $currnt_date . '&to=' . $tommorrow .'',
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => '',
         CURLOPT_MAXREDIRS => 10,
@@ -133,7 +132,7 @@ foreach ($array as $category) {
     $order_no = $category["order_no"];
     $tracker_status = $category["tracker_status"];
 
-    $sub_data = get_sub($order_no);
+    $sub_data = get_sub($order_no,$api_url);
     $product_detail = json_decode($sub_data, true);
 
     foreach ($product_detail as $product) {
@@ -211,14 +210,14 @@ foreach ($array as $category) {
 
 curl_close($curl);
 
-function get_sub($id)
+function get_sub($id,$api_url)
 {
     $curl = curl_init();
     // echo 'http://151.106.17.246:8080/hascolbridgeApis/get/puma_sap_order/get_sap_order_subtripdata.php?key=03201232927&id=' . $id . '';
     curl_setopt_array(
         $curl,
         array(
-            CURLOPT_URL => 'http://151.106.17.246:8080/hascolbridgeApis/get/puma_sap_order/get_sap_order_subtripdata.php?key=03201232927&id=' . $id . '',
+            CURLOPT_URL => ''.$api_url.'/get/puma_sap_order/get_sap_order_subtripdata.php?key=03201232927&id=' . $id . '',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
