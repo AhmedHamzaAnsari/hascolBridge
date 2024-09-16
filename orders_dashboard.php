@@ -207,7 +207,7 @@
                                                 <h6 class="mb-0 font-size-15"><small> Scheduled</small> : <span
                                                         id="completed_orders">0</span> </h6>
                                                 <h6 onclick="getting_listing('orders_dealers')"
-                                                    class="mb-0 font-size-12 " style="cursor: pointer"><small> Dealers
+                                                    class="mb-0 font-size-12 " style="cursor: pointer"><small> Stations
                                                         Order</small> : <span id="no_of_dealers_orders">0</span> </h6>
                                             </div>
                                         </div>
@@ -609,7 +609,7 @@
                             <div class="container-fluid user_lists" id="dealers_orders_list">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <h4>Dealers Orders</h4>
+                                        <h4>Stations Orders</h4>
                                         <div class="card">
                                             <div class="card-body">
 

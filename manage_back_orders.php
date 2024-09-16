@@ -137,7 +137,7 @@
                     <div class="container-fluid">
                         <div class="row">
                             <div class=" col-md-4">
-                                <label for="inputEmail4">Dealers</label>
+                                <label for="inputEmail4">Stations</label>
                                 <select id="dealers" name="dealers" class="form-control selectpicker" required
                                     onchange="get_dealer_products(this.value)">
 
@@ -1001,7 +1001,7 @@
 
                 products_name.append($('<option>', {
                     value: '',
-                    text: 'Select Dealers'
+                    text: 'Select Stations'
                 }));
 
                 $.each(result, function(index, data) {

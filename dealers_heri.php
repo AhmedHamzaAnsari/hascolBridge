@@ -132,7 +132,7 @@
         <div class="offcanvas-body">
             <div class="container-fluid">
                 <div class="form-group col-md-12">
-                    <label for="inputAddress">Region <br><small>(If you want to select all Dealers under specific
+                    <label for="inputAddress">Region <br><small>(If you want to select all Stations under specific
                             region.)</small></label>
 
                     <select class="form-control" id="regions" name="regions" onchange='get_regions_dealers(this.value)'
@@ -146,7 +146,7 @@
 
                     <div class="form-row mb-4">
                         <div class="form-group col-md-12">
-                            <label for="inputEmail4">Dealers</label>
+                            <label for="inputEmail4">Stations</label>
                             <select class="w-100 multiple_select" id="dealers" name="dealers[]" multiple="multiple"
                                 required>
                                 <!-- Add more options as needed -->

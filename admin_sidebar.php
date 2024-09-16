@@ -44,8 +44,8 @@
                         <li><a href="dealer_dashboard.php" data-key="t-level-1.5"> Admin Dashboard</a></li>
 
                         <li><a href="users.php" data-key="t-level-1.1"> Users </a></li>
-                        <li><a href="dealers.php" data-key="t-level-1.2"> Dealers </a></li>
-                        <li><a href="dealers_acounts.php" data-key="t-level-1.2"> Dealers  Acounts</a></li>
+                        <li><a href="dealers.php" data-key="t-level-1.2"> Stations </a></li>
+                        <li><a href="dealers_acounts.php" data-key="t-level-1.2"> Stations  Acounts</a></li>
 
                         <!-- <li><a href="depots.php" data-key="t-level-1.2"> Depots </a></li> -->
                         <!-- <li><a href="depot_product_order.php" data-key="t-level-1.2"> Depots Product Order</a></li> -->
@@ -104,7 +104,7 @@
                                 <li><a href="servey_category.php" data-key="t-level-1.8"> Survey Category </a></li>
                                 <li><a href="survey_questions.php" data-key="t-level-1.9"> Survey Questions </a></li>
                                 <li><a href="multiple_task.php" data-key="t-level-1.10"> Plan Task</a></li>
-                                <!-- <li><a href="dealers_sales_performance.php" data-key="t-level-1.11">Dealers Sales
+                                <!-- <li><a href="dealers_sales_performance.php" data-key="t-level-1.11">Stations Sales
                                         Performance</a></li> -->
                                 <li><a href="manage_calander.php" data-key="t-level-1.12"> Task Calander</a></li>
                                 <li><a href="dealers_heri.php" data-key="t-level-1.13"> Retail Hierarchy</a></li>

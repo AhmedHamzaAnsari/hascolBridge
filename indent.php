@@ -135,7 +135,7 @@
 
                     <div class="form-row row mb-4">
                     <div class="form-group col-md-12 pb-2">
-                        <label for="">Dealers</label>
+                        <label for="">Stations</label>
                     <select class="form-select " aria-label="Default select example">
                         <option selected>select</option>
                         <option value="1">One</option>

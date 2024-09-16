@@ -59,7 +59,7 @@
                     </div>
                     <div class="card">
                         <div class="card-body">
-                            <h3>Dealers sales Performance</h3>
+                            <h3>Stations sales Performance</h3>
 
                             <table class="table table-nowrap table-hover mb-1" id="targeted_table">
                                 <thead class="bg-light">
@@ -117,7 +117,7 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="mb-3 row">
-                                <label for="example-text-input" class="col-md-2 col-form-label">Dealers</label>
+                                <label for="example-text-input" class="col-md-2 col-form-label">Stations</label>
 
                                 <select class="w-100 multiple_select form-control" id="dealer_id" name="dealer_id"
                                     required onchange='dealers_products(this.value)'>

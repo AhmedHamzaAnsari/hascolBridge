@@ -9,7 +9,7 @@
 
     <meta charset="utf-8" />
     <title>
-        Dealers |
+        Stations |
         <?php echo $_SESSION['user_name']; ?>
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -261,7 +261,7 @@
                                             </div>
 
                                             <div class="flex-grow-1 ms-3">
-                                                <h6 class="mb-0 font-size-15">Dealers</h6>
+                                                <h6 class="mb-0 font-size-15">Stations</h6>
                                             </div>
                                             <div class="flex-grow-1 ms-3">
                                                 <h6 onclick="check_dealers_status('Verified')" class="mb-0 font-size-12"
@@ -574,6 +574,7 @@
                                                 <th>Status</th>
                                                 <th>Description</th>
                                                 <th>Created At</th>
+                                                <th>Is-Reschedule</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -759,6 +760,50 @@
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->
             </div>
+
+
+            <div id="task_reschedule_modal" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel"
+                aria-hidden="true" data-bs-scroll="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <!-- <h5 class="modal-title" id="myModalLabel">Create Permit Type</h5> -->
+                            <h5 class="modal-title" id="myModalLabel">
+                                <h5 id="labelc"></h5>
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h3>Visit Reschedule Detail</h3>
+
+                                        <table id="schedule_table" class="display" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>S.No</th>
+                                                    <th>Old Date</th>
+                                                    <th>New Date</th>
+                                                    <th>Description</th>
+                                                    <th>Created By</th>
+                                                    <th>Created At</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div>
             <?php include 'footer.php'; ?>
 
         </div>
@@ -780,7 +825,7 @@
     <!-- chat offcanvas -->
     <div class="offcanvas offcanvas-end w-75" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
         <div class="offcanvas-header border-bottom">
-            <h5 id="offcanvasRightLabel">Create Dealers</h5>
+            <h5 id="offcanvasRightLabel">Create Stations</h5>
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
@@ -1019,10 +1064,21 @@
     var subtype;
     var dealers_data = "";
     var task_data = "";
+    var schedule_table = "";
+
     $(document).ready(function() {
         $('.multi_select').select2();
         $('.selectpicker').select2();
         users_tasking = $('#users_tasking').DataTable({
+            dom: 'Bfrtip',
+
+
+            buttons: ['copy', 'excel', 'csv', 'pdf', 'print']
+
+
+        });
+
+        schedule_table = $('#schedule_table').DataTable({
             dom: 'Bfrtip',
 
 
@@ -1534,7 +1590,8 @@
         console.log(
             "<?php echo $api_url; ?>get/inspection/all_dealers_inspection.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>&from=" +
             fromdate + "&to=" + todate + "")
-        fetch("<?php echo $api_url; ?>get/inspection/all_dealers_inspection.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>&from=" +fromdate + "&to=" + todate + "",
+        fetch("<?php echo $api_url; ?>get/inspection/all_dealers_inspection.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>&from=" +
+                fromdate + "&to=" + todate + "",
                 requestOptions)
             .then(response => response.json())
             .then(response => {
@@ -1556,6 +1613,9 @@
                         // (data.status === '1') ? 'Complete' : 'Pending',
                         data.description,
                         data.task_create_time,
+                        '<a href="javascript:void(0);" onclick="check_reschedule(' + data.task_id +
+                        ')">' + data.schedule_status +
+                        '</a>' // Reschedule link with proper JS handling
                     ]).draw(false);
                     ''
                     // var existingUser = uniqueUsers.find(function(user) {
@@ -2882,6 +2942,36 @@
         console.log(value)
         // var searchText = $('#searchInput').val();
         table.search(value).draw();
+    }
+
+    function check_reschedule(task_id) {
+
+        var requestOptions = {
+            method: 'GET',
+            redirect: 'follow'
+        };
+        console.log("<?php echo $api_url; ?>get/get_reshedule_detail.php?key=03201232927&id=<?php echo $_SESSION['user_id'] ?>&task_id="+task_id+"")
+        fetch("<?php echo $api_url; ?>get/get_reshedule_detail.php?key=03201232927&id=<?php echo $_SESSION['user_id'] ?>&task_id="+task_id+"",
+                requestOptions)
+            .then(response => response.json())
+            .then(response => {
+                console.log(response)
+
+                schedule_table.clear().draw();
+                $.each(response, function(index, data) {
+                    schedule_table.row.add([
+                        index + 1,
+                        data.old_time,
+                        data.new_time,
+                        data.description,
+                        data.username,
+                        data.created_at
+                    ]).draw(false);
+                });
+            })
+            .catch(error => console.log('error', error));
+
+        $('#task_reschedule_modal').modal('show');
     }
     </script>
 </body>

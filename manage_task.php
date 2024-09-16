@@ -122,7 +122,7 @@
 
                         </div>
                         <div class="form-group col-md-12">
-                            <label for="example-text-input" class="col-md-2 col-form-label">Dealers</label>
+                            <label for="example-text-input" class="col-md-2 col-form-label">Stations</label>
 
                             <select class="w-100 multiple_select form-control" id="dealers" name="dealers" required
                                 onchange="get_managers(this.value)">

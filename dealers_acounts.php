@@ -10,7 +10,7 @@ dea
 
     <meta charset="utf-8" />
     <title>
-        Dealers |
+        Stations |
         <?php echo $_SESSION['user_name']; ?>
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -275,7 +275,7 @@ dea
     <!-- chat offcanvas -->
     <div class="offcanvas offcanvas-end w-75" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
         <div class="offcanvas-header border-bottom">
-            <h5 id="offcanvasRightLabel">Create Dealers</h5>
+            <h5 id="offcanvasRightLabel">Create Stations</h5>
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">

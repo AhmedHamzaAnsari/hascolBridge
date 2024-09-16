@@ -45,7 +45,7 @@
                         <li><a href="asm_dashboard.php?id=<?php echo $_SESSION['user_id']; ?>&pre=<?php echo $_SESSION['privilege']; ?>"
                                 data-key="t-level-1.13"> TM Dashboard</a></li>
 
-                        <li><a href="dealers.php" data-key="t-level-1.2"> Dealers </a></li>
+                        <li><a href="dealers.php" data-key="t-level-1.2"> Stations </a></li>
 
 
 
@@ -90,7 +90,7 @@
                         <li><a href="servey_category.php" data-key="t-level-1.8"> Survey Category </a></li>
                         <li><a href="survey_questions.php" data-key="t-level-1.9"> Survey Questions </a></li>
                         <li><a href="multiple_task.php" data-key="t-level-1.10"> Plan Task</a></li>
-                        <!-- <li><a href="dealers_sales_performance.php" data-key="t-level-1.11">Dealers Sales
+                        <!-- <li><a href="dealers_sales_performance.php" data-key="t-level-1.11">Stations Sales
                                         Performance</a></li> -->
                         <li><a href="manage_calander.php" data-key="t-level-1.12"> Task Calander</a></li>
                         <li><a href="inspection_report.php" data-key="t-level-1.14">All Inspection</a></li>

@@ -128,7 +128,7 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="mb-3 row">
-                                <label for="example-text-input" class="col-md-2 col-form-label">Dealers</label>
+                                <label for="example-text-input" class="col-md-2 col-form-label">Stations</label>
 
                                 <select class="w-100 multiple_select" id="dealers" name="dealers[]" multiple="multiple"
                                     required>
