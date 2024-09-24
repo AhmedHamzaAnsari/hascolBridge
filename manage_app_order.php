@@ -57,7 +57,7 @@
         <!-- ============================================================== -->
         <div class="main-content">
             <div class="page-content">
-            <div class="container-fluid">
+                <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-3">
                             <label for="inputEmail4">From</label>
@@ -534,19 +534,21 @@
                     } else {
 
 
-                        setTimeout(function() {
-                            Swal.fire(
-                                'Success!',
-                                'Record Created Successfully',
-                                'success'
-                            )
-                            $('#approved_orders')[0].reset();
-                            $('#approved_order_modal').modal('hide');
-                            fetchtable();
-                            $('#app_btn').val("Save");
-                            document.getElementById("app_btn").disabled = false;
+                        // setTimeout(function() {
+                        Swal.fire(
+                            'Success!',
+                            'Record Created Successfully',
+                            'success'
+                        )
+                        location.reload();
 
-                        }, 2000);
+                        // $('#approved_orders')[0].reset();
+                        // $('#approved_order_modal').modal('hide');
+                        // fetchtable();
+                        // $('#app_btn').val("Save");
+                        // document.getElementById("app_btn").disabled = false;
+
+                        // }, 2000);
 
                     }
 
@@ -643,9 +645,11 @@
             redirect: 'follow'
         };
         console.log(
-            "<?php echo $api_url; ?>get/get_all_orders.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>&from=" +fromdate + "&to=" + todate + ""
+            "<?php echo $api_url; ?>get/get_all_orders.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>&from=" +
+            fromdate + "&to=" + todate + ""
         );
-        fetch("<?php echo $api_url; ?>get/get_all_orders.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>&from=" +fromdate + "&to=" + todate + "",
+        fetch("<?php echo $api_url; ?>get/get_all_orders.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>&from=" +
+                fromdate + "&to=" + todate + "",
                 requestOptions)
             .then(response => response.json())
             .then(response => {
@@ -715,8 +719,7 @@
                         status_value =
                             '<span id=' + data.id +
                             ' class="badge rounded-pill cursor-pointer bg-success" data-key="t-new">Forwarded</span>';
-                    }
-                    else if (status == 6) {
+                    } else if (status == 6) {
                         // alert(status)
                         status_value =
                             '<span id=' + data.id +
@@ -747,14 +750,14 @@
                     var edit_btn = '';
                     if (data.status == '6') {
                         edit_btn = '<button type="button" id="edit" name="edit" onclick="editData(' +
-                        data.id +
-                        ')" class="btn btn-soft-danger waves-effect waves-light"><i class="bx bx-edit-alt font-size-16 align-middle"></i></button>';
+                            data.id +
+                            ')" class="btn btn-soft-danger waves-effect waves-light"><i class="bx bx-edit-alt font-size-16 align-middle"></i></button>';
                     } else {
                         edit_btn = '---';
 
                     }
 
-                    
+
 
 
 

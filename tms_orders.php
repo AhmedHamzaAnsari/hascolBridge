@@ -187,7 +187,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                
+
                                 <div class="mb-3 row">
                                     <label for="example-text-input" class="col-md-2 col-form-label">Description</label>
                                     <div class="col-md-10">
@@ -500,19 +500,21 @@
                     } else {
 
 
-                        setTimeout(function() {
-                            Swal.fire(
-                                'Success!',
-                                'Record Created Successfully',
-                                'success'
-                            )
-                            $('#approved_orders')[0].reset();
-                            $('#approved_order_modal').modal('hide');
-                            fetchtable();
-                            $('#app_btn').val("Save");
-                            document.getElementById("app_btn").disabled = false;
+                        // setTimeout(function() {
+                        Swal.fire(
+                            'Success!',
+                            'Record Created Successfully',
+                            'success'
+                        )
+                        location.reload();
 
-                        }, 2000);
+                        //     $('#approved_orders')[0].reset();
+                        //     $('#approved_order_modal').modal('hide');
+                        //     fetchtable();
+                        //     $('#app_btn').val("Save");
+                        //     document.getElementById("app_btn").disabled = false;
+
+                        // }, 2000);
 
                     }
 

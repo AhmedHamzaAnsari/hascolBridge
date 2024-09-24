@@ -649,18 +649,21 @@
                             $('#app_btn').text("Save changes");
                             $('#app_btn').prop('disabled', false);
                         } else {
-                            setTimeout(function() {
-                                Swal.fire(
-                                    'Success!',
-                                    'Record Created Successfully',
-                                    'success'
-                                );
-                                $('#approved_orders')[0].reset();
-                                $('#approved_order_modal').modal('hide');
-                                fetchtable();
-                                $('#app_btn').text("Save changes");
-                                $('#app_btn').prop('disabled', false);
-                            }, 2000);
+                            // setTimeout(function() {
+
+                            Swal.fire(
+                                'Success!',
+                                'Record Created Successfully',
+                                'success'
+                            );
+                            location.reload();
+
+                            //     $('#approved_orders')[0].reset();
+                            //     $('#approved_order_modal').modal('hide');
+                            //     fetchtable();
+                            //     $('#app_btn').text("Save changes");
+                            //     $('#app_btn').prop('disabled', false);
+                            // }, 2000);
                         }
                     },
                     error: function(xhr, status, error) {
