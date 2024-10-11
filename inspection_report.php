@@ -175,7 +175,7 @@
 
                             <div class="row">
                                 <div class="col-md-12">
-                                    <img src="<?php echo $api_url . '' . $logo; ?>" alt="Image description"
+                                    <img src="<?php echo $api_url_files . '' . $logo; ?>" alt="Image description"
                                         style="width: 100px;">
 
                                 </div>
@@ -1751,25 +1751,25 @@
 
 
     function stock_images_new(data) {
-    var api_url = '<?php echo $api_url; ?>'; // Replace this with your actual API URL
-    var table = `<div class="container-fluid">
+        var api_url = '<?php echo $api_url; ?>'; // Replace this with your actual API URL
+        var table = `<div class="container-fluid">
                     <div class="row my-3">`;
 
-    data.forEach(resp => {
-        if (resp) {
-            console.log(resp);
-            table += `<div class="col-md-3">
+        data.forEach(resp => {
+            if (resp) {
+                console.log(resp);
+                table += `<div class="col-md-3">
                         <img src="${api_url}/${resp.image}" alt="Inspection images" class="img-fluid">
                     </div>`;
-        }
-    });
+            }
+        });
 
-    table += `</div>
+        table += `</div>
             </div>`;
 
-    $('#survey-container').html(table);
-    $('#survey_modal').modal('show');
-}
+        $('#survey-container').html(table);
+        $('#survey_modal').modal('show');
+    }
 
 
 
@@ -1896,6 +1896,7 @@
                                                         <th>Opening (A)</th>
                                                         <th>Closing (B)</th>
                                                         <th>Sales (B-A)</th>
+                                                        <th>Images</th>
 
                                                         </tr>`;
 
@@ -1909,6 +1910,7 @@
                                                         <td>${item.opening}</td>
                                                         <td>${item.closing}</td>
                                                         <td>${parseFloat(item.closing)-parseFloat(item.opening)}</td>
+                                                        <td><i class="fas fa-file-image text-success" style="font-size: 20px;font-weight: bold;" onclick="get_recon_pictures(${item.id},${resp.task_id})"></i></td>
                                                         </tr>`;
             });
             is_totalizer_data.forEach(item => {
@@ -1920,6 +1922,7 @@
                                                         <td>${item.opening}</td>
                                                         <td>${item.closing}</td>
                                                         <td>${parseFloat(item.closing)-parseFloat(item.opening)}</td>
+                                                        <td><i class="fas fa-file-image text-success" style="font-size: 20px;font-weight: bold;" onclick="get_recon_pictures(${item.id},${resp.task_id})"></i></td>
                                                         </tr>`;
             });
             table += `<tr>
@@ -2493,6 +2496,34 @@
 
         getPDF2();
     });
+
+    function get_recon_pictures(nozel_id, task_id) {
+        // alert(nozel_id)
+
+        var requestOptions = {
+            method: 'GET',
+            redirect: 'follow'
+        };
+
+        fetch("<?php echo $api_url; ?>get/get_dealer_stock_recon_new_files.php?key=03201232927&nozel_id=" + nozel_id +
+                "&task_id=" + task_id + "", requestOptions)
+            .then(response => response.json())
+            .then(result => {
+
+                var imageUrl = "<?php echo $api_url_files; ?>"+"uploads/" +result[0].file;
+
+                // Create an anchor element dynamically
+                var a = document.createElement('a');
+                a.href = imageUrl;
+
+                // Make it open in a new tab
+                a.target = '_blank';
+
+                // Simulate a click on the anchor
+                a.click();
+            })
+            .catch(error => console.log('error', error));
+    }
     </script>
 </body>
 

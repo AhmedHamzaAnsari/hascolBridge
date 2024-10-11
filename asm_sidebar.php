@@ -59,7 +59,9 @@
                         <span class="menu-item" data-key="t-multi-level">Manage Orders</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="true">
-                        <li><a href="orders_dashboard.php" data-key="t-level-1.16"> Order Dashboard</a></li>
+                    <li><a href="jd_order_dashborad.php" data-key="t-level-1.16">JD Order Dashboard</a></li>
+
+                        <li><a href="orders_dashboard.php" data-key="t-level-1.16">App Order Dashboard</a></li>
                         <!-- <li><a href="manage_order.php" data-key="t-level-1.3"> Orders </a></li> -->
                         <!-- <li><a href="all_order.php" data-key="t-level-1.3">All Orders </a></li>
                                 <li><a href="all_pending_orders.php" data-key="t-level-1.3"> Pending Orders </a></li>

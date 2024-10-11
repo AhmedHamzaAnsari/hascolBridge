@@ -244,6 +244,7 @@
                                         <select id="approved_order_status" name="approved_order_status"
                                             class="form-control selectpicker">
                                             <option value="1">Push</option>
+                                            <option value="2">Cancel</option>
 
 
                                         </select>
@@ -511,57 +512,68 @@
             event.preventDefault();
             // alert("Name")
             var data = new FormData(this);
+            var con = $('#approved_order_status').val();
+            if(con==1){
+                con='Push';
+            }else{
+                con='Cancel';
 
-            $.ajax({
-                url: "<?php echo $api_url; ?>update/approved_orders.php",
-                cache: false,
-                contentType: false,
-                processData: false,
-                method: "POST",
-                data: data,
-                beforeSend: function() {
-                    $('#app_btn').val("Saving");
-                    document.getElementById("app_btn").disabled = true;
+            }
+            if (confirm("Are you sure you want to "+con+" this order?")) {
 
-                },
-                success: function(data) {
-                    console.log(data)
+                var formData = new FormData($('#approved_orders')[0]);
 
-                    if (data != 1) {
-                        Swal.fire(
-                            'Server Error!',
-                            'Record Not Created',
-                            'error'
-                        )
-                        $('#app_btn').val("Save");
-                        document.getElementById("app_btn").disabled = false;
-                    } else {
+                $.ajax({
+                    url: "<?php echo $api_url; ?>update/pushed_forward_orders.php",
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    method: "POST",
+                    data: formData,
+                    beforeSend: function() {
+                        $('#app_btn').text("Saving");
+                        $('#app_btn').prop('disabled', true);
+                    },
+                    success: function(data) {
+                        console.log(data);
 
-
-                        setTimeout(function() {
+                        if (data != 1) {
                             Swal.fire(
-                                'Success!',
-                                'Record Created Successfully',
-                                'success'
-                            )
-                            $('#approved_orders')[0].reset();
-                            $('#approved_order_modal').modal('hide');
-                            fetchtable();
-                            $('#app_btn').val("Save");
-                            document.getElementById("app_btn").disabled = false;
-
-                        }, 2000);
-
+                                'Server Error!',
+                                'Record Not Created',
+                                'error'
+                            );
+                            $('#app_btn').text("Save changes");
+                            $('#app_btn').prop('disabled', false);
+                        } else {
+                            setTimeout(function() {
+                                Swal.fire(
+                                    'Success!',
+                                    'Record Created Successfully',
+                                    'success'
+                                );
+                                $('#approved_orders')[0].reset();
+                                $('#approved_order_modal').modal('hide');
+                                fetchtable();
+                                $('#app_btn').text("Save changes");
+                                $('#app_btn').prop('disabled', false);
+                            }, 2000);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.log('Error:', error);
+                        console.log('Status:', status);
+                        console.log('Response:', xhr.responseText);
+                        Swal.fire(
+                            'Error!',
+                            'There was an error processing your request',
+                            'error'
+                        );
+                        $('#app_btn').text("Save changes");
+                        $('#app_btn').prop('disabled', false);
                     }
-
-                },
-                error: function(xhr, status, error) {
-                    // Handle API errors
-                    console.log('Error:', error);
-                    console.log('Status:', status);
-                    console.log('Response:', xhr.responseText);
-                }
-            });
+                });
+            }
 
         });
 
@@ -622,61 +634,8 @@
             var id = $(this).attr("id");
             // alert(employee_id);
             $('#order_approval').val(id);
-            if (confirm("Are you sure you want to Push this order?")) {
+            $('#approved_order_modal').modal('show')
 
-                var formData = new FormData($('#approved_orders')[0]);
-
-                $.ajax({
-                    url: "<?php echo $api_url; ?>update/pushed_forward_orders.php",
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    method: "POST",
-                    data: formData,
-                    beforeSend: function() {
-                        $('#app_btn').text("Saving");
-                        $('#app_btn').prop('disabled', true);
-                    },
-                    success: function(data) {
-                        console.log(data);
-
-                        if (data != 1) {
-                            Swal.fire(
-                                'Server Error!',
-                                'Record Not Created',
-                                'error'
-                            );
-                            $('#app_btn').text("Save changes");
-                            $('#app_btn').prop('disabled', false);
-                        } else {
-                            setTimeout(function() {
-                                Swal.fire(
-                                    'Success!',
-                                    'Record Created Successfully',
-                                    'success'
-                                );
-                                $('#approved_orders')[0].reset();
-                                $('#approved_order_modal').modal('hide');
-                                fetchtable();
-                                $('#app_btn').text("Save changes");
-                                $('#app_btn').prop('disabled', false);
-                            }, 2000);
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.log('Error:', error);
-                        console.log('Status:', status);
-                        console.log('Response:', xhr.responseText);
-                        Swal.fire(
-                            'Error!',
-                            'There was an error processing your request',
-                            'error'
-                        );
-                        $('#app_btn').text("Save changes");
-                        $('#app_btn').prop('disabled', false);
-                    }
-                });
-            }
         });
 
 

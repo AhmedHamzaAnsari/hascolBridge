@@ -534,21 +534,21 @@
                     } else {
 
 
-                        // setTimeout(function() {
+                        setTimeout(function() {
                         Swal.fire(
                             'Success!',
                             'Record Created Successfully',
                             'success'
                         )
-                        location.reload();
+                        // location.reload();
 
-                        // $('#approved_orders')[0].reset();
-                        // $('#approved_order_modal').modal('hide');
-                        // fetchtable();
-                        // $('#app_btn').val("Save");
-                        // document.getElementById("app_btn").disabled = false;
+                        $('#approved_orders')[0].reset();
+                        $('#approved_order_modal').modal('hide');
+                        fetchtable();
+                        $('#app_btn').val("Save");
+                        document.getElementById("app_btn").disabled = false;
 
-                        // }, 2000);
+                        }, 1000);
 
                     }
 
