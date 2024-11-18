@@ -161,14 +161,19 @@
 
         <!-- Left Sidebar End -->
 
-
+        <?php
+        $pre = $_SESSION['bso_pre'];
+        $disabledAttribute = ($pre == 'BSO') ? 'd-none' : '';
+        // $disabledAttribute = (strpos($pre, 'TM') === 0) ? 'disabled' : '';
+        
+        ?>
         <!-- ============================================================== -->
         <!-- Start right Content here -->
         <!-- ============================================================== -->
         <div class="main-content">
             <div class="page-content">
                 <div class="container-fluid">
-                    <div class="row">
+                    <div class="row <?php echo $$disabledAttribute;?>">
 
                         <div class="col-md-6">
 
@@ -198,10 +203,12 @@
                                         <th class="text-center">GRM</th>
                                         <th class="text-center">RM</th>
                                         <th class="text-center">TM</th>
+                                        <?php if ($pre != 'BSO') { ?>
                                         <th class="text-center">Verify</th>
                                         <th class="text-center">View</th>
                                         <th class="text-center">Edit Password</th>
                                         <th class="text-center">Edit</th>
+                                        <?php } ?>
 
                                         <!-- <th class="text-center">Edit</th>
                                         <th class="text-center">Delete</th> -->
@@ -340,7 +347,7 @@
                         </div>
                         <div class="form-group col-md-2">
                             <label for="inputAddress">Co-Ordinates</label>
-                            <input type="text" class="form-control" id="lati" name="lati" required >
+                            <input type="text" class="form-control" id="lati" name="lati" required>
 
                             <input type="hidden" name="type" id="type" required>
 
@@ -918,7 +925,7 @@
                     var originalId = data.id; // Replace with your actual ID
                     var key = 'Hamza Ansari';
                     var iv = CryptoJS.lib.WordArray.random(16);
-
+                    var prel = "<?php echo $_SESSION['bso_pre'] ?>";
                     // Encrypt the ID before sending it to the server
                     var encryptedId = encryptId(originalId, key, iv);
                     table.row.add([
@@ -932,29 +939,49 @@
                         data.zm_name,
                         data.tm_name,
                         data.asm_name,
-                        '<label class="switch"><input type="checkbox" id="checkbox" onclick="check(' +
-                        data.id + ')" ' +
-                        (data.indent_price == 0 ? '' : 'checked') +
-                        '> <span class="slider round"></span></label>',
-                        // 23434,
-                        // 23434,
-                        '<a type="button"id="View" name="view" href="user_profile.php?id=' +
-                        encodeURIComponent(encryptedId) +
-                        '" target="blank" class="btn btn-soft-warning waves-effect waves-light"><i class="fas fa-eye font-size-16 align-middle"></i></a>',
-                        '<button type="button"id="edit" name="edit_pa"  onclick="update_pass(' +
-                        data.id +
-                        ')"  class="btn btn-soft-warning waves-effect waves-light"><i class="bx bx-edit-alt font-size-16 align-middle"></i></button>',
-                        '<button type="button"id="edit" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" name="edit"   onclick="editData(' +
-                        data.id +
-                        ')"  class="btn btn-soft-warning waves-effect waves-light"><i class="bx bx-edit-alt font-size-16 align-middle"></i></button>',
 
-                        // '<button type="button"id="edit" name="edit" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"  onclick="editdata(' +
-                        // data.id +
-                        // ')"  class="btn btn-soft-warning waves-effect waves-light"><i class="bx bx-edit-alt font-size-16 align-middle"></i></button>',
-                        // '<button type="button" id="delete" name="delete" onclick="deleteData(' +
-                        // data.id +
-                        // ')" class="btn btn-soft-danger waves-effect waves-light"><i class="bx bx-trash-alt font-size-16 align-middle"></i></button>'
+                        // Conditional checkbox based on prel and indent_price
+                        (prel !== 'BSO' ?
+                            '<label class="switch"><input type="checkbox" id="checkbox" onclick="check(' +
+                            data.id + ')" ' +
+                            (data.indent_price == 0 ? '' : 'checked') +
+                            '> <span class="slider round"></span></label>' :
+                            ''),
+
+                        // Conditional send notification button based on prel and indent_price
+                      
+
+                        // View button (only show if prel != 'BSO')
+                        (prel !== 'BSO' ?
+                            '<a type="button" id="View" name="view" href="user_profile.php?id=' +
+                            encodeURIComponent(encryptedId) +
+                            '" target="_blank" class="btn btn-soft-warning waves-effect waves-light"><i class="fas fa-eye font-size-16 align-middle"></i></a>' :
+                            ''
+                        ),
+
+                        // Edit button (only show if prel != 'BSO')
+                        (prel !== 'BSO' ?
+                            '<button type="button" id="edit" name="edit_pa" onclick="update_pass(' +
+                            data.id +
+                            ')" class="btn btn-soft-warning waves-effect waves-light"><i class="bx bx-edit-alt font-size-16 align-middle"></i></button>' :
+                            ''
+                        ),
+
+                        // Offcanvas Edit button (only show if prel != 'BSO')
+                        (prel !== 'BSO' ?
+                            '<button type="button" id="edit" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" name="edit" onclick="editData(' +
+                            data.id +
+                            ')" class="btn btn-soft-warning waves-effect waves-light"><i class="bx bx-edit-alt font-size-16 align-middle"></i></button>' :
+                            ''
+                        ),
+
+                        // Uncommented delete button (if needed, only show if prel != 'BSO')
+                        // (prel !== 'BSO' ? 
+                        //     '<button type="button" id="delete" name="delete" onclick="deleteData(' + data.id + ')" class="btn btn-soft-danger waves-effect waves-light"><i class="bx bx-trash-alt font-size-16 align-middle"></i></button>' : 
+                        //     ''
+                        // )
                     ]).draw();
+
                 });
             })
             .catch(error => console.log('error', error));

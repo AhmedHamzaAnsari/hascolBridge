@@ -63,7 +63,7 @@
                             <label for="inputEmail4">From</label>
 
                             <input type="date" class="form-control" name="fromdate" id="fromdate"
-                                value="<?php echo date('Y-m-01') ?>">
+                                value="<?php echo date('Y-m-d') ?>">
 
                         </div>
                         <div class="col-md-3">
@@ -110,6 +110,7 @@
                                         <!-- <th class="text-center">View Orders</th> -->
                                         <th class="text-center">Push Status</th>
                                         <th class="text-center">Edit Qty</th>
+                                        <th class="text-center">Cancel</th>
                                         <th class="text-center">Product</th>
                                         <th class="text-center">Rate</th>
                                         <th class="text-center">Quantity</th>
@@ -202,7 +203,7 @@
                                     <label for="example-text-input" class="col-md-2 col-form-label">Name</label>
                                     <div class="col-md-10">
                                         <select id="approved_order_status" name="approved_order_status"
-                                            class="form-control selectpicker" required>
+                                            class="form-control selectpicker">
                                             <option selected>Choose...</option>
                                             <option value="5">Forward</option>
                                             <option value="2">Cancel</option>
@@ -214,7 +215,7 @@
                                 <div class="mb-3 row">
                                     <label for="example-text-input" class="col-md-2 col-form-label">Depot</label>
                                     <div class="col-md-10">
-                                        <select id="s_depot" name="s_depot" class="form-control selectpicker" required>
+                                        <select id="s_depot" name="s_depot" class="form-control selectpicker">
                                             <option selected>Choose...</option>
 
 
@@ -249,6 +250,61 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
+
+    <div id="cancel_order_modal" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true"
+        data-bs-scroll="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <!-- <h5 class="modal-title" id="myModalLabel">Create Permit Type</h5> -->
+                    <h5 class="modal-title" id="myModalLabel">
+                        <h5 id="labelc">Cancel Orders</h5>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" id="cancel_orders" enctype="multipart/form-data">
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="mb-3 row">
+                                    <label for="example-text-input" class="col-md-2 col-form-label">Name</label>
+                                    <div class="col-md-10">
+                                        <select id="approved_order_status" name="approved_order_status"
+                                            class="form-control selectpicker">
+                                            <option value="2">Cancel</option>
+
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="example-text-input" class="col-md-2 col-form-label">Description</label>
+                                    <div class="col-md-10">
+                                        <textarea class="form-control" id="approved_order_description"
+                                            name="approved_order_description" rows="4" cols="50"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 " style="text-align: right;">
+                                <input type="hidden" name="order_approval" id="cancel_order_approval">
+                                <input type="hidden" name="user_id" id="user_id"
+                                    value="<?php echo $_SESSION['user_id']; ?>">
+
+
+                                <button type="button" class="btn btn-secondary waves-effect"
+                                    data-bs-dismiss="modal">Close</button>
+                                <input class="btn btn-primary waves-effect waves-light" type="submit" name="app_btn"
+                                    id="app_btn" value="Save changes">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
     <div id="in_balanced_order_modal" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true"
         data-bs-scroll="true">
         <div class="modal-dialog">
@@ -535,20 +591,18 @@
 
 
                         setTimeout(function() {
-                        Swal.fire(
-                            'Success!',
-                            'Record Created Successfully',
-                            'success'
-                        )
-                        // location.reload();
+                            Swal.fire(
+                                'Success!',
+                                'Record Created Successfully',
+                                'success'
+                            )
+                            $('#approved_orders')[0].reset();
+                            $('#approved_order_modal').modal('hide');
+                            fetchtable();
+                            $('#app_btn').val("Save");
+                            document.getElementById("app_btn").disabled = false;
 
-                        $('#approved_orders')[0].reset();
-                        $('#approved_order_modal').modal('hide');
-                        fetchtable();
-                        $('#app_btn').val("Save");
-                        document.getElementById("app_btn").disabled = false;
-
-                        }, 1000);
+                        }, 2000);
 
                     }
 
@@ -633,13 +687,75 @@
             $('#in_balanced_order_modal').modal('show');
         });
 
+        $(document).on('click', '.cancel_check', function() {
+
+            var id = $(this).attr("id");
+            // alert(id);
+            $('#cancel_order_approval').val(id);
+            if (confirm("Are you sure you want to Cancel this order?")) {
+
+                var formData = new FormData($('#cancel_orders')[0]);
+
+                $.ajax({
+                    url: "<?php echo $api_url; ?>update/pushed_forward_orders.php",
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    method: "POST",
+                    data: formData,
+                    beforeSend: function() {
+                        $('#app_btn').text("Saving");
+                        $('#app_btn').prop('disabled', true);
+                    },
+                    success: function(data) {
+                        console.log(data);
+
+                        if (data != 1) {
+                            Swal.fire(
+                                'Server Error!',
+                                'Record Not Created',
+                                'error'
+                            );
+                            $('#app_btn').text("Save changes");
+                            $('#app_btn').prop('disabled', false);
+                        } else {
+                            setTimeout(function() {
+                                Swal.fire(
+                                    'Success!',
+                                    'Record Created Successfully',
+                                    'success'
+                                );
+                                $('#cancel_orders')[0].reset();
+                                $('#approved_order_modal').modal('hide');
+                                fetchtable();
+                                $('#app_btn').text("Save changes");
+                                $('#app_btn').prop('disabled', false);
+                            }, 2000);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.log('Error:', error);
+                        console.log('Status:', status);
+                        console.log('Response:', xhr.responseText);
+                        Swal.fire(
+                            'Error!',
+                            'There was an error processing your request',
+                            'error'
+                        );
+                        $('#app_btn').text("Save changes");
+                        $('#app_btn').prop('disabled', false);
+                    }
+                });
+            }
+        });
+
     })
 
 
 
     function fetchtable() {
-        // var rettypes = "RT";
-        var rettypes = "CO ";
+        var rettypes = "RT";
+        // var rettypes = "CO ";
         var fromdate = $('#fromdate').val();
         var todate = $('#todate').val();
         var requestOptions = {
@@ -647,10 +763,10 @@
             redirect: 'follow'
         };
         console.log(
-            "<?php echo $api_url; ?>get/get_all_orders.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>&from=" +
+            "<?php echo $api_url; ?>get/get_all_forward_pushed_orders.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>&from=" +
             fromdate + "&to=" + todate + "&rettype="+rettypes+""
         );
-        fetch("<?php echo $api_url; ?>get/get_all_orders.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>&from=" +
+        fetch("<?php echo $api_url; ?>get/get_all_forward_pushed_orders.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>&from=" +
                 fromdate + "&to=" + todate + "&rettype="+rettypes+"",
                 requestOptions)
             .then(response => response.json())
@@ -762,7 +878,8 @@
 
 
 
-
+                    cancel_status = '<button type="button" id=' + data.id +
+                        ' name="delete" class="btn btn-soft-danger waves-effect waves-light cancel_check"><i class="fas fa-align-justify font-size-16 align-middle"></i></button>';
 
 
                     table.row.add([
@@ -777,6 +894,7 @@
                         status_value,
                         push_status,
                         edit_btn,
+                        cancel_status,
                         '',
                         '',
                         '',
@@ -801,6 +919,7 @@
                                         response23[i]['date'],
                                         response23[i]['sap_no'],
                                         response23[i]['name'],
+                                        '',
                                         '',
                                         '',
                                         '',

@@ -246,7 +246,8 @@
         });
 
         function fetchtable() {
-            var rettypes = "CO ";
+            var rettypes = "RT";
+        // var rettypes = "CO ";
             var fromdate = $('#fromdate').val();
             $('#report_date').text(fromdate);
 

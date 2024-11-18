@@ -410,13 +410,15 @@
     }
 
     function fetchtable() {
+        // var rettypes = "RT";
+        var rettypes = "CO ";
 
         var requestOptions = {
             method: 'GET',
             redirect: 'follow'
         };
 
-        fetch("<?php echo $api_url; ?>get/get_all_orders_shortage.php?key=03201232927&id=<?php echo $_SESSION['user_id'] ?>",
+        fetch("<?php echo $api_url; ?>get/get_all_orders_shortage.php?key=03201232927&id=<?php echo $_SESSION['user_id'] ?>&rettype="+rettypes+"",
                 requestOptions)
             .then(response => response.json())
             .then(response => {

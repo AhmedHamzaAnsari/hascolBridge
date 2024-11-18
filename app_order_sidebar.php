@@ -52,7 +52,8 @@
                                 <li><a href="manage_order2.php" data-key="t-level-1.3"> Order Report </a></li> 
                                 <li><a href="current_day_coco_order_report.php" data-key="t-level-1.3">Current Day COCO Order Report </a></li> 
 
-
+                                <li><a href="all_order_current_status.php" data-key="t-level-1.3">COCO Current Day
+                                Orders Status</a></li>
                             </ul>
                         </li>
                       

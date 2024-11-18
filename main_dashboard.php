@@ -11,10 +11,10 @@ if ($_SESSION['privilege'] == 'Admin') {
     header("Location: $redirectUrl");
 
 } elseif ($_SESSION['privilege'] == 'TM') {
-    $redirectUrl = "tm_dashboard.php?id=$user_id&pre=$privilege";
+    $redirectUrl = "tm_dashboard_rebulid.php?id=$user_id&pre=$privilege";
     header("Location: $redirectUrl");
 } elseif ($_SESSION['privilege'] == 'ASM') {
-    $redirectUrl = "asm_dashboard.php?id=$user_id&pre=$privilege";
+    $redirectUrl = "asm_dashboard_rebuild.php?id=$user_id&pre=$privilege";
     header("Location: $redirectUrl");
 
 }
@@ -30,11 +30,23 @@ elseif ($_SESSION['privilege'] == 'Logistics') {
     header("Location: $redirectUrl");
 
 }
-elseif ($_SESSION['privilege'] == 'App_order') {
+// elseif ($_SESSION['privilege'] == 'App_order') {
+    // $redirectUrl = "manage_app_order.php";
+    // header("Location: $redirectUrl");
+
+// }
+
+elseif($_SESSION['privilege'] == 'App_order' && $_SESSION['independent_exist'] == 'COCO'){
     $redirectUrl = "manage_app_order.php";
     header("Location: $redirectUrl");
-
+    
 }
+elseif($_SESSION['privilege'] == 'App_order' && $_SESSION['independent_exist'] == 'ALL'){
+    $redirectUrl = "manage_app_order_all.php";
+    header("Location: $redirectUrl");
+    
+}
+
 elseif ($_SESSION['privilege'] == 'Forward_order') {
     $redirectUrl = "all_forward_orders.php";
     header("Location: $redirectUrl");
@@ -42,6 +54,11 @@ elseif ($_SESSION['privilege'] == 'Forward_order') {
 }
 elseif ($_SESSION['privilege'] == 'Back_orders') {
     $redirectUrl = "manage_back_orders.php";
+    header("Location: $redirectUrl");
+
+}
+elseif ($_SESSION['privilege'] == 'Reporting') {
+    $redirectUrl = "dealer_dashboard.php";
     header("Location: $redirectUrl");
 
 }

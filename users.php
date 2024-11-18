@@ -25,24 +25,24 @@
 
 </head>
 <style>
-    .password-container {
-        position: relative;
-        display: inline-block;
-        width: 100%;
-    }
+.password-container {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
 
-    .password-input {
-        padding-right: 30px;
-        /* Space for the show/hide button */
-    }
+.password-input {
+    padding-right: 30px;
+    /* Space for the show/hide button */
+}
 
-    .toggle-password {
-        position: absolute;
-        top: 50%;
-        right: 20px;
-        transform: translateY(-50%);
-        cursor: pointer;
-    }
+.toggle-password {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
 </style>
 
 
@@ -86,6 +86,7 @@
                                 <thead>
                                     <tr>
                                         <th class="text-center">S.No</th>
+                                        <th class="text-center">User-ID</th>
                                         <th class="text-center">Name</th>
                                         <th class="text-center">Email</th>
                                         <th class="text-center">Password</th>
@@ -196,6 +197,7 @@
                                     <option value="Forward_order">Forward Order</option>
                                     <option value="App_order">App Order</option>
                                     <option value="Back_orders">Back Order</option>
+                                    <option value="Reporting">Reporting</option>
                                 </select>
 
                             </div>
@@ -210,6 +212,7 @@
                                     <option value="ZM">GRM</option>
                                     <option value="TM">RM</option>
                                     <option value="ASM">TM</option>
+                                    <option value="BSO">BSO</option>
 
 
                                 </select>
@@ -283,485 +286,492 @@
     <?php include 'script_tags.php'; ?>
 
     <script>
-        var table;
-        var type;
-        var subtype;
-        load_all_select();
-        $(document).ready(function () {
-            // $('.js-example-basic-multiple').select2();
-            $('#togglePassword').on('click', function () {
-                togglePasswordVisibility('password', 'togglePassword');
-            });
+    var table;
+    var type;
+    var subtype;
+    load_all_select();
+    $(document).ready(function() {
+        // $('.js-example-basic-multiple').select2();
+        $('#togglePassword').on('click', function() {
+            togglePasswordVisibility('password', 'togglePassword');
+        });
 
-            $('#toggleConfirmPassword').on('click', function () {
-                togglePasswordVisibility('confirm_password', 'toggleConfirmPassword');
-            });
+        $('#toggleConfirmPassword').on('click', function() {
+            togglePasswordVisibility('confirm_password', 'toggleConfirmPassword');
+        });
 
-            function togglePasswordVisibility(inputId, toggleId) {
-                var passwordInput = $('#' + inputId);
-                var toggleButton = $('#' + toggleId);
+        function togglePasswordVisibility(inputId, toggleId) {
+            var passwordInput = $('#' + inputId);
+            var toggleButton = $('#' + toggleId);
 
-                var passwordType = passwordInput.attr('type');
-                if (passwordType === 'password') {
-                    passwordInput.attr('type', 'text');
-                    toggleButton.find('i').removeClass('fa-eye').addClass('fa-eye-slash');
-                } else {
-                    passwordInput.attr('type', 'password');
-                    toggleButton.find('i').removeClass('fa-eye-slash').addClass('fa-eye');
-                }
+            var passwordType = passwordInput.attr('type');
+            if (passwordType === 'password') {
+                passwordInput.attr('type', 'text');
+                toggleButton.find('i').removeClass('fa-eye').addClass('fa-eye-slash');
+            } else {
+                passwordInput.attr('type', 'password');
+                toggleButton.find('i').removeClass('fa-eye-slash').addClass('fa-eye');
             }
+        }
 
-            $("#role").on("change", function () {
-                var selectedRole = $(this).val();
-                // Hide all secondary dropdowns
-                $("#salesRole, #zmRole, #tmRole,#logisticsSelect").hide();
-                if (selectedRole === "Sales") {
-                    $("#salesRole").show();
-                } else if (selectedRole === "Logistics") {
-                    $("#logisticsSelect").show();
-                }
-            });
+        $("#role").on("change", function() {
+            var selectedRole = $(this).val();
+            // Hide all secondary dropdowns
+            $("#salesRole, #zmRole, #tmRole,#logisticsSelect").hide();
+            if (selectedRole === "Sales") {
+                $("#salesRole").show();
+            } else if (selectedRole === "Logistics") {
+                $("#logisticsSelect").show();
+            }
+        });
 
-            $("#sales").on("change", function () {
-                var selectedSalesRole = $(this).val();
-                // alert(selectedSalesRole)
-                // Hide all secondary dropdowns
-                $("#zmRole, #tmRole").hide();
-                if (selectedSalesRole === "TM") {
-                    $("#zmRole").show();
-                } else if (selectedSalesRole === "ASM") {
-                    $("#tmRole").show();
-                }
-            });
+        $("#sales").on("change", function() {
+            var selectedSalesRole = $(this).val();
+            // alert(selectedSalesRole)
+            // Hide all secondary dropdowns
+            $("#zmRole, #tmRole").hide();
+            if (selectedSalesRole === "TM") {
+                $("#zmRole").show();
+            } else if (selectedSalesRole === "ASM" || selectedSalesRole === "BSO") {
+                $("#tmRole").show();
+            }
+        });
 
-            table = $('#myTable').DataTable({
-                dom: 'Bfrtip',
+        table = $('#myTable').DataTable({
+            dom: 'Bfrtip',
 
 
-                buttons: ['copy', 'excel', 'csv', 'pdf', 'print']
+            buttons: ['copy', 'excel', 'csv', 'pdf', 'print']
 
-            });
+        });
 
-            fetchtable();
-            $('#add_btn').click(function () {
+        fetchtable();
+        $('#add_btn').click(function() {
 
-                $('#row_id').val("");
+            $('#row_id').val("");
 
-                $('#insert_form')[0].reset();
-                // alert("running")
+            $('#insert_form')[0].reset();
+            // alert("running")
 
-            });
+        });
 
-            $('#insert_form').on("submit", function (event) {
-                update_id = $('#row_id').val();
-                if (update_id == 0) {
-                    event.preventDefault();
-                    // alert("Name")
-                    var data = new FormData(this);
+        $('#insert_form').on("submit", function(event) {
+            update_id = $('#row_id').val();
+            if (update_id == 0) {
+                event.preventDefault();
+                // alert("Name")
+                var data = new FormData(this);
 
-                    $.ajax({
-                        url: "<?php echo $api_url; ?>create/users.php",
-                        cache: false,
-                        contentType: false,
-                        processData: false,
-                        method: "POST",
-                        data: data,
-                        beforeSend: function () {
-                            $('#insert').val("Saving");
-                            document.getElementById("insert").disabled = true;
+                $.ajax({
+                    url: "<?php echo $api_url; ?>create/users.php",
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    method: "POST",
+                    data: data,
+                    beforeSend: function() {
+                        $('#insert').val("Saving");
+                        document.getElementById("insert").disabled = true;
 
-                        },
-                        success: function (data) {
-                            console.log(data)
+                    },
+                    success: function(data) {
+                        console.log(data)
 
-                            if (data != 1) {
-                                Swal.fire(
-                                    'Server Error!',
-                                    'Record Not Created',
-                                    'error'
-                                )
+                        if (data != 1) {
+                            Swal.fire(
+                                'Server Error!',
+                                'Record Not Created',
+                                'error'
+                            )
+                            $('#insert').val("Save");
+                            document.getElementById("insert").disabled = false;
+                        } else {
+
+
+                            Swal.fire(
+                                'Success!',
+                                'Record Created Successfully',
+                                'success'
+                            )
+                            setTimeout(function() {
+                                $('#insert_form')[0].reset();
+                                $('#offcanvasRight').modal('hide');
+                                fetchtable();
+                                $("#salesRole, #zmRole, #tmRole,#logisticsSelect")
+                                    .hide();
                                 $('#insert').val("Save");
                                 document.getElementById("insert").disabled = false;
-                            } else {
+
+                                location.reload();
 
 
-                                Swal.fire(
-                                    'Success!',
-                                    'Record Created Successfully',
-                                    'success'
-                                )
-                                setTimeout(function () {
-                                    $('#insert_form')[0].reset();
-                                    $('#offcanvasRight').modal('hide');
-                                    fetchtable();
-                                    $("#salesRole, #zmRole, #tmRole,#logisticsSelect")
-                                        .hide();
-                                    $('#insert').val("Save");
-                                    document.getElementById("insert").disabled = false;
-
-                                    location.reload();
-
-
-                                }, 2000);
-
-                            }
+                            }, 2000);
 
                         }
-                    });
-                } else {
-                    event.preventDefault();
-                    // alert("Name")
-                    var data = new FormData(this);
 
-                    $.ajax({
-                        url: "<?php echo $api_url; ?>update/update_user.php",
-                        cache: false,
-                        contentType: false,
-                        processData: false,
-                        method: "POST",
-                        data: data,
-                        beforeSend: function () {
-                            $('#insert').val("Saving");
-                            document.getElementById("insert").disabled = true;
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle API errors
+                        console.log('Error:', error);
+                        console.log('Status:', status);
+                        console.log('Response:', xhr.responseText);
+                    }
+                });
+            } else {
+                event.preventDefault();
+                // alert("Name")
+                var data = new FormData(this);
 
-                        },
-                        success: function (data) {
-                            console.log(data)
+                $.ajax({
+                    url: "<?php echo $api_url; ?>update/update_user.php",
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    method: "POST",
+                    data: data,
+                    beforeSend: function() {
+                        $('#insert').val("Saving");
+                        document.getElementById("insert").disabled = true;
 
-                            if (data != 1) {
-                                Swal.fire(
-                                    'Server Error!',
-                                    'Record Not Updated',
-                                    'error'
-                                )
-                                $('#insert').val("Save");
-                                document.getElementById("insert").disabled = false;
-                            } else {
+                    },
+                    success: function(data) {
+                        console.log(data)
 
-
-                                Swal.fire(
-                                    'Success!',
-                                    'Record Updated Successfully',
-                                    'success'
-                                )
-                                setTimeout(function () {
-                                    $('#insert_form')[0].reset();
-                                    $('#offcanvasRight').modal('hide');
-                                    fetchtable();
-                                    $("#salesRole, #zmRole, #tmRole,#logisticsSelect")
-                                        .hide();
-                                    $('#insert').val("Save");
-                                    document.getElementById("insert").disabled = false;
-
-                                    location.reload();
-
-
-
-                                }, 2000);
-                                // load_all_select()
-
-                            }
-
-                        },
-                        error: function (xhr, textStatus, errorThrown) {
-                            console.log(xhr)
-                            console.log(textStatus)
-                            console.log(errorThrown)
+                        if (data != 1) {
                             Swal.fire(
                                 'Server Error!',
                                 'Record Not Updated',
                                 'error'
-
                             )
-
-                            // console.log("Request failed with status code: " + xhr.status);
-                        }
-                    });
-
-
-                }
-            });
-
-        })
-        $('#password,#confirm_password').on('input', function () {
-            validatePassword();
-        });
-
-
-        function validatePassword() {
-            var password = $('#password').val();
-            var confirmPassword = $('#confirm_password').val();
-
-            if (password !== confirmPassword) {
-                var error_message = $('#message').html('Passwords do not match!').css('color', 'red');
-                $("#insert").prop("disabled", true);
-
-
-            } else {
-                var success_message = $('#message').html('Passwords match.').css('color', 'green');
-                $("#insert").prop("disabled", false);
-
-            }
-        }
-
-
-        function fetchtable() {
-
-            var requestOptions = {
-                method: 'GET',
-                redirect: 'follow'
-            };
-
-            fetch("<?php echo $api_url; ?>get/all_users.php?key=03201232927", requestOptions)
-                .then(response => response.json())
-                .then(response => {
-                    console.log(response)
-
-                    table.clear().draw();
-                    $.each(response, function (index, data) {
-                        var lang = data.privilege;
-                        if (lang == 'ZM') {
-                            lang = 'GRM';
-                        } else if (lang == 'TM') {
-                            lang = 'RM';
-
-                        } else if (lang == 'Admin') {
-                            lang = 'Admin';
-
-                        }else if (lang == 'ASM') {
-                            lang = 'TM';
-
+                            $('#insert').val("Save");
+                            document.getElementById("insert").disabled = false;
                         } else {
-                            lang = data.privilege;
-
-                        }
-                        
-                        table.row.add([
-                            index + 1,
-                            data.name,
-                            data.email,
-                            '********',
-                            lang,
-                            data.telephone,
-                            // '<button type="button"id="edit" name="edit" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"  onclick="editData(' +
-                            // data.id +
-                            // ')"  class="btn btn-soft-warning waves-effect waves-light"><i class="bx bx-edit-alt font-size-16 align-middle"></i></button>',
-                            '<button type="button" id="delete" name="delete" onclick="deleteData(' +
-                            data.id +
-                            ')" class="btn btn-soft-danger waves-effect waves-light"><i class="bx bx-trash-alt font-size-16 align-middle"></i></button>',
-                            '<button type="button" id="edit" name="edit"  onclick="editData(' +
-                            data.id +
-                            ')" class="btn btn-soft-danger waves-effect waves-light"><i class="bx bx-edit-alt font-size-16 align-middle"></i></button>'
-                        ]).draw(false);
-                    });
-                })
-                .catch(error => console.log('error', error));
 
 
-        }
-
-        function load_all_select() {
-
-            $.ajax({
-                url: '<?php echo $api_url; ?>get/get_tm.php?key=03201232927',
-                method: 'GET',
-                dataType: 'json',
-                success: function (data) {
-                    $('#zm').empty();
-
-                    // Iterate through the data and append options to the select element
-                    $.each(data, function (index, item) {
-                        $('#tm').append($('<option>', {
-                            value: item.id,
-                            text: item.name
-                        }));
-                    });
-
-                    // Refresh the Select2 element to display the newly added options
-                    $('#tm').trigger('change.select2');
-                },
-                error: function (error) {
-                    console.error('Error fetching data:', error);
-                }
-            });
-
-            $.ajax({
-                url: '<?php echo $api_url; ?>get/get_zm.php?key=03201232927',
-                method: 'GET',
-                dataType: 'json',
-                success: function (data) {
-                    // $('#zm').empty(); 
-                    console.log('ZM')
-                    console.log(data)
-                    // Iterate through the data and append options to the select element
-                    $.each(data, function (index, item) {
-                        $('#zm').append($('<option>', {
-                            value: item.id,
-                            text: item.name
-                        }));
-                    });
-
-                    // Refresh the Select2 element to display the newly added options
-                    $('#zm').trigger('change.select2');
-                },
-                error: function (error) {
-                    console.error('Error fetching data:', error);
-                }
-            });
-
-
-
-
-        }
-
-        function deleteData(id) {
-            var result = window.confirm("Are you sure you want to proceed?");
-
-            // Check the result
-            if (result) {
-                var settings = {
-                    "url": "<?php echo $api_url; ?>delete/delete_users.php?key=03201232927&id=" + id + "",
-                    "method": "DELETE",
-                    "timeout": 0,
-                };
-                $.ajax({
-                    ...settings,
-                    statusCode: {
-                        200: function (response) {
-                            console.log(response);
-                            // $('#myModal').modal('hide');
-                            // console.log("Request was successful");
                             Swal.fire(
                                 'Success!',
-                                'Record Deleted Successfully',
+                                'Record Updated Successfully',
                                 'success'
                             )
-                            setTimeout(function () {
+                            setTimeout(function() {
+                                $('#insert_form')[0].reset();
+                                $('#offcanvasRight').modal('hide');
+                                fetchtable();
+                                $("#salesRole, #zmRole, #tmRole,#logisticsSelect")
+                                    .hide();
+                                $('#insert').val("Save");
+                                document.getElementById("insert").disabled = false;
 
-                                // location.reload();
+                                location.reload();
+
 
 
                             }, 2000);
-                        },
-                        // Add more status code handlers as needed
+                            // load_all_select()
+
+                        }
+
                     },
-                    success: function (data) {
-                        // Additional success handling if needed
-                    },
-                    error: function (xhr, textStatus, errorThrown) {
+                    error: function(xhr, textStatus, errorThrown) {
+                        console.log(xhr)
+                        console.log(textStatus)
+                        console.log(errorThrown)
                         Swal.fire(
                             'Server Error!',
-                            'Record Not Deleted',
+                            'Record Not Updated',
                             'error'
+
                         )
 
                         // console.log("Request failed with status code: " + xhr.status);
                     }
                 });
-            }
-        }
 
-        function editData(id) {
-            $('#zmRole').hide();
-            $('#tmRole').hide();
+
+            }
+        });
+
+    })
+    $('#password,#confirm_password').on('input', function() {
+        validatePassword();
+    });
+
+
+    function validatePassword() {
+        var password = $('#password').val();
+        var confirmPassword = $('#confirm_password').val();
+
+        if (password !== confirmPassword) {
+            var error_message = $('#message').html('Passwords do not match!').css('color', 'red');
+            $("#insert").prop("disabled", true);
+
+
+        } else {
+            var success_message = $('#message').html('Passwords match.').css('color', 'green');
+            $("#insert").prop("disabled", false);
+
+        }
+    }
+
+
+    function fetchtable() {
+
+        var requestOptions = {
+            method: 'GET',
+            redirect: 'follow'
+        };
+
+        fetch("<?php echo $api_url; ?>get/all_users.php?key=03201232927", requestOptions)
+            .then(response => response.json())
+            .then(response => {
+                console.log(response)
+
+                table.clear().draw();
+                $.each(response, function(index, data) {
+                    var lang = data.privilege;
+                    if (lang == 'ZM') {
+                        lang = 'GRM';
+                    } else if (lang == 'TM') {
+                        lang = 'RM';
+
+                    } else if (lang == 'Admin') {
+                        lang = 'Admin';
+
+                    } else if (lang == 'ASM') {
+                        lang = 'TM';
+
+                    } else {
+                        lang = data.privilege;
+
+                    }
+                    var names = data.name + " " + data.login;
+                    table.row.add([
+                        index + 1,
+                        data.id,
+                        names,
+                        data.login,
+                        '********',
+                        lang,
+                        data.telephone,
+                        // '<button type="button"id="edit" name="edit" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"  onclick="editData(' +
+                        // data.id +
+                        // ')"  class="btn btn-soft-warning waves-effect waves-light"><i class="bx bx-edit-alt font-size-16 align-middle"></i></button>',
+                        '<button type="button" id="delete" name="delete" onclick="deleteData(' +
+                        data.id +
+                        ')" class="btn btn-soft-danger waves-effect waves-light"><i class="bx bx-trash-alt font-size-16 align-middle"></i></button>',
+                        '<button type="button" id="edit" name="edit"  onclick="editData(' +
+                        data.id +
+                        ')" class="btn btn-soft-danger waves-effect waves-light"><i class="bx bx-edit-alt font-size-16 align-middle"></i></button>'
+                    ]).draw(false);
+                });
+            })
+            .catch(error => console.log('error', error));
+
+
+    }
+
+    function load_all_select() {
+
+        $.ajax({
+            url: '<?php echo $api_url; ?>get/get_tm.php?key=03201232927',
+            method: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                $('#zm').empty();
+
+                // Iterate through the data and append options to the select element
+                $.each(data, function(index, item) {
+                    $('#tm').append($('<option>', {
+                        value: item.id,
+                        text: item.name
+                    }));
+                });
+
+                // Refresh the Select2 element to display the newly added options
+                $('#tm').trigger('change.select2');
+            },
+            error: function(error) {
+                console.error('Error fetching data:', error);
+            }
+        });
+
+        $.ajax({
+            url: '<?php echo $api_url; ?>get/get_zm.php?key=03201232927',
+            method: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                // $('#zm').empty(); 
+                console.log('ZM')
+                console.log(data)
+                // Iterate through the data and append options to the select element
+                $.each(data, function(index, item) {
+                    $('#zm').append($('<option>', {
+                        value: item.id,
+                        text: item.name
+                    }));
+                });
+
+                // Refresh the Select2 element to display the newly added options
+                $('#zm').trigger('change.select2');
+            },
+            error: function(error) {
+                console.error('Error fetching data:', error);
+            }
+        });
+
+
+
+
+    }
+
+    function deleteData(id) {
+        var result = window.confirm("Are you sure you want to proceed?");
+
+        // Check the result
+        if (result) {
             var settings = {
-                "url": "<?php echo $api_url; ?>get/view_user.php?key=03201232927&id=" + id + "",
-                "method": "GET",
+                "url": "<?php echo $api_url; ?>delete/delete_users.php?key=03201232927&id=" + id + "",
+                "method": "DELETE",
                 "timeout": 0,
             };
-
             $.ajax({
                 ...settings,
                 statusCode: {
-                    200: function (response) {
-                        // load_all_select()
-                        $('#name').val(response[0]['name']);
-                        $('#email').val(response[0]['email']);
-                        $('#password').val(response[0]['description']);
-                        $('#confirm_password').val(response[0]['description']);
-                        $('#number').val(response[0]['telephone']);
-                        $('#role').val('Sales');
-                        var row_id = $('#row_id').val(response[0]['id']);
+                    200: function(response) {
+                        console.log(response);
+                        // $('#myModal').modal('hide');
+                        // console.log("Request was successful");
+                        Swal.fire(
+                            'Success!',
+                            'Record Deleted Successfully',
+                            'success'
+                        )
+                        setTimeout(function() {
+
+                            // location.reload();
+
+
+                        }, 2000);
+                    },
+                    // Add more status code handlers as needed
+                },
+                success: function(data) {
+                    // Additional success handling if needed
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    Swal.fire(
+                        'Server Error!',
+                        'Record Not Deleted',
+                        'error'
+                    )
+
+                    // console.log("Request failed with status code: " + xhr.status);
+                }
+            });
+        }
+    }
+
+    function editData(id) {
+        $('#zmRole').hide();
+        $('#tmRole').hide();
+        var settings = {
+            "url": "<?php echo $api_url; ?>get/view_user.php?key=03201232927&id=" + id + "",
+            "method": "GET",
+            "timeout": 0,
+        };
+
+        $.ajax({
+            ...settings,
+            statusCode: {
+                200: function(response) {
+                    // load_all_select()
+                    $('#name').val(response[0]['name']);
+                    $('#email').val(response[0]['email']);
+                    $('#password').val(response[0]['description']);
+                    $('#confirm_password').val(response[0]['description']);
+                    $('#number').val(response[0]['telephone']);
+                    $('#role').val('Sales');
+                    var row_id = $('#row_id').val(response[0]['id']);
 
 
 
-                        // setTimeout(function() {
-                        var role_val = $('#role').val()
-                        if (role_val == 'Sales') {
-                            var privilege = response[0]['privilege']
+                    // setTimeout(function() {
+                    var role_val = $('#role').val()
+                    if (role_val == 'Sales') {
+                        var privilege = response[0]['privilege']
 
-                            $("#salesRole").show();
+                        $("#salesRole").show();
 
-                            if (privilege == 'ZM') {
-                                $('#sales').val('ZM');
-                                $('#sales_role_hide').val('ZM');
-                            }
-                            if (privilege == 'TM') {
+                        if (privilege == 'ZM') {
+                            $('#sales').val('ZM');
+                            $('#sales_role_hide').val('ZM');
+                        }
+                        if (privilege == 'TM') {
 
-                                var settings = {
-                                    "url": "<?php echo $api_url; ?>get/get_zm_tm.php?key=03201232927&id=" +
-                                        id + "",
-                                    "method": "GET",
-                                    "timeout": 0,
-                                };
-                                $.ajax({
-                                    ...settings,
-                                    statusCode: {
-                                        200: function (response) {
-                                            $('#sales').val('TM')
-                                            $('#sales_role_hide').val('TM');
-                                            $('#zmRole').show();
-                                            // alert("hello")
-                                            // alert(response[0]['zm_id'])
-                                            $('#zm_hide').val(response[0]['zm_id'])
-                                            $('#zm').val(response[0]['zm_id']);
-                                        }
+                            var settings = {
+                                "url": "<?php echo $api_url; ?>get/get_zm_tm.php?key=03201232927&id=" +
+                                    id + "",
+                                "method": "GET",
+                                "timeout": 0,
+                            };
+                            $.ajax({
+                                ...settings,
+                                statusCode: {
+                                    200: function(response) {
+                                        $('#sales').val('TM')
+                                        $('#sales_role_hide').val('TM');
+                                        $('#zmRole').show();
+                                        // alert("hello")
+                                        // alert(response[0]['zm_id'])
+                                        $('#zm_hide').val(response[0]['zm_id'])
+                                        $('#zm').val(response[0]['zm_id']);
                                     }
-                                })
+                                }
+                            })
 
-
-                            }
-                            if (privilege == 'ASM') {
-                                var settings = {
-                                    "url": "<?php echo $api_url; ?>get/get_asm_tm.php?key=03201232927&id=" +
-                                        id + "",
-                                    "method": "GET",
-                                    "timeout": 0,
-                                };
-                                $.ajax({
-                                    ...settings,
-                                    statusCode: {
-                                        200: function (response) {
-                                            $('#sales_role_hide').val('ASM');
-                                            $('#sales').val('ASM');
-                                            $('#tmRole').show();
-                                            // alert("hello")
-                                            // alert(response[0]['tm_id'])
-                                            $('#tm_hide').val(response[0]['tm_id'])
-                                            $('#tm').val(response[0]['tm_id']);
-                                        }
-                                    }
-                                })
-                            }
 
                         }
-                        // }, 2000);
-
-
-
-                        // $('#role').value(response[0]['name'])
+                        if (privilege == 'ASM') {
+                            var settings = {
+                                "url": "<?php echo $api_url; ?>get/get_asm_tm.php?key=03201232927&id=" +
+                                    id + "",
+                                "method": "GET",
+                                "timeout": 0,
+                            };
+                            $.ajax({
+                                ...settings,
+                                statusCode: {
+                                    200: function(response) {
+                                        $('#sales_role_hide').val('ASM');
+                                        $('#sales').val('ASM');
+                                        $('#tmRole').show();
+                                        // alert("hello")
+                                        // alert(response[0]['tm_id'])
+                                        $('#tm_hide').val(response[0]['tm_id'])
+                                        $('#tm').val(response[0]['tm_id']);
+                                    }
+                                }
+                            })
+                        }
 
                     }
-                }
-            })
-            $('#offcanvasRight').offcanvas('show')
-        }
-        $('#add_btn').on('click', function () {
-            $('#zmRole').hide();
-            $('#tmRole').hide();
-            $("#salesRole").hide();
+                    // }, 2000);
 
+
+
+                    // $('#role').value(response[0]['name'])
+
+                }
+            }
         })
+        $('#offcanvasRight').offcanvas('show')
+    }
+    $('#add_btn').on('click', function() {
+        $('#zmRole').hide();
+        $('#tmRole').hide();
+        $("#salesRole").hide();
+
+    })
     </script>
 </body>
 

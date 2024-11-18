@@ -42,7 +42,7 @@
                     </a>
                     <ul class="sub-menu" aria-expanded="true">
                         <!-- <li><a href="users.php" data-key="t-level-1.1"> Users </a></li> -->
-                        <li><a href="asm_dashboard.php?id=<?php echo $_SESSION['user_id']; ?>&pre=<?php echo $_SESSION['privilege']; ?>"
+                        <li><a href="asm_dashboard_rebuild.php?id=<?php echo $_SESSION['user_id']; ?>&pre=<?php echo $_SESSION['privilege']; ?>"
                                 data-key="t-level-1.13"> TM Dashboard</a></li>
 
                         <li><a href="dealers.php" data-key="t-level-1.2"> Stations </a></li>
@@ -56,12 +56,12 @@
                 <li>
                     <a href="javascript: void(0);" class="has-arrow">
                         <!-- <i class="fas fa-money-check-alt icon nav-icon"></i> -->
-                        <span class="menu-item" data-key="t-multi-level">Manage Orders</span>
+                        <span class="menu-item" data-key="t-multi-level">Action Orders</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="true">
                     <li><a href="jd_order_dashborad.php" data-key="t-level-1.16">JD Order Dashboard</a></li>
 
-                        <li><a href="orders_dashboard.php" data-key="t-level-1.16">App Order Dashboard</a></li>
+                        <!-- <li><a href="orders_dashboard.php" data-key="t-level-1.16">App Order Dashboard</a></li> -->
                         <!-- <li><a href="manage_order.php" data-key="t-level-1.3"> Orders </a></li> -->
                         <!-- <li><a href="all_order.php" data-key="t-level-1.3">All Orders </a></li>
                                 <li><a href="all_pending_orders.php" data-key="t-level-1.3"> Pending Orders </a></li>
@@ -74,14 +74,67 @@
                         <!-- <li><a href="all_order.php" data-key="t-level-1.3"> APP Orders </a></li>
                         <li><a href="all_forward_orders.php" data-key="t-level-1.3"> Forwarded Orders </a></li> -->
 
-                        <li><a href="all_sales_invoice.php" data-key="t-level-1.3"> Sales Orders JD</a></li>
-                        <li><a href="order_shortage.php" data-key="t-level-1.3"> Order Shortage</a></li>
+                        <!-- <li><a href="all_sales_invoice.php" data-key="t-level-1.3"> Sales Orders JD</a></li>
+                        <li><a href="order_shortage.php" data-key="t-level-1.3"> Order Shortage</a></li> -->
 
 
 
 
                     </ul>
                 </li>
+
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow">
+                        <span class="menu-item" data-key="t-multi-level">Manage COCO Orders</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="true">
+                        <!-- <li><a href="jd_order_dashborad.php" data-key="t-level-1.16">JD Order
+                                Dashboard</a></li> -->
+                        <!-- <li><a href="orders_dashboard.php" data-key="t-level-1.16">App Order
+                                Dashboard</a></li> -->
+                        <!-- <li><a href="all_order.php" data-key="t-level-1.3">All APP Orders</a></li> -->
+                        <li><a href="all_order_current_status.php" data-key="t-level-1.3">Current Day
+                                Orders Status</a></li>
+                        <!-- <li><a href="all_pending_app_orders.php" data-key="t-level-1.3">All Pending APP
+                                Orders</a></li> -->
+                        <li><a href="manage_order2.php" data-key="t-level-1.3">Order Report</a></li>
+                        <li><a href="current_day_coco_order_report.php" data-key="t-level-1.3">Current
+                                Day COCO Order Report</a></li>
+                        <!-- <li><a href="all_forward_orders.php" data-key="t-level-1.3">Forwarded Orders</a>
+                        </li> -->
+                        <li><a href="all_sales_invoice.php" data-key="t-level-1.3">Sales Orders JD</a>
+                        </li>
+                        <li><a href="order_shortage.php" data-key="t-level-1.3">Order Shortage</a></li>
+
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow">
+                        <span class="menu-item" data-key="t-multi-level">Manage Retailers Orders</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="true">
+                            <!-- <li><a href="jd_retailers_order_dashborad.php" data-key="t-level-1.16">JD Order
+                                    Dashboard</a></li> -->
+                            <!-- <li><a href="orders_retailes_dashboard.php" data-key="t-level-1.16">App Order
+                                    Dashboard</a></li> -->
+                        <!-- <li><a href="all_order_retailes.php" data-key="t-level-1.3">All APP Orders</a></li> -->
+                        <li><a href="all_retail_order_current_status.php" data-key="t-level-1.3">Current Day
+                                Orders Status</a></li>
+                        <!-- <li><a href="all_retail_pending_app_orders.php" data-key="t-level-1.3">All Pending APP
+                                Orders</a></li> -->
+                        <li><a href="manage_retails_order2.php" data-key="t-level-1.3">Order Report</a></li>
+                        <li><a href="current_day_retailes_order_report.php" data-key="t-level-1.3">Current
+                                Day Retailers Order Report</a></li>
+                        <!-- <li><a href="all_retail_forward_orders.php" data-key="t-level-1.3">Forwarded Orders</a>
+                        </li> -->
+                        <li><a href="all_retailes_sales_invoice.php" data-key="t-level-1.3">Sales Orders JD</a>
+                        </li>
+                        <li><a href="order_retailers_shortage.php" data-key="t-level-1.3">Order Shortage</a></li>
+
+                    </ul>
+                </li>
+
 
                 <li>
                     <a href="javascript: void(0);" class="has-arrow">

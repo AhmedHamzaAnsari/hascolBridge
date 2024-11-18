@@ -9,7 +9,7 @@
 
     <meta charset="utf-8" />
     <title>
-        Approved Orders |
+        Invoiced Orders |
         <?php echo $_SESSION['user_name']; ?>
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -57,6 +57,30 @@
         <!-- ============================================================== -->
         <div class="main-content">
             <div class="page-content">
+            <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="inputEmail4">From</label>
+
+                            <input type="date" class="form-control" name="fromdate" id="fromdate"
+                                value="<?php echo date('Y-m-01') ?>">
+
+                        </div>
+                        <div class="col-md-3">
+                            <label for="inputEmail4">To</label>
+
+                            <input type="date" class="form-control" name="todate" id="todate"
+                                value="<?php echo (new DateTime('last day of this month'))->modify('+1 day')->format('Y-m-d'); ?>">
+
+                        </div>
+                        <div class="col-md-3">
+
+                            <input type="btn" class="btn btn-primary mt-3" name="btn_get" id="btn_get" value="Get"
+                                onclick="fetchtable()">
+
+                        </div>
+                    </div>
+                </div>
                 <div class="container-fluid">
                     <!-- <div class="row">
 
@@ -69,27 +93,36 @@
                     </div> -->
                     <div class="card">
 
-                        <div class="card-body">
+                        <div class="card-body" style="overflow: auto;">
 
                             <table id="myTable" class="display" style="width:100%">
                                 <thead>
                                     <tr>
                                         <th class="text-center">S.No</th>
                                         <th class="text-center">Date</th>
-                                        <th class="text-center">JD Code</th>
                                         <th class="text-center">Site Name</th>
-                                        <th class="text-center">Type</th>
-                                        <th class="text-center">Total Amount</th>
-                                        <th class="text-center">Ledger Amount</th>
-                                        <th class="text-center">Status</th>
-                                        <!-- <th class="text-center">View Orders</th> -->
-                                        <th class="text-center">Push Status</th>
+                                        <th class="text-center">JD Code</th>
+                                        <!-- <th class="text-center">Category Code</th> -->
+                                        <th class="text-center">Category Desc</th>
+                                        <th class="text-center">Order #</th>
+                                        <th class="text-center">Order Type</th>
+                                        <th class="text-center">Invoice #</th>
+                                        <!-- <th class="text-center">Invoice Desc</th> -->
                                         <th class="text-center">Product</th>
-                                        <th class="text-center">Rate</th>
                                         <th class="text-center">Quantity</th>
-                                        <th class="text-center">Bill Amount</th>
-
-
+                                        <th class="text-center">Rate</th>
+                                        <th class="text-center">Total Amount</th>
+                                        <th class="text-center">Unit</th>
+                                        <!-- <th class="text-center">Next Status</th>
+                                        <th class="text-center">Last Status</th> -->
+                                        <th class="text-center">Hold Code</th>
+                                        <th class="text-center">Order Date</th>
+                                        <th class="text-center">Order Time</th>
+                                        <!-- <th class="text-center">Load Status</th> -->
+                                        <!-- <th class="text-center">Vehicle</th> -->
+                                        <!-- <th class="text-center">Carrier Code</th> -->
+                                        <!-- <th class="text-center">Carrier Desc</th> -->
+                                        <!-- <th class="text-center">Status</th> -->
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -240,9 +273,10 @@
                                 <div class="mb-3 row">
                                     <label for="example-text-input" class="col-md-2 col-form-label">Name</label>
                                     <div class="col-md-10">
-                                    <select id="approved_order_status" name="approved_order_status"
+                                        <select id="approved_order_status" name="approved_order_status"
                                             class="form-control selectpicker">
-                                            <option value="1">Push</option>
+                                            <option selected>Choose...</option>
+                                            <option value="1">Approved</option>
 
 
                                         </select>
@@ -394,7 +428,6 @@
                                             <tr>
                                                 <th class="text-center">S.No</th>
                                                 <th class="text-center">Date</th>
-                                                <th class="text-center">JD Code</th>
                                                 <th class="text-center">Site Name</th>
                                                 <!-- <th class="text-center">Customer</th>
                                         <th class="text-center">SAP Code</th> -->
@@ -553,11 +586,6 @@
 
                         }
 
-                    }, error: function (xhr, status, error) {
-                        // Handle API errors
-                        console.log('Error:', error);
-                        console.log('Status:', status);
-                        console.log('Response:', xhr.responseText);
                     }
                 });
 
@@ -617,65 +645,11 @@
 
             $(document).on('click', '.approved_check', function () {
 
-var id = $(this).attr("id");
-// alert(employee_id);
-$('#order_approval').val(id);
-if (confirm("Are you sure you want to Push this order?")) {
-
-    var formData = new FormData($('#approved_orders')[0]);
-
-    $.ajax({
-        url: "<?php echo $api_url; ?>update/approved_orders.php",
-        cache: false,
-        contentType: false,
-        processData: false,
-        method: "POST",
-        data: formData,
-        beforeSend: function () {
-            $('#app_btn').text("Saving");
-            $('#app_btn').prop('disabled', true);
-        },
-        success: function (data) {
-            console.log(data);
-
-            if (data != 1) {
-                Swal.fire(
-                    'Server Error!',
-                    'Record Not Created',
-                    'error'
-                );
-                $('#app_btn').text("Save changes");
-                $('#app_btn').prop('disabled', false);
-            } else {
-                setTimeout(function () {
-                    Swal.fire(
-                        'Success!',
-                        'Record Created Successfully',
-                        'success'
-                    );
-                    $('#approved_orders')[0].reset();
-                    $('#approved_order_modal').modal('hide');
-                    fetchtable();
-                    $('#app_btn').text("Save changes");
-                    $('#app_btn').prop('disabled', false);
-                }, 2000);
-            }
-        },
-        error: function (xhr, status, error) {
-            console.log('Error:', error);
-            console.log('Status:', status);
-            console.log('Response:', xhr.responseText);
-            Swal.fire(
-                'Error!',
-                'There was an error processing your request',
-                'error'
-            );
-            $('#app_btn').text("Save changes");
-            $('#app_btn').prop('disabled', false);
-        }
-    });
-}
-});
+                var id = $(this).attr("id");
+                // alert(employee_id)
+                $('#order_approval').val(id);
+                $('#approved_order_modal').modal('show');
+            });
 
 
 
@@ -692,148 +666,58 @@ if (confirm("Are you sure you want to Push this order?")) {
 
 
         function fetchtable() {
-
+            var rettypes = "RT";
+        // var rettypes = "CO ";
+            var fromdate = $('#fromdate').val();
+        var todate = $('#todate').val();
             var requestOptions = {
                 method: 'GET',
                 redirect: 'follow'
             };
-
-            fetch("<?php echo $api_url; ?>get/get_all_forwarded_orders.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>",
+            console.log("<?php echo $api_url; ?>get/all_salesOrders.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>&from=" +fromdate + "&to=" + todate + "&rettype="+rettypes+"");
+            fetch("<?php echo $api_url; ?>get/all_salesOrders.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>&from=" +fromdate + "&to=" + todate + "&rettype="+rettypes+"",
                 requestOptions)
                 .then(response => response.json())
                 .then(response => {
-                    // console.log(response)
+                    console.log(response)
 
                     table.clear().draw();
                     $.each(response, function (index, data) {
                         var status = data.status;
                         var status_value = '';
+
                         
-                        var order_amount = parseFloat(data.total_amount);
-                        var legder_balance = data.legder_balance;
-                        var credit_limit = data.credit_limit;
-                        if (legder_balance <= 0 && order_amount > credit_limit) {
-                            console.log(
-                                "Order blocked"); // Replace this with your action for blocking the order
-                        } else if (order_amount <= credit_limit && legder_balance <= 0) {
-                            console.log(
-                                "Order approved"); // Replace this with your action for approving the order
-                        } else if (legder_balance >= order_amount) {
-                            console.log(
-                                "Order approved"); // Replace this with your action if conditions are not met
-                        }
-
-                        var approved = '';
-                        var st = '';
-
-                        if (status == 0) {
-
-                            if (legder_balance >= order_amount) {
-                                console.log(
-                                    "Order approved"
-                                ); // Replace this with your action if conditions are not met
-                                approved = '';
-                                st = 'Pending';
-
-                            } else {
-                                console.log("else");
-                                approved = '';
-                                st = 'Insuficient Balance';
-                            }
 
 
-
-                            status_value =
-                                '<span id=' + data.id +
-                                ' class="badge rounded-pill cursor-pointer bg-primary ' + approved +
-                                '" data-key="t-new">' + st + '</span>';
-                        } else if (status == 1) {
-                            status_value =
-                                '<span id=' + data.id +
-                                ' class="badge rounded-pill cursor-pointer bg-info" data-key="t-new">Approved</span>';
-                        } else if (status == 2) {
-                            status_value =
-                                '<span id=' + data.id +
-                                ' class="badge rounded-pill cursor-pointer bg-danger" data-key="t-new">Blocked</span>';
-                        } else if (status == 3) {
-                            status_value =
-                                '<span id=' + data.id +
-                                ' class="badge rounded-pill cursor-pointer bg-dark" data-key="t-new">Special Approval</span>';
-                        } else if (status == 4) {
-                            status_value =
-                                '<span id=' + data.id +
-                                ' class="badge rounded-pill cursor-pointer bg-warning" data-key="t-new">Released</span>';
-                        } else if (status == 5) {
-                            status_value =
-                                '<span id=' + data.id +
-                                ' class="badge rounded-pill cursor-pointer bg-success" data-key="t-new">Complete</span>';
-                            push_status = '<button type="button" id=' + data.id +
-                                ' name="delete" class="btn btn-soft-danger waves-effect waves-light approved_check"><i class="fas fa-align-justify font-size-16 align-middle"></i></button>';
-
-                        }
-                        var ret = '';
-                        var ledger_balance = '';
-
-                        var rettype_desc = $.trim(data.rettype_desc);
-                        if (rettype_desc == 'COCO site') {
-                            ledger_balance = '---';
-                            status_value = '---';
-                        } else {
-                            ledger_balance = parseFloat(data.legder_balance).toLocaleString();
-
-
-                        }
 
                         table.row.add([
                             index + 1,
                             data.created_at,
-                            data.sap_no,
-                            data.name,
-                            data.type,
+                            data.dealer_name,
+                            data.customer_id,
+                            // data.catcode07,
+                            data.cat7desc,
+                            data.order_no,
+                            data.order_type,
+                            data.invoice_no,
+                            // data.invoice_desc,
+                            data.product_name,
+                            parseFloat(data.quantity).toLocaleString(),
+                            data.rate,
                             parseFloat(data.total_amount).toLocaleString(),
-                            ledger_balance,
-                            status_value,
-                            push_status,
-                            '',
-                            '',
-                            '',
-                            '',
+                            data.unit_measure,
+                            // data.next_status,
+                            // data.last_status,
+                            data.hold_code,
+                            data.order_date,
+                            data.datetime,
+                            // data.load_status,
+                            // data.vehicle,
+                            // data.carrier_code,
+                            // data.carrier_desc,
+                            // data.current_status
+                            
                         ]).draw(false);
-                        console.log("<?php echo $api_url; ?>get/get_main_sub_orders.php?key=03201232927&id=" + data.id + "");
-                        index = index + 1,
-                        fetch("<?php echo $api_url; ?>get/get_main_sub_orders.php?key=03201232927&id=" + data.id + "", requestOptions)
-                            .then(response2 => response2.json())
-                            .then(response23 => {
-                                if (response23.length > 0) {
-                                console.log(response23)
-
-                                for(var i=0;i<response23.length;i++)
-                                {
-                                    
-                                    console.log(response23[i]['date']);
-                                    data2 = response[i];
-                                    table.row.add([
-                                                index,
-                                                response23[i]['date'],
-                                                response23[i]['sap_no'],
-                                                response23[i]['name'],
-                                                '',
-                                                '',
-                                                '',
-                                                '',
-                                                '',
-                                                response23[i]['product_name'],
-                                                response23[i]['rate'],
-                                            parseFloat(response23[i]['quantity']).toLocaleString(),
-                                            parseFloat(response23[i]['amount']).toLocaleString(),
-                                        ]).draw(false);
-                                }
-                               
-                                }
-                                // $('#products_price_backlog_modal').modal('show');
-                            })
-                            .catch(error => console.log('error', error));
-
                     });
                 })
                 .catch(error => console.log('error', error));
@@ -859,15 +743,14 @@ if (confirm("Are you sure you want to Push this order?")) {
                                 product_price_backlog.row.add([
                                     index + 1,
                                     data.date,
-                                    data.sap_no,
                                     data.name,
                                     // data.name,
                                     data.product_name,
                                     data.rate,
-                                    parseFloat(data.quantity).toLocaleString(),
+                                    data.quantity,
                                     data.delivery_based,
                                     data.consignee_name,
-                                    parseFloat(data.amount).toLocaleString(),
+                                    data.amount
 
                                 ]).draw(false);
 

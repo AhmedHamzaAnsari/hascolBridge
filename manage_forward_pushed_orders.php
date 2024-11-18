@@ -70,7 +70,7 @@
                             <label for="inputEmail4">To</label>
 
                             <input type="date" class="form-control" name="todate" id="todate"
-                                value="<?php echo date('Y-m-30') ?>">
+                                value="<?php echo (new DateTime('last day of this month'))->modify('+1 day')->format('Y-m-d'); ?>">
 
                         </div>
                         <div class="col-md-3">
@@ -754,6 +754,8 @@
 
 
     function fetchtable() {
+        // var rettypes = "RT";
+        var rettypes = "CO ";
         var fromdate = $('#fromdate').val();
         var todate = $('#todate').val();
         var requestOptions = {
@@ -762,10 +764,10 @@
         };
         console.log(
             "<?php echo $api_url; ?>get/get_all_forward_pushed_orders.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>&from=" +
-            fromdate + "&to=" + todate + ""
+            fromdate + "&to=" + todate + "&rettype="+rettypes+""
         );
         fetch("<?php echo $api_url; ?>get/get_all_forward_pushed_orders.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>&from=" +
-                fromdate + "&to=" + todate + "",
+                fromdate + "&to=" + todate + "&rettype="+rettypes+"",
                 requestOptions)
             .then(response => response.json())
             .then(response => {
@@ -886,7 +888,7 @@
                         data.sap_no,
                         data.name,
                         data.depot,
-                        data.rettype_desc,
+                        data.type,
                         parseFloat(data.total_amount).toLocaleString(),
                         ledger_balance,
                         status_value,
@@ -1059,8 +1061,7 @@
                         '<div class="timeline-text">' +
                         '<h3 class="font-size-17">' + data.status_value + '</h3>' +
                         '<p class="mb-0 mt-2 pt-1 text-muted">Action By : ' + data.name + '</p>' +
-                        '<p class="mb-0 mt-2 pt-1 text-muted">Desceription : ' + data.description +
-                        '</p>' +
+                        
                         '<p class="mb-0 mt-2 pt-1 text-muted">Action Time : ' + data.created_at +
                         '</p>' +
                         '</div>' +

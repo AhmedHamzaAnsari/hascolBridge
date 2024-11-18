@@ -60,19 +60,13 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-3">
-                            <label for="inputEmail4">From</label>
+                            <label for="inputEmail4">Date</label>
 
                             <input type="date" class="form-control" name="fromdate" id="fromdate"
-                                value="<?php echo date('Y-m-01') ?>">
+                                value="<?php echo date('Y-m-d') ?>">
 
                         </div>
-                        <div class="col-md-3">
-                            <label for="inputEmail4">To</label>
-
-                            <input type="date" class="form-control" name="todate" id="todate"
-                                value="<?php echo (new DateTime('last day of this month'))->modify('+1 day')->format('Y-m-d'); ?>">
-
-                        </div>
+                        
                         <div class="col-md-3">
 
                             <input type="btn" class="btn btn-primary mt-3" name="btn_get" id="btn_get" value="Get"
@@ -102,18 +96,18 @@
                                         <th class="text-center">Date</th>
                                         <th class="text-center">JD Code</th>
                                         <th class="text-center">Site Name</th>
+                                        <th class="text-center">Site Depots</th>
                                         <th class="text-center">Depot</th>
                                         <th class="text-center">Type</th>
                                         <th class="text-center">Total Amount</th>
                                         <th class="text-center">Ledger Amount</th>
-                                        <th class="text-center">Status</th>
                                         <!-- <th class="text-center">View Orders</th> -->
                                         <th class="text-center">Push Status</th>
-                                        <th class="text-center">Edit Qty</th>
                                         <th class="text-center">Product</th>
                                         <th class="text-center">Rate</th>
                                         <th class="text-center">Quantity</th>
                                         <th class="text-center">Bill Amount</th>
+                                        <th class="text-center">View Order Activity</th>
 
 
                                     </tr>
@@ -151,7 +145,7 @@
     <!-- chat offcanvas -->
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
         <div class="offcanvas-header border-bottom">
-            <h5 id="offcanvasRightLabel">Edit Order Qty</h5>
+            <h5 id="offcanvasRightLabel">Settings</h5>
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
@@ -159,21 +153,86 @@
                 <form method="post" id="insert_form" enctype="multipart/form-data">
 
 
-                    <div class="container-fluid">
-                        <div class="row" id="product_orders_detail">
+                    <div class="form-row mb-4">
+                        <div class="form-group col-md-12">
+                            <label for="inputEmail4">Username</label>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter Username"
+                                required>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label for="inputPassword4">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email"
+                                required>
+                        </div>
+
+                        <div class="form-group col-md-12  ">
+
+                            <label for="" class="lab"> Enter
+                                Password</label>
+                            <input type="password" id="password" required minlength="8" class="form-control input"
+                                placeholder="Enter Password">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" id="togglePassword" class="feather feather-eye"
+                                style="    position: absolute;top: 42px;right: 13px;color: #888ea8;fill: rgba(0, 23, 55, 0.08);width: 17px;cursor: pointer;">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z">
+                                </path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                            </svg>
+                        </div>
+
+
+                        <div class="form-group col-md-12 ">
+
+                            <label for="" class="lab"> Confirm Password</label>
+                            <input type="password" id="confirm_password" name="confirm_password" required minlength="8"
+                                class="form-control input" placeholder="Confirm Password">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" id="togglePassword1" class="feather feather-eye"
+                                style="    position: absolute;top: 42px;right: 13px;color: #888ea8;fill: rgba(0, 23, 55, 0.08);width: 17px;cursor: pointer;">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z">
+                                </path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                            </svg>
+
+
 
                         </div>
+
+
+
+                        <div class="form-group col-md-12">
+                            <label for="inputPassword4">Contact No</label>
+                            <input type="text" class="form-control" id="number" name="number"
+                                placeholder="Enter Contact No" required>
+                        </div>
+
+
+                        <div class="form-group col-md-12">
+                            <label for="inputAddress">Role</label>
+
+                            <select id="role" name="role" class="form-control selectpicker">
+                                <option selected>Choose...</option>
+                                <option value="admin_user">Admin User</option>
+                                <option value="viewer">viewer</option>
+                                <option value="Cartraige">Cartraige</option>
+
+
+                            </select>
+                        </div>
+
                     </div>
 
                     <div class="col-12">
-
+                        <input type="hidden" name="row_id" id="row_id" value="">
                         <input type="hidden" name="user_id" id="user_id" value="<?php echo $_SESSION['user_id'] ?>">
                         <div class="mb-3 row">
                             <label for="example-text-input" class="col-md-10 col-form-label"></label>
                             <div class="col-md-12 text-center">
 
                                 <input class="btn rounded-pill btn-primary" type="submit" name="insert" id="insert"
-                                    value="Update">
+                                    value="Save">
                             </div>
                         </div>
                     </div>
@@ -202,7 +261,7 @@
                                     <label for="example-text-input" class="col-md-2 col-form-label">Name</label>
                                     <div class="col-md-10">
                                         <select id="approved_order_status" name="approved_order_status"
-                                            class="form-control selectpicker" required>
+                                            class="form-control selectpicker">
                                             <option selected>Choose...</option>
                                             <option value="5">Forward</option>
                                             <option value="2">Cancel</option>
@@ -214,7 +273,7 @@
                                 <div class="mb-3 row">
                                     <label for="example-text-input" class="col-md-2 col-form-label">Depot</label>
                                     <div class="col-md-10">
-                                        <select id="s_depot" name="s_depot" class="form-control selectpicker" required>
+                                        <select id="s_depot" name="s_depot" class="form-control selectpicker">
                                             <option selected>Choose...</option>
 
 
@@ -455,7 +514,7 @@
             var data = new FormData(this);
 
             $.ajax({
-                url: "<?php echo $api_url; ?>update/update_orders_qty.php",
+                url: "<?php echo $api_url; ?>create/users.php",
                 cache: false,
                 contentType: false,
                 processData: false,
@@ -486,18 +545,16 @@
                                 'Record Created Successfully',
                                 'success'
                             )
-                            location.reload();
+                            $('#insert_form')[0].reset();
+                            $('#offcanvasRight').modal('hide');
+                            fetchtable();
+                            $('#insert').val("Save");
+                            document.getElementById("insert").disabled = false;
 
                         }, 2000);
 
                     }
 
-                },
-                error: function(xhr, status, error) {
-                    // Handle API errors
-                    console.log('Error:', error);
-                    console.log('Status:', status);
-                    console.log('Response:', xhr.responseText);
                 }
             });
 
@@ -535,20 +592,18 @@
 
 
                         setTimeout(function() {
-                        Swal.fire(
-                            'Success!',
-                            'Record Created Successfully',
-                            'success'
-                        )
-                        // location.reload();
+                            Swal.fire(
+                                'Success!',
+                                'Record Created Successfully',
+                                'success'
+                            )
+                            $('#approved_orders')[0].reset();
+                            $('#approved_order_modal').modal('hide');
+                            fetchtable();
+                            $('#app_btn').val("Save");
+                            document.getElementById("app_btn").disabled = false;
 
-                        $('#approved_orders')[0].reset();
-                        $('#approved_order_modal').modal('hide');
-                        fetchtable();
-                        $('#app_btn').val("Save");
-                        document.getElementById("app_btn").disabled = false;
-
-                        }, 1000);
+                        }, 2000);
 
                     }
 
@@ -639,19 +694,17 @@
 
     function fetchtable() {
         // var rettypes = "RT";
-        var rettypes = "CO ";
         var fromdate = $('#fromdate').val();
-        var todate = $('#todate').val();
+        
+        var rettypes = "CO ";
         var requestOptions = {
             method: 'GET',
             redirect: 'follow'
         };
         console.log(
-            "<?php echo $api_url; ?>get/get_all_orders.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>&from=" +
-            fromdate + "&to=" + todate + "&rettype="+rettypes+""
+            "<?php echo $api_url; ?>get/get_all_order_current_status.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>&rettype=" +rettypes + "&from=" +fromdate + ""
         );
-        fetch("<?php echo $api_url; ?>get/get_all_orders.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>&from=" +
-                fromdate + "&to=" + todate + "&rettype="+rettypes+"",
+        fetch("<?php echo $api_url; ?>get/get_all_order_current_status.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>&rettype=" +rettypes + "&from=" +fromdate + "",
                 requestOptions)
             .then(response => response.json())
             .then(response => {
@@ -736,7 +789,6 @@
                         status_value = '---';
                     } else {
                         ledger_balance = parseFloat(data.legder_balance).toLocaleString();
-                        status_value = '---';
 
 
                     }
@@ -749,20 +801,6 @@
 
                     }
 
-                    var edit_btn = '';
-                    if (data.status == '6') {
-                        edit_btn = '<button type="button" id="edit" name="edit" onclick="editData(' +
-                            data.id +
-                            ')" class="btn btn-soft-danger waves-effect waves-light"><i class="bx bx-edit-alt font-size-16 align-middle"></i></button>';
-                    } else {
-                        edit_btn = '---';
-
-                    }
-
-
-
-
-
 
 
                     table.row.add([
@@ -770,55 +808,21 @@
                         data.created_at,
                         data.sap_no,
                         data.name,
+                        data.dealers_depots,
                         data.depot,
                         data.type,
                         parseFloat(data.total_amount).toLocaleString(),
                         ledger_balance,
-                        status_value,
-                        push_status,
-                        edit_btn,
-                        '',
-                        '',
-                        '',
-                        '',
+                        data.current_status,
+                        data.product_name,
+                        data.rate,
+                        data.quantity,
+                        data.amount,
+                        '<button type="button" id="delete" name="delete" onclick="get_orders_log(' +
+                        data.id +
+                        ')" class="btn btn-soft-danger waves-effect waves-light"><i class="fas fa-align-justify font-size-16 align-middle"></i></button>',
                     ]).draw(false);
-                    console.log("<?php echo $api_url; ?>get/get_main_sub_orders.php?key=03201232927&id=" +
-                        data.id + "");
-                    index = index + 1,
-                        fetch("<?php echo $api_url; ?>get/get_main_sub_orders.php?key=03201232927&id=" +
-                            data.id + "", requestOptions)
-                        .then(response2 => response2.json())
-                        .then(response23 => {
-                            if (response23.length > 0) {
-                                console.log(response23)
 
-                                for (var i = 0; i < response23.length; i++) {
-
-                                    console.log(response23[i]['date']);
-                                    data2 = response[i];
-                                    table.row.add([
-                                        index,
-                                        response23[i]['date'],
-                                        response23[i]['sap_no'],
-                                        response23[i]['name'],
-                                        '',
-                                        '',
-                                        '',
-                                        '',
-                                        '',
-                                        '',
-                                        '',
-                                        response23[i]['product_name'],
-                                        response23[i]['rate'],
-                                        parseFloat(response23[i]['quantity']).toLocaleString(),
-                                        parseFloat(response23[i]['amount']).toLocaleString(),
-                                    ]).draw(false);
-                                }
-
-                            }
-                            // $('#products_price_backlog_modal').modal('show');
-                        })
-                        .catch(error => console.log('error', error));
 
                 });
             })
@@ -854,6 +858,7 @@
                                 data.delivery_based,
                                 data.consignee_name,
                                 parseFloat(data.amount).toLocaleString(),
+
 
                             ]).draw(false);
 
@@ -942,7 +947,7 @@
                         '<div class="timeline-text">' +
                         '<h3 class="font-size-17">' + data.status_value + '</h3>' +
                         '<p class="mb-0 mt-2 pt-1 text-muted">Action By : ' + data.name + '</p>' +
-                        
+
                         '<p class="mb-0 mt-2 pt-1 text-muted">Action Time : ' + data.created_at +
                         '</p>' +
                         '</div>' +
@@ -970,33 +975,12 @@
             .then(data => {
                 if (data.length > 0) {
                     console.log(data);
-                    var divs = '';
+
                     for (var i = 0; i < data.length; i++) {
-                        var sub_id = data[i]['id'];
-                        var main_id = data[i]['main_id'];
-                        var rate = data[i]['rate'];
-                        var quantity = data[i]['quantity'];
-                        var amount = data[i]['amount'];
-                        var product_id = data[i]['product_type'];
-                        var product_name = data[i]['product_name'];
-
-                        divs += `<div class="form-group col-md-6">
-                                <label for="product_name_${i}">Product</label>
-                                <input type="text" class="form-control" id="product_name_${i}" name="product_name[]" value="${product_name}" readonly>
-                                </div>
-                                <div class="form-group col-md-6">
-                                <label for="product_qty_${i}">Qty</label>
-                                <input type="number" class="form-control" id="product_qty_${i}" name="product_qty[]" value="${quantity}">
-
-                                <input type="hidden" id="product_id_${i}" name="product_id[]" value="${product_id}">
-                                <input type="hidden" id="product_old_qty_${i}" name="product_old_qty[]" value="${quantity}">
-                                <input type="hidden" id="main_id_${i}" name="main_id[]" value="${main_id}">
-                                <input type="hidden" id="sub_id_${i}" name="sub_id[]" value="${sub_id}">
-                                <input type="hidden" id="rate_${i}" name="rate[]" value="${rate}">
-
-                            </div>`;
+                        console.log(data[i]['date']);
+                        // It looks like you want to process the data here. Adjust as needed.
+                        var data2 = data[i];
                     }
-                    $('#product_orders_detail').html(divs);
                 } else {
                     console.log("No data found.");
                 }

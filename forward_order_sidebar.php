@@ -36,28 +36,47 @@
                 <li class="menu-title" data-key="t-menu">Dashboard</li>
 
                 <li>
-                    
-                        <li>
-                            <a href="javascript: void(0);" class="has-arrow">
-                                <!-- <i class="fas fa-money-check-alt icon nav-icon"></i> -->
-                                <span class="menu-item" data-key="t-multi-level">Manage Orders</span>
-                            </a>
-                            <ul class="sub-menu" aria-expanded="true">
-                                
-                                <li><a href="all_forward_orders.php" data-key="t-level-1.3"> Forwarded Orders </a></li> 
-                                <li><a href="all_pushed_orders.php" data-key="t-level-1.3">Orders History </a></li> 
 
-                               
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow">
+                        <!-- <i class="fas fa-money-check-alt icon nav-icon"></i> -->
+                        <span class="menu-item" data-key="t-multi-level">Manage History Orders</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="true">
 
 
-                            </ul>
+                        <li><a href="all_pushed_orders.php" data-key="t-level-1.3">Retail Orders History </a></li>
+                        <li><a href="get_all_pushed_coco_orders.php" data-key="t-level-1.3">COCO Orders History </a>
                         </li>
-                      
+                        <li><a href="all_order_current_status.php" data-key="t-level-1.3">COCO Current Day
+                                Orders Status</a></li>
+                        <li><a href="all_retail_order_current_status.php" data-key="t-level-1.3">Retailer Current Day
+                                Orders Status</a></li>
+
 
                     </ul>
                 </li>
-               
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow">
+                        <!-- <i class="fas fa-money-check-alt icon nav-icon"></i> -->
+                        <span class="menu-item" data-key="t-multi-level">Manage Forwarded Orders</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="true">
+                        <li><a href="all_retail_forwarded_orders.php" data-key="t-level-1.3">Retail Forwarded Orders
+                            </a></li>
+                        <li><a href="all_coco_forwarded_orders.php" data-key="t-level-1.3">COCO Forwarded Orders </a>
+                        </li>
+
+
+                    </ul>
+                </li>
                 
+
+                
+            </ul>
+            </li>
+
+
 
 
             </ul>

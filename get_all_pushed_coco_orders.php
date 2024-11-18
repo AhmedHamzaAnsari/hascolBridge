@@ -58,6 +58,30 @@
         <div class="main-content">
             <div class="page-content">
                 <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="inputEmail4">From</label>
+
+                            <input type="date" class="form-control" name="fromdate" id="fromdate"
+                                value="<?php echo date('Y-m-01') ?>">
+
+                        </div>
+                        <div class="col-md-3">
+                            <label for="inputEmail4">To</label>
+
+                            <input type="date" class="form-control" name="todate" id="todate"
+                                value="<?php echo (new DateTime('last day of this month'))->modify('+1 day')->format('Y-m-d'); ?>">
+
+                        </div>
+                        <div class="col-md-3">
+
+                            <input type="btn" class="btn btn-primary mt-3" name="btn_get" id="btn_get" value="Get"
+                                onclick="fetchtable()">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="container-fluid">
                     <!-- <div class="row">
 
                         <div class="col-md-6">
@@ -78,6 +102,7 @@
                                         <th class="text-center">Date</th>
                                         <th class="text-center">JD Code</th>
                                         <th class="text-center">Site Name</th>
+                                        <th class="text-center">Depot</th>
                                         <th class="text-center">Type</th>
                                         <th class="text-center">Total Amount</th>
                                         <th class="text-center">Ledger Amount</th>
@@ -240,7 +265,7 @@
                                 <div class="mb-3 row">
                                     <label for="example-text-input" class="col-md-2 col-form-label">Name</label>
                                     <div class="col-md-10">
-                                    <select id="approved_order_status" name="approved_order_status"
+                                        <select id="approved_order_status" name="approved_order_status"
                                             class="form-control selectpicker">
                                             <option value="1">Push</option>
 
@@ -512,7 +537,7 @@
                 var data = new FormData(this);
 
                 $.ajax({
-                    url: "<?php echo $api_url; ?>update/approved_orders.php",
+                    url: "<?php echo $api_url; ?>update/pushed_forward_orders.php",
                     cache: false,
                     contentType: false,
                     processData: false,
@@ -553,7 +578,8 @@
 
                         }
 
-                    }, error: function (xhr, status, error) {
+                    },
+                    error: function (xhr, status, error) {
                         // Handle API errors
                         console.log('Error:', error);
                         console.log('Status:', status);
@@ -617,65 +643,68 @@
 
             $(document).on('click', '.approved_check', function () {
 
-var id = $(this).attr("id");
-// alert(employee_id);
-$('#order_approval').val(id);
-if (confirm("Are you sure you want to Push this order?")) {
+                var id = $(this).attr("id");
+                // alert(employee_id);
+                $('#order_approval').val(id);
+                if (confirm("Are you sure you want to Push this order?")) {
 
-    var formData = new FormData($('#approved_orders')[0]);
+                    var formData = new FormData($('#approved_orders')[0]);
 
-    $.ajax({
-        url: "<?php echo $api_url; ?>update/approved_orders.php",
-        cache: false,
-        contentType: false,
-        processData: false,
-        method: "POST",
-        data: formData,
-        beforeSend: function () {
-            $('#app_btn').text("Saving");
-            $('#app_btn').prop('disabled', true);
-        },
-        success: function (data) {
-            console.log(data);
+                    $.ajax({
+                        url: "<?php echo $api_url; ?>update/pushed_forward_orders.php",
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        method: "POST",
+                        data: formData,
+                        beforeSend: function () {
+                            $('#app_btn').text("Saving");
+                            $('#app_btn').prop('disabled', true);
+                        },
+                        success: function (data) {
+                            console.log(data);
 
-            if (data != 1) {
-                Swal.fire(
-                    'Server Error!',
-                    'Record Not Created',
-                    'error'
-                );
-                $('#app_btn').text("Save changes");
-                $('#app_btn').prop('disabled', false);
-            } else {
-                setTimeout(function () {
-                    Swal.fire(
-                        'Success!',
-                        'Record Created Successfully',
-                        'success'
-                    );
-                    $('#approved_orders')[0].reset();
-                    $('#approved_order_modal').modal('hide');
-                    fetchtable();
-                    $('#app_btn').text("Save changes");
-                    $('#app_btn').prop('disabled', false);
-                }, 2000);
-            }
-        },
-        error: function (xhr, status, error) {
-            console.log('Error:', error);
-            console.log('Status:', status);
-            console.log('Response:', xhr.responseText);
-            Swal.fire(
-                'Error!',
-                'There was an error processing your request',
-                'error'
-            );
-            $('#app_btn').text("Save changes");
-            $('#app_btn').prop('disabled', false);
-        }
-    });
-}
-});
+                            if (data != 1) {
+                                Swal.fire(
+                                    'Server Error!',
+                                    'Record Not Created',
+                                    'error'
+                                );
+                                $('#app_btn').text("Save changes");
+                                $('#app_btn').prop('disabled', false);
+                            } else {
+                                // setTimeout(function() {
+
+                                Swal.fire(
+                                    'Success!',
+                                    'Record Created Successfully',
+                                    'success'
+                                );
+                                location.reload();
+
+                                //     $('#approved_orders')[0].reset();
+                                //     $('#approved_order_modal').modal('hide');
+                                //     fetchtable();
+                                //     $('#app_btn').text("Save changes");
+                                //     $('#app_btn').prop('disabled', false);
+                                // }, 2000);
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.log('Error:', error);
+                            console.log('Status:', status);
+                            console.log('Response:', xhr.responseText);
+                            Swal.fire(
+                                'Error!',
+                                'There was an error processing your request',
+                                'error'
+                            );
+                            $('#app_btn').text("Save changes");
+                            $('#app_btn').prop('disabled', false);
+                        }
+                    });
+                }
+            });
 
 
 
@@ -692,154 +721,117 @@ if (confirm("Are you sure you want to Push this order?")) {
 
 
         function fetchtable() {
+            var fromdate = $('#fromdate').val();
+            var todate = $('#todate').val();
 
             var requestOptions = {
                 method: 'GET',
                 redirect: 'follow'
             };
 
-            fetch("<?php echo $api_url; ?>get/get_all_forwarded_orders.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>",
-                requestOptions)
+            var apiUrl = "<?php echo $api_url; ?>get/get_all_pushed_coco_orders.php";
+            var queryParams = "?key=03201232927&pre=<?php echo $_SESSION['privilege']; ?>&user_id=<?php echo $_SESSION['user_id']; ?>&from=" + fromdate + "&to=" + todate;
+
+            fetch(apiUrl + queryParams, requestOptions)
                 .then(response => response.json())
                 .then(response => {
-                    // console.log(response)
-
                     table.clear().draw();
+
                     $.each(response, function (index, data) {
                         var status = data.status;
                         var status_value = '';
-                        
                         var order_amount = parseFloat(data.total_amount);
                         var legder_balance = data.legder_balance;
                         var credit_limit = data.credit_limit;
+                        var push_status = '';
+
+                        // Order status logic
                         if (legder_balance <= 0 && order_amount > credit_limit) {
-                            console.log(
-                                "Order blocked"); // Replace this with your action for blocking the order
+                            console.log("Order blocked");
                         } else if (order_amount <= credit_limit && legder_balance <= 0) {
-                            console.log(
-                                "Order approved"); // Replace this with your action for approving the order
+                            console.log("Order approved");
                         } else if (legder_balance >= order_amount) {
-                            console.log(
-                                "Order approved"); // Replace this with your action if conditions are not met
+                            console.log("Order approved");
                         }
 
                         var approved = '';
                         var st = '';
 
-                        if (status == 0) {
-
+                        // Status value logic
+                        if (status === 0) {
                             if (legder_balance >= order_amount) {
-                                console.log(
-                                    "Order approved"
-                                ); // Replace this with your action if conditions are not met
                                 approved = '';
                                 st = 'Pending';
-
                             } else {
-                                console.log("else");
                                 approved = '';
-                                st = 'Insuficient Balance';
+                                st = 'Insufficient Balance';
                             }
-
-
-
-                            status_value =
-                                '<span id=' + data.id +
-                                ' class="badge rounded-pill cursor-pointer bg-primary ' + approved +
-                                '" data-key="t-new">' + st + '</span>';
-                        } else if (status == 1) {
-                            status_value =
-                                '<span id=' + data.id +
-                                ' class="badge rounded-pill cursor-pointer bg-info" data-key="t-new">Approved</span>';
-                        } else if (status == 2) {
-                            status_value =
-                                '<span id=' + data.id +
-                                ' class="badge rounded-pill cursor-pointer bg-danger" data-key="t-new">Blocked</span>';
-                        } else if (status == 3) {
-                            status_value =
-                                '<span id=' + data.id +
-                                ' class="badge rounded-pill cursor-pointer bg-dark" data-key="t-new">Special Approval</span>';
-                        } else if (status == 4) {
-                            status_value =
-                                '<span id=' + data.id +
-                                ' class="badge rounded-pill cursor-pointer bg-warning" data-key="t-new">Released</span>';
-                        } else if (status == 5) {
-                            status_value =
-                                '<span id=' + data.id +
-                                ' class="badge rounded-pill cursor-pointer bg-success" data-key="t-new">Complete</span>';
-                            push_status = '<button type="button" id=' + data.id +
-                                ' name="delete" class="btn btn-soft-danger waves-effect waves-light approved_check"><i class="fas fa-align-justify font-size-16 align-middle"></i></button>';
-
+                            status_value = '<span id="' + data.id + '" class="badge rounded-pill cursor-pointer bg-primary ' + approved + '" data-key="t-new">' + st + '</span>';
+                        } else if (status === 1) {
+                            status_value = '<span id="' + data.id + '" class="badge rounded-pill cursor-pointer bg-info" data-key="t-new">Approved</span>';
+                        } else if (status === 2) {
+                            status_value = '<span id="' + data.id + '" class="badge rounded-pill cursor-pointer bg-danger" data-key="t-new">Blocked</span>';
+                        } else if (status === 3) {
+                            status_value = '<span id="' + data.id + '" class="badge rounded-pill cursor-pointer bg-dark" data-key="t-new">Special Approval</span>';
+                        } else if (status === 4) {
+                            status_value = '<span id="' + data.id + '" class="badge rounded-pill cursor-pointer bg-warning" data-key="t-new">Released</span>';
+                        } else if (status === 5) {
+                            status_value = '<span id="' + data.id + '" class="badge rounded-pill cursor-pointer bg-success" data-key="t-new">Forwarded</span>';
+                            push_status = '<button type="button" id="' + data.id + '" name="delete" class="btn btn-soft-danger waves-effect waves-light approved_check"><i class="fas fa-align-justify font-size-16 align-middle"></i></button>';
                         }
-                        var ret = '';
-                        var ledger_balance = '';
 
+                        // Ledger balance handling
+                        var ledger_balance = '';
                         var rettype_desc = $.trim(data.rettype_desc);
-                        if (rettype_desc == 'COCO site') {
+                        if (rettype_desc === 'COCO site') {
                             ledger_balance = '---';
                             status_value = '---';
                         } else {
                             ledger_balance = parseFloat(data.legder_balance).toLocaleString();
-
-
                         }
 
+                        // Add row to the table
                         table.row.add([
                             index + 1,
                             data.created_at,
                             data.sap_no,
                             data.name,
+                            data.depot,
                             data.type,
                             parseFloat(data.total_amount).toLocaleString(),
                             ledger_balance,
                             status_value,
                             push_status,
-                            '',
-                            '',
-                            '',
-                            '',
+                            '', '', '', '',
                         ]).draw(false);
-                        console.log("<?php echo $api_url; ?>get/get_main_sub_orders.php?key=03201232927&id=" + data.id + "");
-                        index = index + 1,
-                        fetch("<?php echo $api_url; ?>get/get_main_sub_orders.php?key=03201232927&id=" + data.id + "", requestOptions)
+
+                        // Fetch sub-orders
+                        var subOrderApiUrl = "<?php echo $api_url; ?>get/get_main_sub_orders.php";
+                        fetch(subOrderApiUrl + "?key=03201232927&id=" + data.id, requestOptions)
                             .then(response2 => response2.json())
                             .then(response23 => {
                                 if (response23.length > 0) {
-                                console.log(response23)
-
-                                for(var i=0;i<response23.length;i++)
-                                {
-                                    
-                                    console.log(response23[i]['date']);
-                                    data2 = response[i];
-                                    table.row.add([
-                                                index,
-                                                response23[i]['date'],
-                                                response23[i]['sap_no'],
-                                                response23[i]['name'],
-                                                '',
-                                                '',
-                                                '',
-                                                '',
-                                                '',
-                                                response23[i]['product_name'],
-                                                response23[i]['rate'],
+                                    for (var i = 0; i < response23.length; i++) {
+                                        table.row.add([
+                                            index + 1,
+                                            response23[i]['date'],
+                                            response23[i]['sap_no'],
+                                            response23[i]['name'],
+                                            '', '', '', '', '', '',
+                                            response23[i]['product_name'],
+                                            response23[i]['rate'],
                                             parseFloat(response23[i]['quantity']).toLocaleString(),
                                             parseFloat(response23[i]['amount']).toLocaleString(),
                                         ]).draw(false);
+                                    }
                                 }
-                               
-                                }
-                                // $('#products_price_backlog_modal').modal('show');
                             })
-                            .catch(error => console.log('error', error));
-
+                            .catch(error => console.log('Error fetching sub-orders:', error));
                     });
                 })
-                .catch(error => console.log('error', error));
-
-
+                .catch(error => console.log('Error fetching main orders:', error));
         }
+
 
         function view_order(id) {
             if (id != "") {

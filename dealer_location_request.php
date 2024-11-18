@@ -9,7 +9,7 @@
 
     <meta charset="utf-8" />
     <title>
-        COCO Orders | <?php echo $_SESSION['user_name'];?>
+        Dealer Location Request | <?php echo $_SESSION['user_name'];?>
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
@@ -49,47 +49,26 @@
             <div class="page-content">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-md-3">
-                            <label for="inputEmail4">Date</label>
 
-                            <input type="date" class="form-control" name="fromdate" id="fromdate"
-                                value="<?php echo date('Y-m-d') ?>">
-
-                        </div>
-
-                        <div class="col-md-3">
-
-                            <input type="btn" class="btn btn-primary mt-3" name="btn_get" id="btn_get" value="Get"
-                                onclick="fetchtable()">
-
-                        </div>
-                    </div>
-                </div>
-                <div class="container-fluid">
-                    <div class="row">
-
-                        <!-- <div class="col-md-6">
+                        <div class="col-md-6">
                             <button class="btn btn-soft-primary waves-effect waves-light" type="button"
                                 data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" id="add_btn"
                                 aria-controls="offcanvasRight"><i
                                     class="bx bxs-add-to-queue font-size-16 align-middle me-2 cursor-pointer"></i>Add</button>
-                        </div> -->
+                        </div>
                     </div>
                     <div class="card">
                         <div class="card-body">
-                            <h3 id="report_header">Orders Current Day of <span id="report_date"></span></h3></span>
+                            <h3>Dealer Location Request</h3>
 
                             <table id="myTable" class="display" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <!-- <th>S.No</th> -->
-                                        <th>JD Code</th>
-                                        <th>Region</th>
-                                        <th>Site Name</th>
-                                        <th>Depot</th>
-                                        <th>PMG</th>
-                                        <th>HSD</th>
-                                        <th>HASRON</th>
+                                        <th>S.No</th>
+                                        <th>Dealer Name</th>
+                                        <th>Request By</th>
+                                        <th>Request At</th>
+                                        <th>View</th>
 
                                     </tr>
                                 </thead>
@@ -137,7 +116,7 @@
                     <div class="form-row mb-4">
                         <div class="form-group col-md-12">
                             <label for="inputEmail4">Sizes</label>
-                            <input type="number" class="form-control" id="name" name="name" required>
+                            <input type="number" class="form-control" id="name" name="name"required>
                         </div>
 
 
@@ -167,115 +146,170 @@
     <!-- JAVASCRIPT -->
 
     <?php include 'script_tags.php'; ?>
-<!-- DataTables -->
-<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-
-<!-- DataTables Buttons Extension -->
-<script src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.print.min.js"></script> <!-- Print Button -->
-<script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.flash.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.colVis.min.js"></script>
-
-<!-- JSZip for Excel Export -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-
-<!-- PDFMake for PDF Export -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 
     <script>
     var table;
     var type;
     var subtype;
     $(document).ready(function() {
-        var table;
+        // $('.js-example-basic-multiple').select2();
 
-        // Initialize the DataTable with export buttons
+
+        $("#role").on("change", function() {
+            var selectedRole = $(this).val();
+            // Hide all secondary dropdowns
+            $("#salesRole, #zmRole, #tmRole,#logisticsSelect").hide();
+            if (selectedRole === "Sales") {
+                $("#salesRole").show();
+            } else if (selectedRole === "Logistics") {
+                $("#logisticsSelect").show();
+            }
+        });
+
+        $("#sales").on("change", function() {
+            var selectedSalesRole = $(this).val();
+            // alert(selectedSalesRole)
+            // Hide all secondary dropdowns
+            $("#zmRole, #tmRole").hide();
+            if (selectedSalesRole === "TM") {
+                $("#zmRole").show();
+            } else if (selectedSalesRole === "ASM") {
+                $("#tmRole").show();
+            }
+        });
+
         table = $('#myTable').DataTable({
             dom: 'Bfrtip',
-            buttons: [{
-                    extend: 'copyHtml5',
-                    title: function() {
-                        return 'Orders Current Day of ' + $('#report_date').text();
-                    }
-                },
-                {
-                    extend: 'excelHtml5',
-                    title: function() {
-                        return 'Orders Current Day of ' + $('#report_date').text();
-                    }
-                },
-                {
-                    extend: 'csvHtml5',
-                    title: function() {
-                        return 'Orders Current Day of ' + $('#report_date').text();
-                    }
-                },
-                {
-                    extend: 'pdfHtml5',
-                    title: function() {
-                        return 'Orders Current Day of ' + $('#report_date').text();
-                    },
-                    orientation: 'landscape',
-                    pageSize: 'A4',
-                    customize: function(doc) {
-                        doc.content[1].table.widths = ['20%', '15%', '20%', '15%', '10%', '10%',
-                            '10%'
-                        ];
-                    }
-                },
-                {
-                    extend: 'print',
-                    title: function() {
-                        return 'Orders Current Day of ' + $('#report_date').text();
-                    }
-                }
-            ],
-            paging: false, // Disable pagination
-            pageLength: -1,
-            ordering: false
-        });
 
-        // Fetch table data for the selected date
+
+            buttons: ['copy', 'excel', 'csv', 'pdf', 'print']
+
+        });
         fetchtable();
+        $('#add_btn').click(function() {
 
-        // Reload table data when 'Get' button is clicked
-        $('#btn_get').click(function() {
-            fetchtable();
+            $('#row_id').val("");
+
+            $('#insert_form')[0].reset();
+            // alert("running")
+
         });
 
-        function fetchtable() {
-            var rettypes = "CO ";
-            var fromdate = $('#fromdate').val();
-            $('#report_date').text(fromdate);
+        $('#insert_form').on("submit", function(event) {
+            event.preventDefault();
+            // alert("Name")
+            update_id = $('#row_id').val();
 
-            var requestOptions = {
-                method: 'GET',
-                redirect: 'follow'
-            };
+            if (update_id == 0) {
+                var data = new FormData(this);
+                $.ajax({
+                    url: "<?php echo $api_url; ?>create/create_containers_sizes.php",
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    method: "POST",
+                    data: data,
+                    beforeSend: function() {
+                        $('#insert').val("Saving");
+                        document.getElementById("insert").disabled = true;
 
-            fetch("<?php echo $api_url; ?>get/current_data_coco_orders.php?key=03201232927&id=<?php echo $_SESSION['user_id'] ?>&from=" +
-                    fromdate + "&rettype="+rettypes+"", requestOptions)
-                .then(response => response.json())
-                .then(response => {
-                    table.clear().draw();
-                    $.each(response, function(index, data) {
-                        table.row.add([
-                            data.dealer_sap,
-                            data.dealer_region,
-                            data.dealer_name,
-                            data.dealers_depots,
-                            (data.PMG / 1000),
-                            (data.HSD / 1000),
-                            (data.HASRON / 1000),
-                        ]).draw(false);
-                    });
-                })
-                .catch(error => console.log('error', error));
-        }
-    });
+                    },
+                    success: function(data) {
+                        console.log(data)
 
+                        if (data != 1) {
+                            Swal.fire(
+                                'Server Error!',
+                                'Record Not Created',
+                                'error'
+                            )
+                            $('#insert').val("Save");
+                            document.getElementById("insert").disabled = false;
+                        } else {
+
+
+                            setTimeout(function() {
+                                Swal.fire(
+                                    'Success!',
+                                    'Record Created Successfully',
+                                    'success'
+                                )
+                                $('#insert_form')[0].reset();
+                                $('#offcanvasRight').modal('hide');
+                                fetchtable();
+                                $("#salesRole, #zmRole, #tmRole,#logisticsSelect")
+                                    .hide();
+                                $('#insert').val("Save");
+                                document.getElementById("insert").disabled = false;
+
+                                location.reload();
+
+
+                            }, 2000);
+
+                        }
+
+                    }
+                });
+            } else {
+
+                var data = new FormData(this);
+
+                $.ajax({
+                    url: "<?php echo $api_url; ?>update/container_size.php",
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    method: "POST",
+                    data: data,
+                    beforeSend: function() {
+                        $('#insert').val("Saving");
+                        document.getElementById("insert").disabled = true;
+
+                    },
+                    success: function(data) {
+                        console.log(data)
+
+                        if (data != 1) {
+                            Swal.fire(
+                                'Server Error!',
+                                'Record Not Updated',
+                                'error'
+                            )
+                            $('#insert').val("Save");
+                            document.getElementById("insert").disabled = false;
+                        } else {
+
+
+                            setTimeout(function() {
+                                Swal.fire(
+                                    'Success!',
+                                    'Record Updated Successfully',
+                                    'success'
+                                )
+                                $('#insert_form')[0].reset();
+                                $('#offcanvasRight').modal('hide');
+                                fetchtable();
+                                $("#salesRole, #zmRole, #tmRole,#logisticsSelect")
+                                    .hide();
+                                $('#insert').val("Save");
+                                document.getElementById("insert").disabled = false;
+
+                                location.reload();
+
+
+                            }, 2000);
+
+                        }
+
+                    }
+                });
+
+            }
+
+        });
+        load_all_select();
+    })
     //     function deleteData(id){
 
     // var settings = {
@@ -364,17 +398,14 @@
 
     }
 
-    function fetchtable1() {
-        // var rettypes = "RT";
-        var rettypes = "CO ";
-        var fromdate = $('#fromdate').val();
-        $('#report_date').text(fromdate);
+    function fetchtable() {
+
         var requestOptions = {
             method: 'GET',
             redirect: 'follow'
         };
-        console.log("<?php echo $api_url; ?>get/current_data_coco_orders.php?key=03201232927&id=<?php echo $_SESSION['user_id'] ?>&from=" + fromdate + "&rettype="+rettypes+"");
-        fetch("<?php echo $api_url; ?>get/current_data_coco_orders.php?key=03201232927&id=<?php echo $_SESSION['user_id'] ?>&from=" + fromdate + "&rettype="+rettypes+"",
+
+        fetch("<?php echo $api_url; ?>get/get_dealers_location_request.php?key=03201232927&id=<?php echo $_SESSION['user_id'] ?>",
                 requestOptions)
             .then(response => response.json())
             .then(response => {
@@ -383,15 +414,12 @@
                 table.clear().draw();
                 $.each(response, function(index, data) {
                     table.row.add([
-                        // index + 1,
-                        data.dealer_sap,
-                        data.dealer_region,
+                        index + 1,
                         data.dealer_name,
-                        data.dealers_depots,
-                        (data.PMG) / 1000 + ' KL',
-                        (data.HSD) / 1000 + ' KL',
-                        (data.HASRON) / 1000 + ' KL',
-
+                        data.username,
+                        data.created_at,
+                        '<a type="button" id="View" name="view" href="dealers_location_approve.php?id='+data.id+
+                            '" target="_blank" class="btn btn-soft-warning waves-effect waves-light"><i class="fas fa-eye font-size-16 align-middle"></i></a>'
                     ]).draw(false);
                 });
             })

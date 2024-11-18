@@ -106,7 +106,7 @@
         <!-- ============================================================== -->
         <div class="main-content">
             <div class="page-content">
-            <div class="container-fluid">
+                <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-3">
                             <label for="inputEmail4">From</label>
@@ -119,7 +119,8 @@
                             <label for="inputEmail4">To</label>
 
                             <input type="date" class="form-control" name="todate" id="todate"
-                                value="<?php echo date('Y-m-30') ?>">
+                                value="<?php echo (new DateTime('last day of this month'))->modify('+1 day')->format('Y-m-d'); ?>">
+
 
                         </div>
                         <div class="col-md-3">
@@ -1430,6 +1431,8 @@
 
 
     function fetchtable() {
+        // var rettypes = "RT";
+        var rettypes = "CO ";
         $('#loader').show();
         var fromdate = $('#fromdate').val();
         var todate = $('#todate').val();
@@ -1437,8 +1440,11 @@
             method: 'GET',
             redirect: 'follow'
         };
-        console.log("<?php echo $api_url; ?>get/get_all_main_orders.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>&from=" +fromdate + "&to=" + todate + "");
-        fetch("<?php echo $api_url; ?>get/get_all_main_orders.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>&from=" +fromdate + "&to=" + todate + "",
+        console.log(
+            "<?php echo $api_url; ?>get/get_all_main_orders.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>&from=" +
+            fromdate + "&to=" + todate + "&rettype="+rettypes+"");
+        fetch("<?php echo $api_url; ?>get/get_all_main_orders.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>&from=" +
+                fromdate + "&to=" + todate + "&rettype="+rettypes+"",
                 requestOptions)
             .then(response => response.json())
             .then(response => {
@@ -2823,7 +2829,7 @@
         } else if (user == 'ASM') {
             $('#asm_div').removeClass('d-none')
 
-        }else if (user == 'orders_dealers') {
+        } else if (user == 'orders_dealers') {
             $('#dealers_orders_list').removeClass('d-none')
 
         }

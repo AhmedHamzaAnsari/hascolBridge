@@ -91,7 +91,7 @@
                             <label for="inputEmail4">To</label>
 
                             <input type="date" class="form-control" name="todate" id="todate"
-                                value="<?php echo date('Y-m-30') ?>">
+                                value="<?php echo (new DateTime('last day of this month'))->modify('+1 day')->format('Y-m-d'); ?>">
 
                         </div>
                         <div class="col-md-3">
@@ -1695,6 +1695,8 @@
             method: 'GET',
             redirect: 'follow'
         };
+        // console.log("<?php echo $api_url; ?>get/get_dealer_stock_recon_new.php?key=03201232927&task_id=" +
+        //         task_id + "&dealer_id=" + dealer_id + "")
         fetch("<?php echo $api_url; ?>get/get_dealer_stock_recon_new.php?key=03201232927&task_id=" +
                 task_id + "&dealer_id=" + dealer_id + "", requestOptions)
             .then(response => response.json())
@@ -2089,7 +2091,9 @@
             method: 'GET',
             redirect: 'follow'
         };
-
+        // console.log("<?php echo $api_url; ?>get/get_dealer_survey_response.php?key=03201232927&inspection_id=" +
+        //         inspection_id +
+        //         "&task_id=" + id + "&dealer_id=" + dealer_id + "");
         fetch("<?php echo $api_url; ?>get/get_dealer_survey_response.php?key=03201232927&inspection_id=" +
                 inspection_id +
                 "&task_id=" + id + "&dealer_id=" + dealer_id + "", requestOptions)

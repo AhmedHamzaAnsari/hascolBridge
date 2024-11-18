@@ -19,8 +19,12 @@ elseif($_SESSION['privilege'] == 'Logistics'){
     include 'logistic_sidebar.php';
     
 }
-elseif($_SESSION['privilege'] == 'App_order'){
+elseif($_SESSION['privilege'] == 'App_order' && $_SESSION['independent_exist'] == 'COCO'){
     include 'app_order_sidebar.php';
+    
+}
+elseif($_SESSION['privilege'] == 'App_order' && $_SESSION['independent_exist'] == 'ALL'){
+    include 'app_order_sidebar_all.php';
     
 }
 elseif($_SESSION['privilege'] == 'Forward_order'){
@@ -29,6 +33,10 @@ elseif($_SESSION['privilege'] == 'Forward_order'){
 }
 elseif($_SESSION['privilege'] == 'Back_orders'){
     include 'back_order_sidebar.php';
+    
+}
+elseif($_SESSION['privilege'] == 'Reporting'){
+    include 'reporting_sidebar.php';
     
 }
 ?>

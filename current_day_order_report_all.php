@@ -246,7 +246,7 @@
         });
 
         function fetchtable() {
-            var rettypes = "CO ";
+            var rettypes = "RT";
             var fromdate = $('#fromdate').val();
             $('#report_date').text(fromdate);
 
@@ -255,7 +255,7 @@
                 redirect: 'follow'
             };
 
-            fetch("<?php echo $api_url; ?>get/current_data_coco_orders.php?key=03201232927&id=<?php echo $_SESSION['user_id'] ?>&from=" +
+            fetch("<?php echo $api_url; ?>get/current_data_orders_all.php?key=03201232927&id=<?php echo $_SESSION['user_id'] ?>&from=" +
                     fromdate + "&rettype="+rettypes+"", requestOptions)
                 .then(response => response.json())
                 .then(response => {

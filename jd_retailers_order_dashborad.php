@@ -1062,8 +1062,8 @@
     }
 
     async function fetchtable() {
-        // var rettypes = "RT";
-        var rettypes = "CO ";
+        var rettypes = "RT";
+        // var rettypes = "CO ";
         blocking();
         var fromdate = $('#fromdate').val();
         var todate = $('#todate').val();
@@ -1171,7 +1171,7 @@
                     item.vehicle_name || '---', // Product
                     item.tracker_status || '---', // Product
                     item.product_name || '---', // Product
-                    item.sale_order_no || '---', // Invoice #
+                    item.order_no || '---', // Invoice #
                     item.invoice || '---', // Invoice #
                     item.quantity || '---', // Qty
                     item.product_rate || '---', // Rate
@@ -1693,7 +1693,7 @@
                 item.vehicle_name || '---', // Product
                 item.tracker_status || '---', // Product
                 item.product_name || '---', // Product
-                item.sale_order_no || '---', // Invoice #
+                item.order_no || '---', // Invoice #
                 item.invoice || '---', // Invoice #
                 item.quantity || '---', // Qty
                 item.product_rate || '---', // Rate

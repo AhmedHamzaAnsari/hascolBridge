@@ -712,7 +712,7 @@
                         data.sap_no,
                         data.name,
                         data.depot,
-                        data.rettype_desc,
+                        data.type,
                         parseFloat(data.total_amount).toLocaleString(),
                         ledger_balance,
                         status_value,
@@ -885,8 +885,7 @@
                         '<div class="timeline-text">' +
                         '<h3 class="font-size-17">' + data.status_value + '</h3>' +
                         '<p class="mb-0 mt-2 pt-1 text-muted">Action By : ' + data.name + '</p>' +
-                        '<p class="mb-0 mt-2 pt-1 text-muted">Desceription : ' + data.description +
-                        '</p>' +
+                        
                         '<p class="mb-0 mt-2 pt-1 text-muted">Action Time : ' + data.created_at +
                         '</p>' +
                         '</div>' +

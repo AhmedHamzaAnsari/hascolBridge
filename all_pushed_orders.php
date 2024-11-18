@@ -70,7 +70,7 @@
                             <label for="inputEmail4">To</label>
 
                             <input type="date" class="form-control" name="todate" id="todate"
-                                value="<?php echo date('Y-m-30') ?>">
+                                value="<?php echo (new DateTime('last day of this month'))->modify('+1 day')->format('Y-m-d'); ?>">
 
                         </div>
                         <div class="col-md-3">
@@ -729,7 +729,7 @@
                 redirect: 'follow'
             };
 
-            var apiUrl = "<?php echo $api_url; ?>get/get_all_pushed_orders.php";
+            var apiUrl = "<?php echo $api_url; ?>get/get_all_pushed_retail_orders.php";
             var queryParams = "?key=03201232927&pre=<?php echo $_SESSION['privilege']; ?>&user_id=<?php echo $_SESSION['user_id']; ?>&from=" + fromdate + "&to=" + todate;
 
             fetch(apiUrl + queryParams, requestOptions)
@@ -797,7 +797,7 @@
                             data.sap_no,
                             data.name,
                             data.depot,
-                            data.rettype_desc,
+                            data.type,
                             parseFloat(data.total_amount).toLocaleString(),
                             ledger_balance,
                             status_value,

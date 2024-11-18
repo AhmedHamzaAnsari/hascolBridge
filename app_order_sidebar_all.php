@@ -36,189 +36,32 @@
                 <li class="menu-title" data-key="t-menu">Dashboard</li>
 
                 <li>
-                    <a href="javascript: void(0);" class="has-arrow">
-                        <i class="fas fa-user-cog icon nav-icon"></i>
-                        <span class="menu-item" data-key="t-multi-level">Admin Admin</span>
-                    </a>
-                    <ul class="sub-menu" aria-expanded="true">
-                        <li><a href="dealer_dashboard.php" data-key="t-level-1.5"> Admin Dashboard</a></li>
-
-                        <li><a href="users.php" data-key="t-level-1.1"> Users </a></li>
-                        <li><a href="tm_monthly_target.php" data-key="t-level-1.2"> Set TM Targets </a></li>
-
-                        <li><a href="dealers.php" data-key="t-level-1.2"> Stations </a></li>
-                        <li><a href="dealer_location_request.php" data-key="t-level-1.2"> Stations Location Request</a></li>
-                        <li><a href="dealers_acounts.php" data-key="t-level-1.2"> Stations Acounts</a></li>
-
-                        <!-- <li><a href="depots.php" data-key="t-level-1.2"> Depots </a></li> -->
-                        <!-- <li><a href="depot_product_order.php" data-key="t-level-1.2"> Depots Product Order</a></li> -->
-                        <!-- <li><a href="omcs_pumps.php" data-key="t-level-1.15">OMCS Dealer</a></li> -->
-
-                        <?php
-                        $current_date = date('Y-m-d');
-                        $next_dat = date('Y-m-d', strtotime($current_date . '+1 day'));
-                        ?>
-                        <li><a href="trip_board.php?from=<?php echo $current_date;?>&to=<?php echo $next_dat;?>"
-                                data-key="t-level-1.16"> Trip Board</a></li>
-
-
-                        <!-- <li><a href="special_orders.php" data-key="t-level-1.4"> Approved Orders </a></li> -->
-                        <!-- <li><a href="approved_orders.php" data-key="t-level-1.5"> Complete Orders </a></li> -->
-                        <!-- <li><a href="nozle.php" data-key="t-level-1.6"> Products Price </a></li> -->
-                        <!-- <li><a href="order_report.php" data-key="t-level-1.7"> Order Report </a></li> -->
-
-                        <li>
-                            <a href="javascript: void(0);" class="has-arrow">
-                                <span class="menu-item" data-key="t-multi-level">Manage COCO Orders</span>
-                            </a>
-                            <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="jd_order_dashborad.php" data-key="t-level-1.16">JD Order
-                                        Dashboard</a></li>
-                                <!-- <li><a href="orders_dashboard.php" data-key="t-level-1.16">App Order
-                                        Dashboard</a></li> -->
-                                <li><a href="all_order.php" data-key="t-level-1.3">All APP Orders</a></li>
-                                <li><a href="all_order_current_status.php" data-key="t-level-1.3">Current Day
-                                        Orders Status</a></li>
-                                <li><a href="all_pending_app_orders.php" data-key="t-level-1.3">All Pending APP
-                                        Orders</a></li>
-                                <li><a href="manage_order2.php" data-key="t-level-1.3">Order Report</a></li>
-                                <li><a href="current_day_coco_order_report.php" data-key="t-level-1.3">Current
-                                        Day COCO Order Report</a></li>
-                                <li><a href="all_forward_orders.php" data-key="t-level-1.3">Forwarded Orders</a>
-                                </li>
-                                <li><a href="all_sales_invoice.php" data-key="t-level-1.3">Sales Orders JD</a>
-                                </li>
-                                <li><a href="order_shortage.php" data-key="t-level-1.3">Order Shortage</a></li>
-
-                            </ul>
-                        </li>
-
-                        <li>
-                            <a href="javascript: void(0);" class="has-arrow">
-                                <span class="menu-item" data-key="t-multi-level">Manage Retailers Orders</span>
-                            </a>
-                            <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="jd_retailers_order_dashborad.php" data-key="t-level-1.16">JD Order
-                                        Dashboard</a></li>
-                                <!-- <li><a href="orders_retailes_dashboard.php" data-key="t-level-1.16">App Order
-                                        Dashboard</a></li> -->
-                                <li><a href="all_order_retailes.php" data-key="t-level-1.3">All APP Orders</a></li>
-                                <li><a href="all_retail_order_current_status.php" data-key="t-level-1.3">Current Day
-                                        Orders Status</a></li>
-                                <li><a href="all_retail_pending_app_orders.php" data-key="t-level-1.3">All Pending APP
-                                        Orders</a></li>
-                                <li><a href="manage_retails_order2.php" data-key="t-level-1.3">Order Report</a></li>
-                                <li><a href="current_day_retailes_order_report.php" data-key="t-level-1.3">Current
-                                        Day Retailers Order Report</a></li>
-                                <li><a href="all_retail_forward_orders.php" data-key="t-level-1.3">Forwarded Orders</a>
-                                </li>
-                                <li><a href="all_retailes_sales_invoice.php" data-key="t-level-1.3">Sales Orders JD</a>
-                                </li>
-                                <li><a href="order_retailers_shortage.php" data-key="t-level-1.3">Order Shortage</a></li>
-
-                            </ul>
-                        </li>
-
-
-                        <!-- <li>
-                            <a href="javascript: void(0);" class="has-arrow">
-                                <span class="menu-item" data-key="t-multi-level">Manage Retailer Orders</span>
-                            </a>
-                            <ul class="sub-menu" aria-expanded="true">
-                                <li></li>
-                            </ul>
-                        </li> -->
-
+                    
                         <li>
                             <a href="javascript: void(0);" class="has-arrow">
                                 <!-- <i class="fas fa-money-check-alt icon nav-icon"></i> -->
-                                <span class="menu-item" data-key="t-multi-level">Manage Inspection</span>
+                                <span class="menu-item" data-key="t-multi-level">Manage Orders</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="containers_sizes.php" data-key="t-level-1.10">Chamber Sizes</a>
-                                </li>
-                                <li><a href="servey_category.php" data-key="t-level-1.8"> Survey Category </a></li>
-                                <li><a href="survey_questions.php" data-key="t-level-1.9"> Survey Questions </a></li>
-                                <li><a href="multiple_task.php" data-key="t-level-1.10"> Plan Task</a></li>
-                                <!-- <li><a href="dealers_sales_performance.php" data-key="t-level-1.11">Stations Sales
-                                        Performance</a></li> -->
-                                <li><a href="manage_calander.php" data-key="t-level-1.12"> Task Calander</a></li>
-                                <li><a href="dealers_heri.php" data-key="t-level-1.13"> Retail Hierarchy</a></li>
-                                <li><a href="inspection_report.php" data-key="t-level-1.14">All Inspection</a></li>
-
-                            </ul>
-                        </li>
-                        <!-- <li>
-                            <a href="javascript: void(0);" class="has-arrow">
-                                <span class="menu-item" data-key="t-multi-level">Setup</span>
-                            </a>
-                            <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="complaint_object_part.php" data-key="t-level-1.1">Object Part</a></li>
-                                <li><a href="complaint_damage_overview.php" data-key="t-level-1.1">Damage Overview</a>
-                                </li>
-
-                            </ul>
-                        </li> -->
-                        <!-- <li>
-                            <a href="javascript: void(0);" class="has-arrow">
-                                
-                                <span class="menu-item" data-key="t-multi-level">Uniform Setup</span>
-                            </a>
-                            <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="uniform_grades.php" data-key="t-level-1.1">Grade</a></li>
                               
-                            </ul>
-                        </li> -->
+                                <li><a href="all_pending_app_orders_all.php" data-key="t-level-1.3"> TM Hold Orders </a></li> 
+                                <li><a href="manage_app_order_all.php" data-key="t-level-1.3"> TM Released  Orders </a></li> 
+                                <li><a href="manage_forward_pushed_orders_all.php" data-key="t-level-1.3"> Forwarded Orders </a></li> 
 
-                    </ul>
-                </li>
-                <li>
-                    <a href="javascript: void(0);" class="has-arrow">
-                        <i class="fas fa-money-check-alt icon nav-icon"></i>
-                        <span class="menu-item" data-key="t-multi-level">Excel Uploader</span>
-                    </a>
-                    <ul class="sub-menu" aria-expanded="true">
-                        <li><a href="dealers_products_price_uploader.php" data-key="t-disabled-item">Price Uploader
-                                (CSV) </a></li>
-                        <!-- <li><a href="javascript: void(0);" data-key="t-level-1.1">Orders</a></li>
-                        <li><a href="javascript: void(0);" data-key="t-level-1.1">Approved Orders</a></li> -->
+                                
+                                <li><a href="manage_order2_all.php" data-key="t-level-1.3"> Order Report </a></li> 
+                                <li><a href="current_day_order_report_all.php" data-key="t-level-1.3">Current Day RT Order Report </a></li> 
 
-                    </ul>
-                </li>
-                <li>
-                    <a href="javascript: void(0);" class="has-arrow">
-                        <i class="fas fa-shipping-fast icon nav-icon"></i>
-                        <span class="menu-item" data-key="t-multi-level">Logistics</span>
-                    </a>
-                    <ul class="sub-menu" aria-expanded="true">
-
-                        <!-- <li><a href="javascript: void(0);" class="has-arrow" data-key="t-level-1.2">Admin Dasboard</a>
-                            <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="javascript: void(0);" data-key="t-level-2.1">Level 2.1</a></li>
-                                <li><a href="javascript: void(0);" data-key="t-level-2.2">Level 2.2</a></li>
+                                <li><a href="all_retail_order_current_status.php" data-key="t-level-1.3">Retailer Current Day
+                                Orders Status</a></li>
                             </ul>
                         </li>
-
-                        <li><a href="javascript: void(0);" class="has-arrow" data-key="t-level-1.2">Tracker Dasboard</a>
-                            <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="javascript: void(0);" data-key="t-level-2.1">Level 2.1</a></li>
-                                <li><a href="javascript: void(0);" data-key="t-level-2.2">Level 2.2</a></li>
-                            </ul>
-                        </li> -->
-
-
-                        <!-- <li><a href="javascript: void(0);" data-key="t-level-1.1">Trip Dashboard</a></li>
-                        <li><a href="javascript: void(0);" data-key="t-level-1.1">Sap Dashboard</a></li>
-                        <li><a href="javascript: void(0);" data-key="t-level-1.1">Intransit Dashboard</a></li>
-                        <li><a href="javascript: void(0);" data-key="t-level-1.1">Sales Dashboard</a></li> -->
-                        <li><a onclick="post_new_data()" data-key="t-level-1.1">Track Map</a></li>
-                        <li><a href="playback.php" data-key="t-level-1.2">Playback </a></li>
-                        <!-- <li><a href="javascript: void(0);" data-key="t-level-1.1">Manage Geofence</a></li>
-                        <li><a href="javascript: void(0);" data-key="t-level-1.1">Playback</a></li>
-                        <li><a href="javascript: void(0);" data-key="t-level-1.1">Fence Details</a></li> -->
+                      
 
                     </ul>
                 </li>
+               
+                
 
 
             </ul>

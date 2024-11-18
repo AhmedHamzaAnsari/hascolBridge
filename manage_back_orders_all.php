@@ -58,7 +58,7 @@
         <div class="main-content">
             <div class="page-content">
                 <div class="container-fluid">
-                    <!-- <div class="row">
+                    <div class="row">
 
                         <div class="col-md-6">
                             <button class="btn btn-soft-primary waves-effect waves-light" type="button"
@@ -66,7 +66,7 @@
                                 aria-controls="offcanvasRight"><i
                                     class="bx bxs-add-to-queue font-size-16 align-middle me-2 cursor-pointer"></i>Add</button>
                         </div>
-                    </div> -->
+                    </div>
                     <div class="card">
 
                         <div class="card-body">
@@ -78,10 +78,11 @@
                                         <th class="text-center">Date</th>
                                         <th class="text-center">JD Code</th>
                                         <th class="text-center">Site Name</th>
+                                        <th class="text-center">Depot</th>
                                         <th class="text-center">Type</th>
                                         <th class="text-center">Total Amount</th>
                                         <th class="text-center">Ledger Amount</th>
-                                        <th class="text-center">Status</th>
+                                        <!-- <th class="text-center">Status</th> -->
                                         <!-- <th class="text-center">View Orders</th> -->
                                         <th class="text-center">Push Status</th>
                                         <th class="text-center">Product</th>
@@ -123,9 +124,9 @@
     <div class="rightbar-overlay"></div>
 
     <!-- chat offcanvas -->
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas offcanvas-end w-50" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
         <div class="offcanvas-header border-bottom">
-            <h5 id="offcanvasRightLabel">Settings</h5>
+            <h5 id="offcanvasRightLabel">Create Order</h5>
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
@@ -133,89 +134,59 @@
                 <form method="post" id="insert_form" enctype="multipart/form-data">
 
 
-                    <div class="form-row mb-4">
-                        <div class="form-group col-md-12">
-                            <label for="inputEmail4">Username</label>
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter Username"
-                                required>
-                        </div>
-                        <div class="form-group col-md-12">
-                            <label for="inputPassword4">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email"
-                                required>
-                        </div>
-
-                        <div class="form-group col-md-12  ">
-
-                            <label for="" class="lab"> Enter
-                                Password</label>
-                            <input type="password" id="password" required minlength="8" class="form-control input"
-                                placeholder="Enter Password">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" id="togglePassword" class="feather feather-eye"
-                                style="    position: absolute;top: 42px;right: 13px;color: #888ea8;fill: rgba(0, 23, 55, 0.08);width: 17px;cursor: pointer;">
-                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z">
-                                </path>
-                                <circle cx="12" cy="12" r="3"></circle>
-                            </svg>
-                        </div>
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class=" col-md-4">
+                                <label for="inputEmail4">Stations</label>
+                                <select id="dealers" name="dealers" class="form-control selectpicker" required
+                                    onchange="get_dealer_products(this.value)">
 
 
-                        <div class="form-group col-md-12 ">
-
-                            <label for="" class="lab"> Confirm Password</label>
-                            <input type="password" id="confirm_password" name="confirm_password" required minlength="8"
-                                class="form-control input" placeholder="Confirm Password">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" id="togglePassword1" class="feather feather-eye"
-                                style="    position: absolute;top: 42px;right: 13px;color: #888ea8;fill: rgba(0, 23, 55, 0.08);width: 17px;cursor: pointer;">
-                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z">
-                                </path>
-                                <circle cx="12" cy="12" r="3"></circle>
-                            </svg>
-
-
-
-                        </div>
-
-
-
-                        <div class="form-group col-md-12">
-                            <label for="inputPassword4">Contact No</label>
-                            <input type="text" class="form-control" id="number" name="number"
-                                placeholder="Enter Contact No" required>
-                        </div>
-
-
-                        <div class="form-group col-md-12">
-                            <label for="inputAddress">Role</label>
-
-                            <select id="role" name="role" class="form-control selectpicker">
-                                <option selected>Choose...</option>
-                                <option value="admin_user">Admin User</option>
-                                <option value="viewer">viewer</option>
-                                <option value="Cartraige">Cartraige</option>
-
-
-                            </select>
-                        </div>
-
-                    </div>
-
-                    <div class="col-12">
-                        <input type="hidden" name="row_id" id="row_id" value="">
-                        <input type="hidden" name="user_id" id="user_id" value="<?php echo $_SESSION['user_id'] ?>">
-                        <div class="mb-3 row">
-                            <label for="example-text-input" class="col-md-10 col-form-label"></label>
-                            <div class="col-md-12 text-center">
-
-                                <input class="btn rounded-pill btn-primary" type="submit" name="insert" id="insert"
-                                    value="Save">
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="inputEmail4">Type</label>
+                                <select name="product_type" class="form-select" id="product_type_" required>
+                                    <option value="COCO site">Fixed Chamber</option>
+                                    <option value="GC / Coco">Other</option>
+                                </select>
+                            </div>
+                            <div class=" col-md-4">
+                                <label for="order_date">Order Date</label>
+                                <input type="datetime-local" class="form-control" name="order_date" id="order_date"
+                                    required>
                             </div>
                         </div>
+
                     </div>
+                    <div class="form-row mb-4">
+
+
+
+
+                        <div class="container-fluid" id="products_dealers">
+
+                            <h6>Select Dealer to get products.</h6>
+                        </div>
+
+
+
+
+                        <div class="col-12">
+                            <input type="hidden" name="row_id" id="row_id">
+
+                            <input type="hidden" name="user_id" id="user_id" value="<?php echo $_SESSION['user_id'] ?>">
+
+
+                            <div class="mb-3 row">
+                                <label for="example-text-input" class="col-md-10 col-form-label"></label>
+                                <div class="col-md-12 text-center">
+
+                                    <input class="btn rounded-pill btn-primary" type="submit" name="insert" id="insert"
+                                        value="Save">
+                                </div>
+                            </div>
+                        </div>
                 </form>
             </div>
         </div>
@@ -240,9 +211,22 @@
                                 <div class="mb-3 row">
                                     <label for="example-text-input" class="col-md-2 col-form-label">Name</label>
                                     <div class="col-md-10">
-                                    <select id="approved_order_status" name="approved_order_status"
+                                        <select id="approved_order_status" name="approved_order_status"
                                             class="form-control selectpicker">
-                                            <option value="1">Push</option>
+                                            <option selected>Choose...</option>
+                                            <option value="5">Forward</option>
+                                            <option value="2">Cancel</option>
+
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="example-text-input" class="col-md-2 col-form-label">Depot</label>
+                                    <div class="col-md-10">
+                                        <select id="s_depot" name="s_depot" class="form-control selectpicker">
+                                            <option selected>Choose...</option>
+
 
 
                                         </select>
@@ -428,6 +412,27 @@
         var type;
         var subtype;
         $(document).ready(function () {
+            var requestOptions = {
+                method: 'GET',
+                redirect: 'follow'
+            };
+
+            fetch("<?php echo $api_url; ?>get/geo_depot.php?key=03201232927", requestOptions)
+                .then(response => response.json())
+                .then(response => {
+                    console.log(response)
+                    var option = document.createElement("option");
+                    for (var i = 0; i < response.length; i++) {
+                        console.log(response[i]['consignee_name']);
+                        option.text = response[i]['consignee_name'];
+                        option.value = response[i]['consignee_name'];
+                        // var select = document.getElementById("s_depot");
+                        // select.appendChild(option);
+                        $('#s_depot').append("<option>" + response[i]['consignee_name'] + "</option>")
+                    }
+                })
+                .catch(error => console.log('error', error));
+
 
             table = $('#myTable').DataTable({
                 dom: 'Bfrtip',
@@ -451,6 +456,7 @@
                 $('#row_id').val("");
 
                 $('#insert_form')[0].reset();
+                $('#products_dealers').empty();
 
             });
 
@@ -460,7 +466,7 @@
                 var data = new FormData(this);
 
                 $.ajax({
-                    url: "<?php echo $api_url; ?>create/users.php",
+                    url: "<?php echo $api_url; ?>create/create_dealers_order_app.php",
                     cache: false,
                     contentType: false,
                     processData: false,
@@ -485,22 +491,33 @@
                         } else {
 
 
+                            Swal.fire(
+                                'Success!',
+                                'Record Created Successfully',
+                                'success'
+                            )
                             setTimeout(function () {
-                                Swal.fire(
-                                    'Success!',
-                                    'Record Created Successfully',
-                                    'success'
-                                )
                                 $('#insert_form')[0].reset();
                                 $('#offcanvasRight').modal('hide');
                                 fetchtable();
+                                $("#salesRole, #zmRole, #tmRole,#logisticsSelect")
+                                    .hide();
                                 $('#insert').val("Save");
                                 document.getElementById("insert").disabled = false;
+
+                                location.reload();
+
 
                             }, 2000);
 
                         }
 
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle API errors
+                        console.log('Error:', error);
+                        console.log('Status:', status);
+                        console.log('Response:', xhr.responseText);
                     }
                 });
 
@@ -553,7 +570,8 @@
 
                         }
 
-                    }, error: function (xhr, status, error) {
+                    },
+                    error: function (xhr, status, error) {
                         // Handle API errors
                         console.log('Error:', error);
                         console.log('Status:', status);
@@ -617,65 +635,11 @@
 
             $(document).on('click', '.approved_check', function () {
 
-var id = $(this).attr("id");
-// alert(employee_id);
-$('#order_approval').val(id);
-if (confirm("Are you sure you want to Push this order?")) {
-
-    var formData = new FormData($('#approved_orders')[0]);
-
-    $.ajax({
-        url: "<?php echo $api_url; ?>update/approved_orders.php",
-        cache: false,
-        contentType: false,
-        processData: false,
-        method: "POST",
-        data: formData,
-        beforeSend: function () {
-            $('#app_btn').text("Saving");
-            $('#app_btn').prop('disabled', true);
-        },
-        success: function (data) {
-            console.log(data);
-
-            if (data != 1) {
-                Swal.fire(
-                    'Server Error!',
-                    'Record Not Created',
-                    'error'
-                );
-                $('#app_btn').text("Save changes");
-                $('#app_btn').prop('disabled', false);
-            } else {
-                setTimeout(function () {
-                    Swal.fire(
-                        'Success!',
-                        'Record Created Successfully',
-                        'success'
-                    );
-                    $('#approved_orders')[0].reset();
-                    $('#approved_order_modal').modal('hide');
-                    fetchtable();
-                    $('#app_btn').text("Save changes");
-                    $('#app_btn').prop('disabled', false);
-                }, 2000);
-            }
-        },
-        error: function (xhr, status, error) {
-            console.log('Error:', error);
-            console.log('Status:', status);
-            console.log('Response:', xhr.responseText);
-            Swal.fire(
-                'Error!',
-                'There was an error processing your request',
-                'error'
-            );
-            $('#app_btn').text("Save changes");
-            $('#app_btn').prop('disabled', false);
-        }
-    });
-}
-});
+                var id = $(this).attr("id");
+                // alert(employee_id)
+                $('#order_approval').val(id);
+                $('#approved_order_modal').modal('show');
+            });
 
 
 
@@ -697,8 +661,10 @@ if (confirm("Are you sure you want to Push this order?")) {
                 method: 'GET',
                 redirect: 'follow'
             };
-
-            fetch("<?php echo $api_url; ?>get/get_all_forwarded_orders.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>",
+            console.log(
+                "<?php echo $api_url; ?>get/get_all_back_orders.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>"
+            );
+            fetch("<?php echo $api_url; ?>get/get_all_back_orders.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>",
                 requestOptions)
                 .then(response => response.json())
                 .then(response => {
@@ -708,7 +674,7 @@ if (confirm("Are you sure you want to Push this order?")) {
                     $.each(response, function (index, data) {
                         var status = data.status;
                         var status_value = '';
-                        
+
                         var order_amount = parseFloat(data.total_amount);
                         var legder_balance = data.legder_balance;
                         var credit_limit = data.credit_limit;
@@ -764,12 +730,15 @@ if (confirm("Are you sure you want to Push this order?")) {
                                 '<span id=' + data.id +
                                 ' class="badge rounded-pill cursor-pointer bg-warning" data-key="t-new">Released</span>';
                         } else if (status == 5) {
+                            // alert(status)
                             status_value =
                                 '<span id=' + data.id +
-                                ' class="badge rounded-pill cursor-pointer bg-success" data-key="t-new">Complete</span>';
-                            push_status = '<button type="button" id=' + data.id +
-                                ' name="delete" class="btn btn-soft-danger waves-effect waves-light approved_check"><i class="fas fa-align-justify font-size-16 align-middle"></i></button>';
-
+                                ' class="badge rounded-pill cursor-pointer bg-success" data-key="t-new">Forwarded</span>';
+                        } else if (status == 6) {
+                            // alert(status)
+                            status_value =
+                                '<span id=' + data.id +
+                                ' class="badge rounded-pill cursor-pointer bg-success" data-key="t-new">Processed</span>';
                         }
                         var ret = '';
                         var ledger_balance = '';
@@ -783,36 +752,48 @@ if (confirm("Are you sure you want to Push this order?")) {
 
 
                         }
+                        var push_status = '';
+                        if (data.status != '6') {
+                            push_status = data.status_value;
+                        } else {
+                            push_status = '<button type="button" id=' + data.id +
+                                ' name="delete" class="btn btn-soft-danger waves-effect waves-light approved_check"><i class="fas fa-align-justify font-size-16 align-middle"></i></button>';
+
+                        }
+
+
 
                         table.row.add([
                             index + 1,
                             data.created_at,
                             data.sap_no,
                             data.name,
+                            data.depot,
                             data.type,
                             parseFloat(data.total_amount).toLocaleString(),
                             ledger_balance,
-                            status_value,
+                            // '---',
                             push_status,
                             '',
                             '',
                             '',
                             '',
                         ]).draw(false);
-                        console.log("<?php echo $api_url; ?>get/get_main_sub_orders.php?key=03201232927&id=" + data.id + "");
+                        console.log("<?php echo $api_url; ?>get/get_main_sub_orders.php?key=03201232927&id=" +
+                            data.id + "");
                         index = index + 1,
-                        fetch("<?php echo $api_url; ?>get/get_main_sub_orders.php?key=03201232927&id=" + data.id + "", requestOptions)
-                            .then(response2 => response2.json())
-                            .then(response23 => {
-                                if (response23.length > 0) {
-                                console.log(response23)
+                            fetch("<?php echo $api_url; ?>get/get_main_sub_orders.php?key=03201232927&id=" +
+                                data.id + "", requestOptions)
+                                .then(response2 => response2.json())
+                                .then(response23 => {
+                                    if (response23.length > 0) {
+                                        console.log(response23)
 
-                                for(var i=0;i<response23.length;i++)
-                                {
-                                    
-                                    console.log(response23[i]['date']);
-                                    data2 = response[i];
-                                    table.row.add([
+                                        for (var i = 0; i < response23.length; i++) {
+
+                                            console.log(response23[i]['date']);
+                                            data2 = response[i];
+                                            table.row.add([
                                                 index,
                                                 response23[i]['date'],
                                                 response23[i]['sap_no'],
@@ -820,19 +801,20 @@ if (confirm("Are you sure you want to Push this order?")) {
                                                 '',
                                                 '',
                                                 '',
+                                                // '',
                                                 '',
                                                 '',
                                                 response23[i]['product_name'],
                                                 response23[i]['rate'],
-                                            parseFloat(response23[i]['quantity']).toLocaleString(),
-                                            parseFloat(response23[i]['amount']).toLocaleString(),
-                                        ]).draw(false);
-                                }
-                               
-                                }
-                                // $('#products_price_backlog_modal').modal('show');
-                            })
-                            .catch(error => console.log('error', error));
+                                                parseFloat(response23[i]['quantity']).toLocaleString(),
+                                                parseFloat(response23[i]['amount']).toLocaleString(),
+                                            ]).draw(false);
+                                        }
+
+                                    }
+                                    // $('#products_price_backlog_modal').modal('show');
+                                })
+                                .catch(error => console.log('error', error));
 
                     });
                 })
@@ -972,6 +954,130 @@ if (confirm("Are you sure you want to Push this order?")) {
                 .catch(error => console.log('error', error));
 
 
+        }
+
+        function editData(id) {
+            var requestOptions = {
+                method: 'GET',
+                redirect: 'follow'
+            };
+
+            fetch("<?php echo $api_url; ?>get/get_main_sub_orders.php?key=03201232927&id=" + id, requestOptions)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.length > 0) {
+                        console.log(data);
+
+                        for (var i = 0; i < data.length; i++) {
+                            console.log(data[i]['date']);
+                            // It looks like you want to process the data here. Adjust as needed.
+                            var data2 = data[i];
+                        }
+                    } else {
+                        console.log("No data found.");
+                    }
+                    // Uncomment the following line if you want to show the modal
+                    // $('#products_price_backlog_modal').modal('show');
+                })
+                .catch(error => console.log('error', error));
+
+            $('#offcanvasRight').offcanvas('show');
+        }
+        load_all_select();
+
+        function load_all_select() {
+            
+            var requestOptions = {
+                method: 'GET',
+                redirect: 'follow'
+            };
+
+            fetch("<?php echo $api_url; ?>get/all_verified_dealers.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>",
+                requestOptions)
+                .then(response => response.json())
+                .then(result => {
+                    var products_name = $("#dealers");
+
+                    products_name.append($('<option>', {
+                        value: '',
+                        text: 'Select Stations'
+                    }));
+
+                    $.each(result, function (index, data) {
+                        products_name.append($('<option>', {
+                            value: data.id,
+                            text: data.name
+                        }));
+
+
+                    });
+                })
+                .catch(error => console.log('error', error));
+        }
+
+        function get_dealer_products(id) {
+            var requestOptions = {
+                method: 'GET',
+                redirect: 'follow'
+            };
+
+            fetch(`<?php echo $api_url; ?>get/dealers_products.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>&dealer_id=${id}`,
+                requestOptions)
+                .then(response => response.json())
+                .then(result => {
+                    var products_dealers = $("#products_dealers");
+
+                    products_dealers.empty();
+                    var div = '';
+                    // var ind = 1;
+
+                    $.each(result, function (index, data) {
+                        div += `<div class="row">
+                        
+                        <div class="col-md-3">
+                            <label for="inputEmail4">Product</label>
+                            <input type="text" class="form-control" name="products[]" id="products_${index}" value="${data.name}" required readonly>
+                            <input type="hidden" class="form-control" name="products_id[]" id="products_id_${index}" value="${data.id}" required readonly>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="inputEmail4">Rate</label>
+                            <input type="number" class="form-control rate-input" name="rates[]" id="rates_${index}" value="${data.nozel_price}" step="0.0001" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="inputEmail4">Qty</label>
+                            <input type="text" class="form-control qty-input" name="product_qtys[]" id="product_qty_${index}" value="0" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="inputEmail4">Total Amount</label>
+                            <input type="text" class="form-control total-amount" id="total_amount_${index}" value="0" readonly>
+                        </div>
+                    </div>`;
+                        // ind++;
+                    });
+                    div += `<div class="row">
+                        <div class="col-md-3">
+                            <label for="inputEmail4">Total of All Products</label>
+                            <input type="text" class="form-control" id="total_all_products" value="0" readonly>
+                        </div>
+                    </div>`;
+                    products_dealers.append(div);
+                    $('.rate-input, .qty-input').on('input', function () {
+                        calculateTotalAmounts();
+                    });
+                })
+                .catch(error => console.log('error', error));
+        }
+
+        function calculateTotalAmounts() {
+            var totalAllProducts = 0;
+            $('.row').each(function (index, row) {
+                var rate = parseFloat($(row).find('.rate-input').val()) || 0;
+                var qty = parseFloat($(row).find('.qty-input').val()) || 0;
+                var totalAmount = rate * qty;
+                $(row).find('.total-amount').val(totalAmount.toFixed(2));
+                totalAllProducts += totalAmount;
+            });
+            $('#total_all_products').val(totalAllProducts.toFixed(2));
         }
     </script>
 </body>

@@ -675,15 +675,17 @@
 
 
     function fetchtable() {
+        // var rettypes = "RT";
+        var rettypes = "CO ";
 
         var requestOptions = {
             method: 'GET',
             redirect: 'follow'
         };
         console.log(
-            "<?php echo $api_url; ?>get/get_all_pending_app_orders.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>"
+            "<?php echo $api_url; ?>get/get_all_pending_app_orders.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>&rettype="+rettypes+""
         );
-        fetch("<?php echo $api_url; ?>get/get_all_pending_app_orders.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>",
+        fetch("<?php echo $api_url; ?>get/get_all_pending_app_orders.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>&rettype="+rettypes+"",
                 requestOptions)
             .then(response => response.json())
             .then(response => {
@@ -790,7 +792,7 @@
                         data.name,
                         data.dealers_depots,
                         data.depot,
-                        data.rettype_desc,
+                        data.type,
                         parseFloat(data.total_amount).toLocaleString(),
                         ledger_balance,
                         status_value,
@@ -960,8 +962,7 @@
                         '<div class="timeline-text">' +
                         '<h3 class="font-size-17">' + data.status_value + '</h3>' +
                         '<p class="mb-0 mt-2 pt-1 text-muted">Action By : ' + data.name + '</p>' +
-                        '<p class="mb-0 mt-2 pt-1 text-muted">Desceription : ' + data.description +
-                        '</p>' +
+                        
                         '<p class="mb-0 mt-2 pt-1 text-muted">Action Time : ' + data.created_at +
                         '</p>' +
                         '</div>' +

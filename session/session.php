@@ -44,6 +44,15 @@ $data = json_decode($response, true);
     $_SESSION['user_name'] = $data_res['name'];
     $_SESSION['privilege'] = $data_res['privilege'];
     $_SESSION['password'] = $data_res['description'];
+    $_SESSION['independent_exist'] = $data_res['independent_exist'];
+    $_SESSION['bso_pre'] = $data_res['privilege'];
+
+    if($data_res['privilege'] == 'BSO'){
+        $_SESSION['user_id'] = $data_res['subacc_id'];
+    $_SESSION['privilege'] = "TM";
+
+    }
+
     $status = $data_res['status'];
     if ($status != '1') {
         echo 2;

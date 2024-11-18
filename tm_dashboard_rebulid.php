@@ -125,7 +125,7 @@
                             <label for="inputEmail4">To</label>
 
                             <input type="date" class="form-control" name="todate" id="todate"
-                                value="<?php echo date('Y-m-30') ?>">
+                                value="<?php echo (new DateTime('last day of this month'))->modify('+1 day')->format('Y-m-d'); ?>">
 
                         </div>
                         <div class="col-md-3">
@@ -190,7 +190,7 @@
                             <label for="inputEmail4">RM</label>
 
                             <select data-live-search="true" class="form-control selectpicker" id="tm_user"
-                                name="tm_user" required multiple>
+                                name="tm_user" required multiple <?= $disabledAttribute ?>>
                                 <option value="">Select</option>
 
 
@@ -345,7 +345,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-3 d-none">
                             <div class="card">
                                 <div class="card-body">
                                     <div>
@@ -416,7 +416,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-3 ">
                             <div class="card">
                                 <div class="card-body">
                                     <div>
@@ -430,7 +430,7 @@
                                             <div class="flex-grow-1 ms-3">
                                                 <h6 class="mb-0 font-size-15">TM</h6>
                                             </div>
-                                            <!-- <div class="flex-grow-1 ms-3" onclick="getting_listing('ASM')">
+                                            <div class="flex-grow-1 ms-3" onclick="getting_listing('ASM')">
                                                 <svg style="float: right;" xmlns="http://www.w3.org/2000/svg" width="24"
                                                     height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -439,7 +439,7 @@
                                                     <circle cx="12" cy="5" r="1"></circle>
                                                     <circle cx="12" cy="19" r="1"></circle>
                                                 </svg>
-                                            </div> -->
+                                            </div>
 
 
                                         </div>
@@ -602,7 +602,7 @@
 
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row d-none">
                         <div class="col-md-12">
                             <div class="card">
 
@@ -1604,6 +1604,7 @@
 
 
     function fetchtable() {
+        blocking();
         var fromdate = $('#fromdate').val();
         var todate = $('#todate').val();
         $('#loader').show();
@@ -1698,7 +1699,8 @@
                 $.each(response, function(index, data) {
                     task_table.row.add([
                         index + 1,
-                        '<a href="inspection_report.php?name='+data.user_name+'" target="_blank">'+data.user_name+'</a>',
+                        '<a href="inspection_report.php?name=' + data.user_name +
+                        '" target="_blank">' + data.user_name + '</a>',
                         data.dealer_name,
                         data.time,
                         data.visit_close_time,
@@ -1798,7 +1800,11 @@
 
             })
             .catch(error => console.log('error', error));
-        fetch("<?php echo $api_url; ?>get/get_all_main_orders.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>",
+        console.log(
+            "<?php echo $api_url; ?>get/get_all_main_orders.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>&from=" +
+            fromdate + "&to=" + todate + "")
+        fetch("<?php echo $api_url; ?>get/get_all_main_orders.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>&from=" +
+                fromdate + "&to=" + todate + "",
                 requestOptions)
             .then(response => response.json())
             .then(response => {
@@ -1907,153 +1913,169 @@
 
             })
             .catch(error => console.log('error', error));
-        console.log('<?php echo $api_url; ?>get/get_region_district_dealers.php?key=03201232927')
+        // Log the URL for debugging
+        console.log(
+            '<?php echo $api_url; ?>get/get_region_district_dealers.php?key=03201232927&pre=<?php echo $_SESSION['privilege']; ?>&user_id=<?php echo $_SESSION['user_id']; ?>'
+            );
+
+        // Perform AJAX request
         $.ajax({
-            url: '<?php echo $api_url; ?>get/get_region_district_dealers.php?key=03201232927',
+            url: '<?php echo $api_url; ?>get/get_region_district_dealers.php?key=03201232927&pre=<?php echo $_SESSION['privilege']; ?>&user_id=<?php echo $_SESSION['user_id']; ?>',
             method: 'GET',
             dataType: 'json',
             success: function(data) {
-                console.log(data);
-                var district = JSON.parse(data[0]['district']);
+                console.log(data); // Log the data for debugging
 
+                // Parse the JSON strings returned from the API
+                var district = JSON.parse(data[0]['district']);
                 var city = JSON.parse(data[0]['city']);
                 var province = JSON.parse(data[0]['province']);
                 var region = JSON.parse(data[0]['region']);
                 var tm = JSON.parse(data[0]['tm']);
                 var asm = JSON.parse(data[0]['asm']);
+                var ownership = JSON.parse(data[0]['ownership']);
+                var company = JSON.parse(data[0]['company']);
 
-                console.log('regions')
-                console.log(region)
-
+                // Update counts for RM and TM
                 $('#rm_counts').text(tm.length);
                 $('#tm_counts').text(asm.length);
 
+                // Populate company/brand options
+                $('#company_brand').empty().append($('<option>', {
+                    value: '',
+                    text: 'Select Company / Brand'
+                }));
+                $.each(company, function(index, item) {
+                    $('#company_brand').append($('<option>', {
+                        value: item.company,
+                        text: item.company
+                    }));
+                });
 
-                console.log(district)
+                // Populate ownership options
+                $('#ownerships').empty().append($('<option>', {
+                    value: '',
+                    text: 'Select Ownership'
+                }));
+                $.each(ownership, function(index, item) {
+                    $('#ownerships').append($('<option>', {
+                        value: item.ownership,
+                        text: item.ownership
+                    }));
+                });
 
-                $('#district').empty();
-                $('#district').append($('<option>', {
+                // Populate district options
+                $('#district').empty().append($('<option>', {
                     value: '',
                     text: 'Select District'
                 }));
                 $.each(district, function(index, item) {
-
                     $('#district').append($('<option>', {
                         value: item.district,
                         text: item.district
                     }));
                 });
 
-
-                $('#city').empty();
-                $('#city').append($('<option>', {
+                // Populate city options
+                $('#city').empty().append($('<option>', {
                     value: '',
                     text: 'Select City'
                 }));
                 $.each(city, function(index, item) {
-
                     $('#city').append($('<option>', {
                         value: item.city,
                         text: item.city
                     }));
                 });
 
-                $('#province').empty();
-                $('#province').append($('<option>', {
+                // Populate province options
+                $('#province').empty().append($('<option>', {
                     value: '',
-                    text: 'Select'
+                    text: 'Select Province'
                 }));
                 $.each(province, function(index, item) {
-
                     $('#province').append($('<option>', {
                         value: item.province,
                         text: item.province
                     }));
                 });
 
-                $('#regions').empty();
-                $('#regions').append($('<option>', {
+                // Populate region options
+                $('#regions').empty().append($('<option>', {
                     value: '',
-                    text: 'Select'
+                    text: 'Select Region'
                 }));
                 $.each(region, function(index, item) {
-
                     $('#regions').append($('<option>', {
                         value: item.region,
                         text: item.region
                     }));
                 });
 
-                $('#tm_user').empty();
-                $('#tm_user').append($('<option>', {
+                // Populate TM users
+                $('#tm_user').empty().append($('<option>', {
                     value: '',
-                    text: 'Select'
+                    text: 'Select TM'
                 }));
                 $.each(tm, function(index, item) {
-
                     $('#tm_user').append($('<option>', {
                         value: item.id,
                         text: item.name
                     }));
 
-                    var htmlContent = '<div class="d-flex align-items-center">';
-                    htmlContent += '<div class="flex-grow-1 ms-3 overflow-hidden">';
-                    htmlContent += '<h5 class="font-size-15 mb-1 text-truncate">' + item.name +
-                        '</h5>';
-                    htmlContent += '</div>';
-                    htmlContent += '<div class="flex-shrink-0">';
-                    htmlContent +=
-                        '<h5 class="font-size-14 mb-0 text-truncate w-xs bg-light p-2 rounded text-center">';
-                    htmlContent +=
-                        '<a href="tm_dashboard.php?id=' + item.id +
-                        '" target="_blank" rel="noopener noreferrer"><i class="fas fa-file-import font-size-14 text-primary ms-1"></i></a> ';
-                    htmlContent += '</h5>';
-                    htmlContent += '</div>';
-                    htmlContent += '</div>';
-
-                    // Append the HTML content to the container
+                    // Create TM HTML content dynamically
+                    var htmlContent = `
+                <div class="d-flex align-items-center">
+                    <div class="flex-grow-1 ms-3 overflow-hidden">
+                        <h5 class="font-size-15 mb-1 text-truncate">${item.name}</h5>
+                    </div>
+                    <div class="flex-shrink-0">
+                        <h5 class="font-size-14 mb-0 text-truncate w-xs bg-light p-2 rounded text-center">
+                            <a href="tm_dashboard_rebulid.php?id=${item.id}" target="_blank" rel="noopener noreferrer">
+                                <i class="fas fa-file-import font-size-14 text-primary ms-1"></i>
+                            </a>
+                        </h5>
+                    </div>
+                </div>`;
                     $('#apend_rm_users').append(htmlContent);
                 });
-                $('#asm_users').empty();
-                $('#asm_users').append($('<option>', {
+
+                // Populate ASM users
+                $('#asm_users').empty().append($('<option>', {
                     value: '',
-                    text: 'Select'
+                    text: 'Select ASM'
                 }));
                 $.each(asm, function(index, item) {
-
                     $('#asm_users').append($('<option>', {
                         value: item.id,
                         text: item.name
                     }));
 
-                    var htmlContent = '<div class="d-flex align-items-center">';
-                    htmlContent += '<div class="flex-grow-1 ms-3 overflow-hidden">';
-                    htmlContent += '<h5 class="font-size-15 mb-1 text-truncate">' + item.name +
-                        '</h5>';
-                    htmlContent += '</div>';
-                    htmlContent += '<div class="flex-shrink-0">';
-                    htmlContent +=
-                        '<h5 class="font-size-14 mb-0 text-truncate w-xs bg-light p-2 rounded text-center">';
-                    htmlContent +=
-                        '<a href="asm_dashboard.php?id=' + item.id +
-                        '" target="_blank" rel="noopener noreferrer"><i class="fas fa-file-import font-size-14 text-primary ms-1"></i></a> ';
-                    htmlContent += '</h5>';
-                    htmlContent += '</div>';
-                    htmlContent += '</div>';
-
-                    // Append the HTML content to the container
-                    $('#apend_tm_users').append(htmlContent);
+                    // Create ASM HTML content dynamically
+                    var asmHtmlContent = `
+                <div class="d-flex align-items-center">
+                    <div class="flex-grow-1 ms-3 overflow-hidden">
+                        <h5 class="font-size-15 mb-1 text-truncate">${item.name}</h5>
+                    </div>
+                    <div class="flex-shrink-0">
+                        <h5 class="font-size-14 mb-0 text-truncate w-xs bg-light p-2 rounded text-center">
+                            <a href="asm_dashboard_rebuild.php?id=${item.id}" target="_blank" rel="noopener noreferrer">
+                                <i class="fas fa-file-import font-size-14 text-primary ms-1"></i>
+                            </a>
+                        </h5>
+                    </div>
+                </div>`;
+                    $('#apend_tm_users').append(asmHtmlContent);
                 });
 
-
-
-                // Refresh the Select2 element to display the newly added options
-                // $('#zm').trigger('change.select2');
+                // Refresh Select2 or other UI components if necessary
+                // $('#zm').trigger('change.select2'); // Uncomment if needed
             },
             error: function(error) {
-                console.error('Error fetching data:', error);
+                console.error('Error fetching data:', error); // Log error if any
             }
         });
+
 
 
     }
@@ -2276,6 +2298,7 @@
     }
 
     function filterTable() {
+        blocking();
         // Get selected values from dropdowns
         var selectedCity = $('#city').val();
         var selectedProvince = $('#province').val();
@@ -2313,6 +2336,52 @@
 
         // Calculate count of distinct 'sap_no' values
         var distinctASMCount = [...new Set(filteredData.map(dealer => dealer.asm))].length;
+
+        var asmMap = new Map();
+
+        // Filter the data to include only unique ASM entries
+        filteredData.forEach(dealer => {
+            if (!asmMap.has(dealer.asm)) {
+                asmMap.set(dealer.asm, dealer);
+            }
+        });
+
+        // Convert the map back to an array to get the filtered data
+        var distinctASMdata = Array.from(asmMap.values());
+
+        // Clear the existing options and content
+        // $('#asm_users').empty();
+        $('#apend_tm_users').empty();
+
+        console.log(distinctASMdata)
+        // Iterate through the distinct ASM data
+        $.each(distinctASMdata, function(index, item) {
+            // Append the option to the select element
+            $('#asm_users').append($('<option>', {
+                value: item.asm, // Use item.id directly as the value
+                text: item.asm_name // Use item.name directly as the text
+            }));
+
+            // Create the HTML content for each ASM
+            var htmlContent = `
+                <div class="d-flex align-items-center">
+                    <div class="flex-grow-1 ms-3 overflow-hidden">
+                        <h5 class="font-size-15 mb-1 text-truncate">${item.asm_name}</h5>
+                    </div>
+                    <div class="flex-shrink-0">
+                        <h5 class="font-size-14 mb-0 text-truncate w-xs bg-light p-2 rounded text-center">
+                            <a href="asm_dashboard_rebuild.php?id=${item.asm}&pre=${"<?php echo $_SESSION['privilege']; ?>"}" target="_blank" rel="noopener noreferrer">
+                                <i class="fas fa-file-import font-size-14 text-primary ms-1"></i>
+                            </a>
+                        </h5>
+                    </div>
+                </div>
+                `;
+
+            // Append the HTML content to the container
+            $('#apend_tm_users').append(htmlContent);
+        });
+
         $('#rm_counts').text(distinctTmCount);
         $('#tm_counts').text(distinctASMCount);
 
@@ -2365,7 +2434,7 @@
         $('#retail_sites').html(retail_sites);
         $('#coco_sites').html(coco_sites);
         $('#none_sites').html(none_sites);
-        
+
         $('#dealers_count').text(filteredData.length);
         $('#verified_dealers').html(verifiedCount);
         $('#nonverified_dealers').html(nonVerifiedCount);
@@ -2396,7 +2465,8 @@
         $.each(filteredTaskData, function(index, data) {
             task_table.row.add([
                 index + 1,
-                '<a href="inspection_report.php?name='+data.user_name+'" target="_blank">'+data.user_name+'</a>',
+                '<a href="inspection_report.php?name=' + data.user_name + '" target="_blank">' + data
+                .user_name + '</a>',
                 data.dealer_name,
                 data.time,
                 data.visit_close_time,
@@ -2456,8 +2526,8 @@
 
         // Calculate count of distinct 'sap_no' values
         var distinctASMCount = [...new Set(filteredData_orders.map(dealer => dealer.asm))].length;
-        $('#rm_counts').text(distinctTmCount);
-        $('#tm_counts').text(distinctASMCount);
+        // $('#rm_counts').text(distinctTmCount);
+        // $('#tm_counts').text(distinctASMCount);
 
         // Output the results
         // console.log('Distinct TM Count:', distinctTmCount);
@@ -3268,6 +3338,45 @@
 
         }
 
+    }
+
+    function blocking() {
+        $.blockUI({
+            message: `
+                    <div class='loader'>
+                        <div class='loader-bar'>
+                            <div class='loader-percentage'>0%</div>
+                        </div>
+                    </div>`,
+            css: {
+                border: 'none',
+                backgroundColor: 'transparent',
+                cursor: 'wait'
+            },
+            overlayCSS: {
+                backgroundColor: '#aab5a3',
+                opacity: 0.99,
+                cursor: 'wait'
+            }
+        });
+
+        let progress = 0;
+        const estimatedLoadTime = 10000; // 3 seconds
+        const intervalTime = estimatedLoadTime / 100; // Update every 1%
+
+        const interval = setInterval(function() {
+            if (progress < 100) {
+                progress += 1; // Increment progress
+                $('.loader-percentage').text(progress + '%').css('width', progress + '%'); // Update loader
+            } else {
+                clearInterval(interval);
+                unblocking();
+            }
+        }, intervalTime);
+    }
+
+    function unblocking() {
+        $.unblockUI();
     }
     </script>
 </body>

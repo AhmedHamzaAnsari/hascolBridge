@@ -20,4 +20,33 @@
     .layout-setting-btn{
         display: none;
     }
+    .loader {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+    }
+
+    .loader-bar {
+        position: relative;
+        width: 70%;
+        height: 30px;
+        background: #ccc;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .loader-percentage {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        background: #3498db;
+        color: #fff;
+        text-align: center;
+        line-height: 30px;
+        border-radius: 10px;
+        transition: width 0.1s;
+    }
 </style>

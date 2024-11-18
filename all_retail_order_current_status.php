@@ -58,6 +58,24 @@
         <div class="main-content">
             <div class="page-content">
                 <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="inputEmail4">From</label>
+
+                            <input type="date" class="form-control" name="fromdate" id="fromdate"
+                                value="<?php echo date('Y-m-d') ?>">
+
+                        </div>
+                       
+                        <div class="col-md-3">
+
+                            <input type="btn" class="btn btn-primary mt-3" name="btn_get" id="btn_get" value="Get"
+                                onclick="fetchtable()">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="container-fluid">
                     <!-- <div class="row">
 
                         <div class="col-md-6">
@@ -69,7 +87,7 @@
                     </div> -->
                     <div class="card">
 
-                        <div class="card-body">
+                        <div class="card-body" style="overflow: auto;">
 
                             <table id="myTable" class="display" style="width:100%">
                                 <thead>
@@ -78,17 +96,18 @@
                                         <th class="text-center">Date</th>
                                         <th class="text-center">JD Code</th>
                                         <th class="text-center">Site Name</th>
+                                        <th class="text-center">Site Depots</th>
+                                        <th class="text-center">Depot</th>
                                         <th class="text-center">Type</th>
                                         <th class="text-center">Total Amount</th>
                                         <th class="text-center">Ledger Amount</th>
-                                        <th class="text-center">Status</th>
                                         <!-- <th class="text-center">View Orders</th> -->
                                         <th class="text-center">Push Status</th>
                                         <th class="text-center">Product</th>
                                         <th class="text-center">Rate</th>
                                         <th class="text-center">Quantity</th>
                                         <th class="text-center">Bill Amount</th>
-
+                                        <th class="text-center">View Order Activity</th>
 
                                     </tr>
                                 </thead>
@@ -240,9 +259,22 @@
                                 <div class="mb-3 row">
                                     <label for="example-text-input" class="col-md-2 col-form-label">Name</label>
                                     <div class="col-md-10">
-                                    <select id="approved_order_status" name="approved_order_status"
+                                        <select id="approved_order_status" name="approved_order_status"
                                             class="form-control selectpicker">
-                                            <option value="1">Push</option>
+                                            <option selected>Choose...</option>
+                                            <option value="5">Forward</option>
+                                            <option value="2">Cancel</option>
+
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="example-text-input" class="col-md-2 col-form-label">Depot</label>
+                                    <div class="col-md-10">
+                                        <select id="s_depot" name="s_depot" class="form-control selectpicker">
+                                            <option selected>Choose...</option>
+
 
 
                                         </select>
@@ -428,6 +460,27 @@
         var type;
         var subtype;
         $(document).ready(function () {
+            var requestOptions = {
+                method: 'GET',
+                redirect: 'follow'
+            };
+
+            fetch("<?php echo $api_url; ?>get/geo_depot.php?key=03201232927", requestOptions)
+                .then(response => response.json())
+                .then(response => {
+                    console.log(response)
+                    var option = document.createElement("option");
+                    for (var i = 0; i < response.length; i++) {
+                        console.log(response[i]['consignee_name']);
+                        option.text = response[i]['consignee_name'];
+                        option.value = response[i]['consignee_name'];
+                        // var select = document.getElementById("s_depot");
+                        // select.appendChild(option);
+                        $('#s_depot').append("<option>" + response[i]['consignee_name'] + "</option>")
+                    }
+                })
+                .catch(error => console.log('error', error));
+
 
             table = $('#myTable').DataTable({
                 dom: 'Bfrtip',
@@ -553,7 +606,8 @@
 
                         }
 
-                    }, error: function (xhr, status, error) {
+                    },
+                    error: function (xhr, status, error) {
                         // Handle API errors
                         console.log('Error:', error);
                         console.log('Status:', status);
@@ -617,65 +671,11 @@
 
             $(document).on('click', '.approved_check', function () {
 
-var id = $(this).attr("id");
-// alert(employee_id);
-$('#order_approval').val(id);
-if (confirm("Are you sure you want to Push this order?")) {
-
-    var formData = new FormData($('#approved_orders')[0]);
-
-    $.ajax({
-        url: "<?php echo $api_url; ?>update/approved_orders.php",
-        cache: false,
-        contentType: false,
-        processData: false,
-        method: "POST",
-        data: formData,
-        beforeSend: function () {
-            $('#app_btn').text("Saving");
-            $('#app_btn').prop('disabled', true);
-        },
-        success: function (data) {
-            console.log(data);
-
-            if (data != 1) {
-                Swal.fire(
-                    'Server Error!',
-                    'Record Not Created',
-                    'error'
-                );
-                $('#app_btn').text("Save changes");
-                $('#app_btn').prop('disabled', false);
-            } else {
-                setTimeout(function () {
-                    Swal.fire(
-                        'Success!',
-                        'Record Created Successfully',
-                        'success'
-                    );
-                    $('#approved_orders')[0].reset();
-                    $('#approved_order_modal').modal('hide');
-                    fetchtable();
-                    $('#app_btn').text("Save changes");
-                    $('#app_btn').prop('disabled', false);
-                }, 2000);
-            }
-        },
-        error: function (xhr, status, error) {
-            console.log('Error:', error);
-            console.log('Status:', status);
-            console.log('Response:', xhr.responseText);
-            Swal.fire(
-                'Error!',
-                'There was an error processing your request',
-                'error'
-            );
-            $('#app_btn').text("Save changes");
-            $('#app_btn').prop('disabled', false);
-        }
-    });
-}
-});
+                var id = $(this).attr("id");
+                // alert(employee_id)
+                $('#order_approval').val(id);
+                $('#approved_order_modal').modal('show');
+            });
 
 
 
@@ -692,13 +692,17 @@ if (confirm("Are you sure you want to Push this order?")) {
 
 
         function fetchtable() {
-
+            var rettypes = "RT";
+            var fromdate = $('#fromdate').val();
+            // var rettypes = "CO ";
             var requestOptions = {
                 method: 'GET',
                 redirect: 'follow'
             };
-
-            fetch("<?php echo $api_url; ?>get/get_all_forwarded_orders.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>",
+            console.log(
+                "<?php echo $api_url; ?>get/get_all_order_current_status.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>&rettype=" + rettypes + "&from=" + fromdate + ""
+            );
+            fetch("<?php echo $api_url; ?>get/get_all_order_current_status.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>&rettype=" + rettypes + "&from=" + fromdate + "",
                 requestOptions)
                 .then(response => response.json())
                 .then(response => {
@@ -708,7 +712,7 @@ if (confirm("Are you sure you want to Push this order?")) {
                     $.each(response, function (index, data) {
                         var status = data.status;
                         var status_value = '';
-                        
+
                         var order_amount = parseFloat(data.total_amount);
                         var legder_balance = data.legder_balance;
                         var credit_limit = data.credit_limit;
@@ -764,12 +768,15 @@ if (confirm("Are you sure you want to Push this order?")) {
                                 '<span id=' + data.id +
                                 ' class="badge rounded-pill cursor-pointer bg-warning" data-key="t-new">Released</span>';
                         } else if (status == 5) {
+                            // alert(status)
                             status_value =
                                 '<span id=' + data.id +
-                                ' class="badge rounded-pill cursor-pointer bg-success" data-key="t-new">Complete</span>';
-                            push_status = '<button type="button" id=' + data.id +
-                                ' name="delete" class="btn btn-soft-danger waves-effect waves-light approved_check"><i class="fas fa-align-justify font-size-16 align-middle"></i></button>';
-
+                                ' class="badge rounded-pill cursor-pointer bg-success" data-key="t-new">Forwarded</span>';
+                        } else if (status == 6) {
+                            // alert(status)
+                            status_value =
+                                '<span id=' + data.id +
+                                ' class="badge rounded-pill cursor-pointer bg-success" data-key="t-new">Processed</span>';
                         }
                         var ret = '';
                         var ledger_balance = '';
@@ -783,56 +790,37 @@ if (confirm("Are you sure you want to Push this order?")) {
 
 
                         }
+                        var push_status = '';
+                        if (data.status != '6') {
+                            push_status = data.status_value;
+                        } else {
+                            push_status = '<button type="button" id=' + data.id +
+                                ' name="delete" class="btn btn-soft-danger waves-effect waves-light approved_check"><i class="fas fa-align-justify font-size-16 align-middle"></i></button>';
+
+                        }
+
+
 
                         table.row.add([
                             index + 1,
                             data.created_at,
                             data.sap_no,
                             data.name,
+                            data.dealers_depots,
+                            data.depot,
                             data.type,
                             parseFloat(data.total_amount).toLocaleString(),
                             ledger_balance,
-                            status_value,
-                            push_status,
-                            '',
-                            '',
-                            '',
-                            '',
+                            data.current_status,
+                            data.product_name,
+                            data.rate,
+                            data.quantity,
+                            data.amount,
+                            '<button type="button" id="delete" name="delete" onclick="get_orders_log(' +
+                            data.id +
+                            ')" class="btn btn-soft-danger waves-effect waves-light"><i class="fas fa-align-justify font-size-16 align-middle"></i></button>',
                         ]).draw(false);
-                        console.log("<?php echo $api_url; ?>get/get_main_sub_orders.php?key=03201232927&id=" + data.id + "");
-                        index = index + 1,
-                        fetch("<?php echo $api_url; ?>get/get_main_sub_orders.php?key=03201232927&id=" + data.id + "", requestOptions)
-                            .then(response2 => response2.json())
-                            .then(response23 => {
-                                if (response23.length > 0) {
-                                console.log(response23)
 
-                                for(var i=0;i<response23.length;i++)
-                                {
-                                    
-                                    console.log(response23[i]['date']);
-                                    data2 = response[i];
-                                    table.row.add([
-                                                index,
-                                                response23[i]['date'],
-                                                response23[i]['sap_no'],
-                                                response23[i]['name'],
-                                                '',
-                                                '',
-                                                '',
-                                                '',
-                                                '',
-                                                response23[i]['product_name'],
-                                                response23[i]['rate'],
-                                            parseFloat(response23[i]['quantity']).toLocaleString(),
-                                            parseFloat(response23[i]['amount']).toLocaleString(),
-                                        ]).draw(false);
-                                }
-                               
-                                }
-                                // $('#products_price_backlog_modal').modal('show');
-                            })
-                            .catch(error => console.log('error', error));
 
                     });
                 })
@@ -956,8 +944,7 @@ if (confirm("Are you sure you want to Push this order?")) {
                             '<div class="timeline-text">' +
                             '<h3 class="font-size-17">' + data.status_value + '</h3>' +
                             '<p class="mb-0 mt-2 pt-1 text-muted">Action By : ' + data.name + '</p>' +
-                            '<p class="mb-0 mt-2 pt-1 text-muted">Desceription : ' + data.description +
-                            '</p>' +
+
                             '<p class="mb-0 mt-2 pt-1 text-muted">Action Time : ' + data.created_at +
                             '</p>' +
                             '</div>' +
@@ -972,6 +959,34 @@ if (confirm("Are you sure you want to Push this order?")) {
                 .catch(error => console.log('error', error));
 
 
+        }
+
+        function editData(id) {
+            var requestOptions = {
+                method: 'GET',
+                redirect: 'follow'
+            };
+
+            fetch("<?php echo $api_url; ?>get/get_main_sub_orders.php?key=03201232927&id=" + id, requestOptions)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.length > 0) {
+                        console.log(data);
+
+                        for (var i = 0; i < data.length; i++) {
+                            console.log(data[i]['date']);
+                            // It looks like you want to process the data here. Adjust as needed.
+                            var data2 = data[i];
+                        }
+                    } else {
+                        console.log("No data found.");
+                    }
+                    // Uncomment the following line if you want to show the modal
+                    // $('#products_price_backlog_modal').modal('show');
+                })
+                .catch(error => console.log('error', error));
+
+            $('#offcanvasRight').offcanvas('show');
         }
     </script>
 </body>

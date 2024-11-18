@@ -202,7 +202,7 @@
                                     <label for="example-text-input" class="col-md-2 col-form-label">Name</label>
                                     <div class="col-md-10">
                                         <select id="approved_order_status" name="approved_order_status"
-                                            class="form-control selectpicker" required>
+                                            class="form-control selectpicker">
                                             <option selected>Choose...</option>
                                             <option value="5">Forward</option>
                                             <option value="2">Cancel</option>
@@ -214,7 +214,7 @@
                                 <div class="mb-3 row">
                                     <label for="example-text-input" class="col-md-2 col-form-label">Depot</label>
                                     <div class="col-md-10">
-                                        <select id="s_depot" name="s_depot" class="form-control selectpicker" required>
+                                        <select id="s_depot" name="s_depot" class="form-control selectpicker">
                                             <option selected>Choose...</option>
 
 
@@ -638,8 +638,8 @@
 
 
     function fetchtable() {
-        // var rettypes = "RT";
-        var rettypes = "CO ";
+        var rettypes = "RT";
+        // var rettypes = "CO ";
         var fromdate = $('#fromdate').val();
         var todate = $('#todate').val();
         var requestOptions = {
