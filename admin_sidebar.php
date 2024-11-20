@@ -9,7 +9,7 @@
                 <img src="assets/images/logo-dark-sm.png" class='small_logo' alt="" style="width: 26px;height: 26px;">
             </span>
             <span class="logo-lg">
-                <img src="assets/images/logo-dark.png" class="logo_image" alt="" style="width: 96px;height: 96px;">
+                <img src="assets/images/logo-dark.png" class="logo_image" alt="" style="width: 95px;height: 40px;">
             </span>
         </a>
 
@@ -48,6 +48,8 @@
 
                         <li><a href="dealers.php" data-key="t-level-1.2"> Stations </a></li>
                         <li><a href="dealer_location_request.php" data-key="t-level-1.2"> Stations Location Request</a></li>
+                        <li><a href="dealer_location_request_corrected.php" data-key="t-level-1.2"> Stations Error Location Approved</a></li>
+
                         <li><a href="dealers_acounts.php" data-key="t-level-1.2"> Stations Acounts</a></li>
 
                         <!-- <li><a href="depots.php" data-key="t-level-1.2"> Depots </a></li> -->
@@ -145,6 +147,20 @@
                                 <li><a href="manage_calander.php" data-key="t-level-1.12"> Task Calander</a></li>
                                 <li><a href="dealers_heri.php" data-key="t-level-1.13"> Retail Hierarchy</a></li>
                                 <li><a href="inspection_report.php" data-key="t-level-1.14">All Inspection</a></li>
+
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow">
+                                <span class="menu-item" data-key="t-multi-level">Lubes Setup</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="true">
+                                <li><a href="lubes_category.php" data-key="t-level-1.1">Category</a></li>
+                                <li><a href="lubes_sizes.php" data-key="t-level-1.1">Sizes</a>
+                                </li>
+                                <li><a href="lubes_products.php" data-key="t-level-1.1">Products</a>
+                                <li><a href="all_lubes_orders.php" data-key="t-level-1.1">Lubes Orders</a>
+
 
                             </ul>
                         </li>

@@ -69,8 +69,8 @@
                                         <th>Request By</th>
                                         <th>Coordinates</th>
                                         <th>Request At</th>
-                                        <th>View</th>
-                                        <th>Delete</th>
+                                        <th>Approved At</th>
+                                        <!-- <th>View</th> -->
 
                                     </tr>
                                 </thead>
@@ -336,55 +336,46 @@
     // }
 
     function deleteData(id) {
-        // Show confirmation dialog
-        Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // If confirmed, proceed with the deletion
-                var settings = {
-                    "url": "<?php echo $api_url; ?>delete/delete_extra_location_req.php?key=03201232927&id=" +
-                        id,
-                    "method": "GET",
-                    "timeout": 0,
-                };
 
-                $.ajax({
-                    ...settings,
-                    statusCode: {
-                        200: function(response) {
-                            Swal.fire(
-                                'Deleted!',
-                                'Record Deleted Successfully',
-                                'success'
-                            );
-                            setTimeout(function() {
-                                location
-                                    .reload(); // Refresh the page or perform any other action
-                            }, 2000);
-                        },
-                        success: function(data) {
-                            // Additional success handling if needed
-                        },
-                        error: function(xhr, textStatus, errorThrown) {
-                            Swal.fire(
-                                'Server Error!',
-                                'Record Not Deleted',
-                                'error'
-                            );
-                        }
-                    }
-                });
+        var settings = {
+            "url": "<?php echo $api_url; ?>delete/delete_container_size.php?key=03201232927&id=" + id + "",
+            "method": "GET",
+            "timeout": 0,
+        };
+
+        $.ajax({
+            ...settings,
+            statusCode: {
+                200: function(response) {
+                    Swal.fire(
+                        'Success!',
+                        'Record Deleted Successfully',
+                        'success'
+                    )
+                    setTimeout(function() {
+
+                        // location.reload();
+
+
+                    }, 2000);
+
+                },
+                success: function(data) {
+                    // Additional success handling if needed
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    Swal.fire(
+                        'Server Error!',
+                        'Record Not Deleted',
+                        'error'
+                    )
+
+                    // console.log("Request failed with status code: " + xhr.status);
+                }
             }
-        });
-    }
+        })
 
+    }
 
     function editData(id) {
 
@@ -416,7 +407,7 @@
             redirect: 'follow'
         };
 
-        fetch("<?php echo $api_url; ?>get/get_dealers_location_request.php?key=03201232927&id=<?php echo $_SESSION['user_id'] ?>",
+        fetch("<?php echo $api_url; ?>get/get_dealer_location_request_corrected.php?key=03201232927&id=<?php echo $_SESSION['user_id'] ?>",
                 requestOptions)
             .then(response => response.json())
             .then(response => {
@@ -428,16 +419,12 @@
                         index + 1,
                         data.dealer_name,
                         data.username,
-                        (data.coordinates !== 'null' ?
-                            `${data.coordinates}` :
-                            "Error"),
+                        data.coordinates,
                         data.created_at,
-                        '<a type="button" id="View" name="view" href="dealers_location_approve.php?id=' +
-                        data.id +
-                        '" target="_blank" class="btn btn-soft-warning waves-effect waves-light"><i class="fas fa-eye font-size-16 align-middle"></i></a>',
-                        '<button type="button" id="delete" name="delete" onclick="deleteData(' +
-                        data.id +
-                        ')" class="btn btn-soft-danger waves-effect waves-light"><i class="bx bx-trash-alt font-size-16 align-middle"></i></button>'
+                        data.approved_time,
+                        // '<a type="button" id="View" name="view" href="dealers_location_approve.php?id=' +
+                        // data.id +
+                        // '" target="_blank" class="btn btn-soft-warning waves-effect waves-light"><i class="fas fa-eye font-size-16 align-middle"></i></a>'
                     ]).draw(false);
                 });
             })

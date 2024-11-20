@@ -70,13 +70,47 @@
     }
 </style>
 
+<style>
+    #main_data,
+    #sub_data,
+    .dynamic_table {
+        border: 1px solid;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+
+    #main_data th,
+    #sub_data th,
+    .dynamic_table th {
+        border: 1px solid;
+        padding: 8px;
+        text-align: left;
+        background-color: #f2f2f2;
+    }
+
+
+    #main_data td,
+    #sub_data td,
+    .dynamic_table td {
+        border: 1px solid;
+        padding: 8px;
+        text-align: left;
+    }
+</style>
+
 <body>
 
     <!-- <body data-layout="horizontal"> -->
 
     <!-- Begin page -->
     <div id="layout-wrapper">
-
+        <?php
+        $pre = $_SESSION['privilege'];
+        // $disabledAttribute = ($pre != 'Admin') ? 'd-none' : '';
+        
+        // $disabledAttribute = (strpos($pre, 'TM') === 0) ? 'disabled' : '';
+        
+        ?>
 
         <?php include 'header.php'; ?>
         <!-- ========== Left Sidebar Start ========== -->
@@ -94,9 +128,15 @@
                             <div class="card">
                                 <div class="card-body">
                                     <div class="mt-3" style="display: flex;justify-content:center;">
+
                                         <h5 class="mb-5" id="user">P2P</h5>
 
                                     </div>
+                                    <!-- <button id="refresh_recon" class="btn btn-danger mb-3 add_button"
+                                        onclick="deleteDealerSetup()">Refresh
+                                        Dealer <input type="hidden" name="dealer_id" id="refrsh_dealers"
+                                            value="<?php echo $_GET['id'] ?>">
+                                    </button> -->
                                     <!-- Nav tabs -->
                                     <ul class="nav nav-pills nav-justified" role="tablist">
                                         <li class="nav-item">
@@ -130,6 +170,11 @@
                                                 <span>Users</span>
                                             </a>
                                         </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" data-bs-toggle="tab" href="#last_recon" role="tab">
+                                                <span>Update Last Recon</span>
+                                            </a>
+                                        </li>
 
 
                                     </ul>
@@ -142,7 +187,7 @@
                             <div class="tab-pane active" id="overview" role="tabpanel">
                                 <div class="card">
                                     <div class="card-body">
-                                        <button id="add" class="btn btn-primary mb-3"> Add</button>
+                                        <button id="add" class="btn btn-primary mb-3  add_button"> Add</button>
                                         <br>
 
                                         <table id="myTable2" class="display" style="width:100%">
@@ -166,7 +211,7 @@
                                 <div class="card">
                                     <div class="card-body">
 
-                                        <button id="add_dispenser" class="btn btn-primary mb-3"> Add</button>
+                                        <button id="add_dispenser" class="btn btn-primary mb-3 add_button"> Add</button>
                                         <br>
 
                                         <table id="dispenser_table" class="display" style="width:100%">
@@ -176,7 +221,10 @@
                                                     <th class="text-center">Despensor</th>
                                                     <th class="text-center">Description</th>
                                                     <th class="text-center">Created At</th>
-                                                    <th class="text-center">Delete</th>
+                                                    <?php if ($pre == 'Admin') { ?>
+                                                        <th class="text-center">Delete</th>
+
+                                                    <?php } ?>
 
 
                                                 </tr>
@@ -195,7 +243,7 @@
                                 <div class="card">
                                     <div class="card-body">
 
-                                        <button id="addnozel" class="btn btn-primary mb-3"> Add</button>
+                                        <button id="addnozel" class="btn btn-primary mb-3 add_button"> Add</button>
                                         <br>
 
                                         <table id="myTable3" class="display" style="width:100%">
@@ -206,8 +254,13 @@
                                                     <th class="text-center">Product</th>
                                                     <th class="text-center">Tank</th>
                                                     <th class="text-center">Dispenser</th>
+                                                    <th class="text-center">Last Reading</th>
                                                     <th class="text-center">Created At</th>
-                                                    <th class="text-center">Delete</th>
+                                                    <?php if ($pre == 'Admin') { ?>
+                                                        <!-- <th class="text-center">Edit Last Recon</th> -->
+                                                        <th class="text-center">Delete</th>
+
+                                                    <?php } ?>
 
                                                 </tr>
                                             </thead>
@@ -226,7 +279,8 @@
                                     <div class="card-body">
                                         <div class="mx-n3 px-3" data-simplebar style="max-height: 580px;">
 
-                                            <button id="add_products" class="btn btn-primary mb-3"> Add</button>
+                                            <button id="add_products" class="btn btn-primary mb-3 add_button">
+                                                Add</button>
                                             <br>
 
                                             <div class="mt-4">
@@ -242,8 +296,10 @@
                                                                 <th class="text-center">Indent Price</th>
                                                                 <th class="text-center">Nozel Price</th>
                                                                 <th class="text-center">Update Time</th>
-                                                                <th class="text-center">Edit</th>
-                                                                <th class="text-center">Log</th>
+                                                                <?php if ($pre == 'Admin') { ?>
+                                                                    <th class="text-center">Edit</th>
+                                                                    <th class="text-center">Log</th>
+                                                                <?php } ?>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -265,7 +321,7 @@
                             <div class="tab-pane" id="tanks_panel" role="tabpanel">
                                 <div class="card">
                                     <div class="card-body">
-                                        <button id="add_tanks" class="btn btn-primary mb-3"> Add</button>
+                                        <button id="add_tanks" class="btn btn-primary mb-3 add_button"> Add</button>
                                         <br>
 
                                         <table id="tanks_table" class="display" style="width:100%">
@@ -274,12 +330,15 @@
                                                     <th class="text-center">S.No</th>
                                                     <th class="text-center">Tank #</th>
                                                     <th class="text-center">Product</th>
-                                                    <th class="text-center">Min Limit</th>
-                                                    <th class="text-center">Max Limit</th>
+                                                    <!-- <th class="text-center">Min Limit</th> -->
+                                                    <th class="text-center">Capacity</th>
                                                     <th class="text-center">Current Dip</th>
-                                                    <th class="text-center">Dip</th>
-                                                    <th class="text-center">Dip Backlog</th>
-                                                    <th class="text-center">Delete</th>
+                                                    <?php if ($pre == 'Admin') { ?>
+                                                        <th class="text-center">Dip</th>
+                                                        <th class="text-center">Dip Backlog</th>
+                                                        <th class="text-center">Delete</th>
+                                                    <?php } ?>
+
 
 
                                                 </tr>
@@ -307,7 +366,7 @@
                                     <div class="card-body">
                                         <div class="mx-n3 px-3" data-simplebar style="max-height: 580px;">
 
-                                            <button id="add_users" class="btn btn-primary mb-3"> Add</button>
+                                            <button id="add_users" class="btn btn-primary mb-3 add_button"> Add</button>
                                             <br>
 
                                             <div class="mt-4">
@@ -321,7 +380,52 @@
                                                                 <th class="text-center">Password</th>
                                                                 <th class="text-center">Phone</th>
                                                                 <!-- <th class="text-center">Active/In-Active</th> -->
-                                                                <th class="text-center">Edit</th>
+                                                                <?php if ($pre == 'Admin') { ?>
+                                                                    <th class="text-center">Edit</th>
+
+                                                                <?php } ?>
+                                                                <!-- <th class="text-center">Delete</th> -->
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                    <!-- end card body -->
+                                </div>
+                            </div>
+
+                            <div class="tab-pane" id="last_recon" role="tabpanel">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="mx-n3 px-3" data-simplebar style="max-height: 580px;">
+
+
+
+                                            <div class="mt-4">
+                                                <div class="table-responsive">
+                                                    <table class="table table-nowrap table-hover mb-1"
+                                                        id="last_recon_table">
+                                                        <thead class="bg-light">
+                                                            <tr>
+                                                                <th class="text-center">S #</th>
+                                                                <th class="text-center">Planned Date</th>
+                                                                <th class="text-center">Site Name</th>
+                                                                <th class="text-center">Product </th>
+                                                                <th class="text-center">Total Days</th>
+                                                                <th class="text-center">From</th>
+                                                                <th class="text-center">To</th>
+                                                                <!-- <th class="text-center">Active/In-Active</th> -->
+                                                                <?php if ($pre == 'Admin') { ?>
+                                                                    <th class="text-center">Edit</th>
+
+                                                                <?php } ?>
                                                                 <!-- <th class="text-center">Delete</th> -->
                                                             </tr>
                                                         </thead>
@@ -513,18 +617,27 @@
 
         <div id="survey_modal" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true"
             data-bs-scroll="true">
-            <div class="modal-dialog modal-lg">
+            <div class="modal-dialog modal-xl">
                 <div class="modal-content">
                     <div class="modal-header">
                         <!-- <h5 class="modal-title" id="myModalLabel">Create Permit Type</h5> -->
                         <h5 class="modal-title" id="myModalLabel">
-                            <h5 id="labelc">Survey Response</h5>
+                            <h5 id="labelc">Edit Last Recon</h5>
                         </h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
 
-                        <div class="container-fluid">
+                        <div class="container-fluid" id="exporting">
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <!-- <img src="<?php echo $api_url . '' . $logo; ?>" alt="Image description"
+                                        style="width: 100px;"> -->
+
+                                </div>
+
+                            </div>
                             <div class="row" id="survey-container">
 
                             </div>
@@ -985,18 +1098,18 @@
                                     </select>
                                 </div>
 
-                                <div class="col-4">
+                                <div class="col-4 d-none">
                                     <label for="">Min Limit</label>
-                                    <input type="number" class="form-control" name="min_limit">
+                                    <input type="number" class="form-control" name="min_limit" value="0">
                                 </div>
                                 <div class="col-4">
-                                    <label for="">Max Limit</label>
+                                    <label for="">Capacity</label>
                                     <input type="number" class="form-control" name="max_limit">
                                 </div>
 
                             </div>
 
-                            <div class="col-12" style="text-align: right;">
+                            <div class="col-12 mt-5" style="text-align: right;">
                                 <input type="hidden" name="user_id" id="user_id"
                                     value="<?php echo $_SESSION['user_id']; ?>">
                                 <input type="hidden" name="dealer_id" value="<?php echo $_GET['id'] ?>">
@@ -1464,6 +1577,79 @@
         </div><!-- /.modal-dialog -->
     </div>
 
+    <div id="recon_update_modal" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true"
+        data-bs-scroll="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <!-- <h5 class="modal-title" id="myModalLabel">Create Permit Type</h5> -->
+                    <h5 class="modal-title" id="myModalLabel">
+                        <h5 id="labelc">Update Nozel Last Recon Reading</h5>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" id="nozel_last_recon_update" enctype="multipart/form-data">
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="example-text-input" class="col-md-12 col-form-label">Nozel</label>
+
+
+                                <input type="text" class="form-control" name='nozel_name' id="nozel_name" required
+                                    readonly>
+
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="example-text-input" class="col-md-12 col-form-label">Current Reading</label>
+
+                                <input type="text" class="form-control" name='nozel_last_recon' id="nozel_last_recon"
+                                    required readonly>
+
+                            </div>
+
+
+                            <div class="col-md-6">
+                                <label for="example-text-input" class="col-md-12 col-form-label">New Reading</label>
+
+                                <input type="text" class="form-control" name='nozel_new_reading' id="nozel_new_reading"
+                                    required>
+                                <input type="hidden" name="recon_id" id="recon_id">
+                                <input type="hidden" name="nozel_id" id="nozel_id">
+                                <input type="hidden" name="last_task_id" id="last_task_id">
+                                <input type="hidden" name="recon_product_id" id="recon_product_id">
+
+                            </div>
+                            <div class="col-md-6">
+                                <label for="example-text-input" class="col-md-2 col-form-label">Description</label>
+
+                                <textarea class="form-control" id="recon_description" name="recon_description" rows="4"
+                                    cols="50" required></textarea>
+
+                            </div>
+
+
+
+
+                            <div class="col-12" style="text-align: right;">
+                                <input type="hidden" name="user_id" id="user_id"
+                                    value="<?php echo $_SESSION['user_id']; ?>">
+                                <input type="hidden" name="dealer_id" value="<?php echo $_GET['id'] ?>">
+                                <input type="hidden" name="row_id" id='dealer_user_id'>
+                                <button type="button" class="btn btn-secondary waves-effect"
+                                    data-bs-dismiss="modal">Close</button>
+                                <input class="btn btn-primary waves-effect waves-light" type="submit" name="recon_btn"
+                                    id="recon_btn" value="Save">
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
 
 
 
@@ -1509,6 +1695,7 @@
     var coordinates;
     let map;
     var circle;
+    var last_recon_table;
 
     // ================================================================ modal intitailize start
 
@@ -1629,6 +1816,13 @@
         buttons: ['copy', 'excel', 'csv', 'pdf', 'print']
 
     });
+    last_recon_table = $('#last_recon_table').DataTable({
+        dom: 'Bfrtip',
+
+
+        buttons: ['copy', 'excel', 'csv', 'pdf', 'print']
+
+    });
     products_table = $('#products_table').DataTable({
         dom: 'Bfrtip',
 
@@ -1726,6 +1920,15 @@
             $('input[name="dealer_id"]').val(decryptedId);
             console.log('This code executes after a 2-second delay');
         }, 2000);
+
+        var prel_role = "<?php echo $_SESSION['privilege'] ?>";
+        if (prel_role != 'Admin') {
+            $('.add_button').addClass('d-none');
+        } else {
+            $('.add_button').removeClass('d-none');
+
+        }
+
         fetchtable();
         // order_details();
         // orderlist();
@@ -1738,7 +1941,7 @@
         // dealers_complaints();
         dealers_products();
         dealers_users();
-        // dealers_visits();
+        get_last_recon();
         // get_dealer_target();
         d_dispenser();
         // get_response_answers(1);
@@ -1834,7 +2037,12 @@
         var chart = new ApexCharts(document.querySelector("#chart"), options);
         chart.render();
 
+
+
+
     });
+
+
 
     ///================================================================ get functions start 
     function product_tankss() {
@@ -1988,7 +2196,7 @@
 
                 var banner = response[0]['banner'];
                 var logo = response[0]['logo'];
-                var base_url = '<?php echo $api_url_files; ?>';
+                var base_url = '<?php echo $api_url; ?>';
 
                 if (banner != '') {
                     banner = base_url + 'uploads/' + banner;
@@ -2117,7 +2325,7 @@
                         // data.name,
                         data.type,
                         data.consignee_name,
-                        parseFloat(data.total_amount).toLocaleString(),
+                        data.total_amount,
                         data.legder_balance,
                         status_value,
                         '<button type="button" id="view_order" name="view_order" onclick="view_order(' +
@@ -2232,7 +2440,7 @@
     }
 
     function tanks_view() {
-
+        var prel_role = "<?php echo $_SESSION['privilege'] ?>";
         var requestOptions = {
             method: 'GET',
             redirect: 'follow'
@@ -2254,20 +2462,26 @@
                             index + 1,
                             data.lorry_no,
                             data.name,
-                            data.min_limit,
+                            // data.min_limit,
                             data.max_limit,
                             data.current_dip,
-                            '<button type="button" id="tank_dip" name="tank_dip" onclick="add_dip(' +
-                            data
-                                .id + ',' + data.current_dip +
-                            ')" class="btn btn-soft-danger waves-effect waves-light"><i class="fas fa-plus-square font-size-16 align-middle"></i></button>',
-                            '<button type="button" id="tank_dip" name="tank_dip" onclick="get_dip_backlog(' +
-                            data
-                                .id + ',' + data.current_dip +
-                            ')" class="btn btn-soft-danger waves-effect waves-light"><i class="fas fa-align-justify font-size-16 align-middle"></i></button>',
-                            '<button type="button" id="delete" name="delete" onclick="deleteDatatank(' +
-                            data.id +
-                            ')" class="btn btn-soft-danger waves-effect waves-light"><i class="bx bx-trash-alt font-size-16 align-middle"></i></button>'
+                            (prel_role == 'Admin' ?
+                                '<td> <button type="button" id="tank_dip" name="tank_dip" onclick="add_dip(' +
+                                data
+                                    .id + ',' + data.current_dip +
+                                ')" class="btn btn-soft-danger waves-effect waves-light"><i class="fas fa-plus-square font-size-16 align-middle"></i></button></td>' :
+                                ''),
+                            (prel_role == 'Admin' ?
+                                '<td> <button type="button" id="tank_dip" name="tank_dip" onclick="get_dip_backlog(' +
+                                data
+                                    .id + ',' + data.current_dip +
+                                ')" class="btn btn-soft-danger waves-effect waves-light"><i class="fas fa-align-justify font-size-16 align-middle"></i></button></td>' :
+                                ''),
+                            (prel_role == 'Admin' ?
+                                '<td><button type="button" id="delete" name="delete" onclick="deleteDatatank(' +
+                                data.id +
+                                ')" class="btn btn-soft-danger waves-effect waves-light"><i class="bx bx-trash-alt font-size-16 align-middle"></i></button></td>' :
+                                '')
 
 
                         ]).draw(false);
@@ -2314,6 +2528,7 @@
     }
 
     function dealers_products() {
+        var prel_role = "<?php echo $_SESSION['privilege'] ?>";
         var requestOptions = {
             method: 'GET',
             redirect: 'follow'
@@ -2367,10 +2582,11 @@
                         data.indent_price,
                         data.nozel_price,
                         data.update_time,
-                        '<button type="button" id="tank_dip" name="tank_dip" onclick="edit_product_price(' +
-                        data
-                            .id +
-                        ')" class="btn btn-soft-danger waves-effect waves-light"><i class="fas fa-plus-square font-size-16 align-middle"></i></button>',
+                        (prel_role == 'Admin' ?
+                            '<td><button type="button" id="edit" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" name="edit" onclick="editData(' +
+                            data.id +
+                            ')" class="btn btn-soft-warning waves-effect waves-light"><i class="bx bx-edit-alt font-size-16 align-middle"></i></button></td>' :
+                            ''),
                         '<button type="button" id="tank_dip" name="tank_dip" onclick="get_product_price_backlog(' +
                         data
                             .id +
@@ -2433,6 +2649,8 @@
     }
 
     function dealers_users() {
+        var prel_role = "<?php echo $_SESSION['privilege'] ?>";
+
         var requestOptions = {
             method: 'GET',
             redirect: 'follow'
@@ -2455,10 +2673,12 @@
                         data.password,
                         data.contact,
                         // data.contact,
-                        '<button type="button" id="tank_dip" name="tank_dip" onclick="edit_dealers_users(' +
-                        data
-                            .id +
-                        ')" class="btn btn-soft-danger waves-effect waves-light"><i class="fas fa-edit font-size-16 align-middle"></i></button>'
+                        (prel_role == 'Admin' ?
+                            '<td><button type="button" id="tank_dip" name="tank_dip" onclick="edit_dealers_users(' +
+                            data
+                                .id +
+                            ')" class="btn btn-soft-danger waves-effect waves-light"><i class="fas fa-edit font-size-16 align-middle"></i></button>' :
+                            '')
                         // '<button type="button" id="tank_dip" name="tank_dip" onclick="delete_dealer_(' +
                         // data
                         // .id +
@@ -2469,6 +2689,71 @@
 
 
                 });
+            })
+            .catch(error => console.log('error', error));
+    }
+
+    function get_last_recon() {
+        var prel_role = "<?php echo $_SESSION['privilege'] ?>";
+
+        var requestOptions = {
+            method: 'GET',
+            redirect: 'follow'
+        };
+
+        fetch("<?php echo $api_url; ?>get/get_dealer_last_recons.php?key=03201232927&dealer_id=" + decryptedId + "",
+            requestOptions)
+            .then(response => response.json())
+            .then(result => {
+
+                $.each(result, function (index, data) {
+
+                    console.log(data.name)
+
+                    last_recon_table.row.add([
+
+                        index + 1,
+                        data.created_at,
+                        data.dealer_name,
+                        data.product_name,
+                        data.total_days,
+                        data.last_recon_date,
+                        data.created_at,
+                        // data.contact,
+                        (prel_role == 'Admin' ?
+                            '<td><button type="button" id="tank_dip" name="tank_dip" onclick="edit_last_recon(' +
+                            data.task_id + ',' + data.dealer_id + ',' + data.product_id +
+                            ')" class="btn btn-soft-danger waves-effect waves-light"><i class="fas fa-edit font-size-16 align-middle"></i></button>' :
+                            '')
+                        // '<button type="button" id="tank_dip" name="tank_dip" onclick="delete_dealer_(' +
+                        // data
+                        // .id +
+                        // ')" class="btn btn-soft-danger waves-effect waves-light"><i class="fas fa-trash-alt font-size-16 align-middle"></i></button>',
+
+
+                    ]).draw(false);
+
+
+                });
+            })
+            .catch(error => console.log('error', error));
+    }
+
+    function edit_last_recon(task_id, dealer_id, product_id) {
+        $('#survey-container').empty();
+        var requestOptions = {
+            method: 'GET',
+            redirect: 'follow'
+        };
+        console.log("<?php echo $api_url; ?>get/get_recon_data_for_edit.php?key=03201232927&task_id=" +
+            task_id + "&dealer_id=" + dealer_id + "&product_id=" + product_id + "")
+        fetch("<?php echo $api_url; ?>get/get_recon_data_for_edit.php?key=03201232927&task_id=" +
+            task_id + "&dealer_id=" + dealer_id + "&product_id=" + product_id + "", requestOptions)
+            .then(response => response.json())
+            .then(async result => {
+                console.log(result)
+                stock_reco_new(result);
+
             })
             .catch(error => console.log('error', error));
     }
@@ -2548,6 +2833,7 @@
     });
 
     function d_dispenser() {
+        var prel_role = "<?php echo $_SESSION['privilege'] ?>";
 
         var requestOptions = {
             method: 'GET',
@@ -2571,9 +2857,11 @@
                         data.name,
                         data.description,
                         data.created_at,
-                        '<button type="button" id="delete" name="delete" onclick="deleteDatadispensor(' +
-                        data.id +
-                        ')" class="btn btn-soft-danger waves-effect waves-light"><i class="bx bx-trash-alt font-size-16 align-middle"></i></button>'
+                        (prel_role == 'Admin' ?
+                            '<td><button type="button" id="delete" name="delete" onclick="deleteDatadispensor(' +
+                            data.id +
+                            ')" class="btn btn-soft-danger waves-effect waves-light"><i class="bx bx-trash-alt font-size-16 align-middle"></i></button></td>' :
+                            '')
 
 
                     ]).draw(false);
@@ -2592,6 +2880,7 @@
     }
 
     function nozels() {
+        var prel_role = "<?php echo $_SESSION['privilege'] ?>";
 
         var requestOptions = {
             method: 'GET',
@@ -2613,10 +2902,20 @@
                         data.product_name,
                         data.tank_name,
                         data.dispenser_name,
+                        data.last_reading,
                         data.created_at,
-                        '<button type="button" id="delete" name="delete" onclick="deleteDatanozzels(' +
-                        data.id +
-                        ')" class="btn btn-soft-danger waves-effect waves-light"><i class="bx bx-trash-alt font-size-16 align-middle"></i></button>'
+                        // (prel_role == 'Admin' ?
+                        //     '<td><button type="button" id="tank_dip" name="tank_dip" onclick="edit_dealers_last_recon(' +
+                        //     data.id + ',' + data.recon_data_id + ',' + data.last_reading + ',' + data
+                        //     .dealer_id + ',\'' + data.name + '\',' + data.task_id + ',' + data
+                        //     .products +
+                        //     ')" class="btn btn-soft-danger waves-effect waves-light"><i class="fas fa-edit font-size-16 align-middle"></i></button>' :
+                        //     ''),
+                        (prel_role == 'Admin' ?
+                            '<td><button type="button" id="delete" name="delete" onclick="deleteDatanozzels(' +
+                            data.id +
+                            ')" class="btn btn-soft-danger waves-effect waves-light"><i class="bx bx-trash-alt font-size-16 align-middle"></i></button></td>' :
+                            '')
 
 
                     ]).draw(false);
@@ -2629,6 +2928,19 @@
 
 
     }
+
+    function edit_dealers_last_recon(nozel_id, recon_id, last_recon_reading, dealer_id, nozel_name, task_id, product_id) {
+
+        $('#recon_id').val(recon_id);
+        $('#nozel_id').val(nozel_id);
+        $('#nozel_last_recon').val(last_recon_reading);
+        $('#nozel_name').val(nozel_name);
+        $('#last_task_id').val(task_id);
+        $('#recon_product_id').val(product_id);
+
+        $('#recon_update_modal').modal('show');
+    }
+
 
     function nozels_tanks_form() {
 
@@ -3310,6 +3622,8 @@
 
     });
 
+
+
     function add_dip(id, old_dip) {
 
         $('#tank_id').val(id)
@@ -3834,7 +4148,7 @@
                 } else {
                     if (question.cancel_file != null) {
                         $questionDiv.append(
-                            'Answer: <i class="text-danger" style="font-size: 20px;font-weight: bold;">X</i><a href="<?php echo $api_url_files; ?>uploads/' +
+                            'Answer: <i class="text-danger" style="font-size: 20px;font-weight: bold;">X</i><a href="<?php echo $api_url; ?>uploads/' +
                             question.cancel_file +
                             '" target="_blank" style="margin-left: 20px;"><i class="fas fa-image text-info" style="font-size: 20px;font-weight: bold;"></i></a><br>'
                         );
@@ -3964,6 +4278,59 @@
         }
 
     }
+
+    function deleteDealerSetup(id) {
+        var result = confirm("Are you sure you want to delete this record?");
+
+        // If the user confirms, proceed with deletion
+        if (result) {
+            var dealer_ids__ = $('#refrsh_dealers').val();
+            //   alert(dealer_ids)
+            // Call a function to delete the item
+
+            console.log("<?php echo $api_url; ?>delete/dealer_setup_delete.php?key=03201232927&id=" + dealer_ids__ + "")
+            var settings = {
+                "url": "<?php echo $api_url; ?>delete/dealer_setup_delete.php?key=03201232927&id=" + dealer_ids__ + "",
+                "method": "GET",
+                "timeout": 0,
+            };
+
+            $.ajax({
+                ...settings,
+                statusCode: {
+                    200: function (response) {
+                        console.log(response)
+                        Swal.fire(
+                            'Success!',
+                            'Record Deleted Successfully',
+                            'success'
+                        )
+                        setTimeout(function () {
+
+                            // location.reload();
+
+
+                        }, 2000);
+
+                    },
+                    success: function (data) {
+                        // Additional success handling if needed
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        Swal.fire(
+                            'Server Error!',
+                            'Record Not Deleted',
+                            'error'
+                        )
+
+                        // console.log("Request failed with status code: " + xhr.status);
+                    }
+                }
+            })
+        }
+
+    }
+
     function deleteDatanozzels(id) {
         var result = confirm("Are you sure you want to delete this record?");
 
@@ -4012,6 +4379,629 @@
         }
 
     }
+
+    function updateSalesAndDifference() {
+        let totalSales = 0;
+
+        // Iterate over each nozzle row
+        $('.nozzle-row').each(function () {
+            const opening = parseFloat($(this).find('.opening-input').val()); // Get opening value
+            const closing = parseFloat($(this).find('.closing-input').val()); // Get closing value
+            const differenceCell = $(this).find('.difference-cell'); // Reference to the difference input
+
+            // Check if closing is greater or equal to opening
+            if (!isNaN(closing) && closing >= opening) {
+                const difference = closing - opening;
+                differenceCell.val(difference.toFixed(2)); // Update the difference field
+                totalSales += difference; // Add to total sales
+            } else {
+                // differenceCell.val('Invalid');  // Show error if closing is less than opening
+                differenceCell.val(''); // Show error if closing is less than opening
+                alert("Closing Reading Shoud be Greater then Closing Reading")
+
+            }
+        });
+
+        // Update the total sales field
+        $('input[name="total_sales"]').val(totalSales.toFixed(2));
+        $('#total_nozel_sales').val(totalSales.toFixed(2));
+        var no_days = $('#no_day_no').val();
+        var daily_sales = totalSales / no_days;
+        $('#average_daily_sales').val(daily_sales.toFixed(2));
+
+        updateBookValue();
+    }
+
+    function updatePhysicalStock() {
+        let totalClosingQty = 0;
+
+        // Iterate through each tank's closing quantity input field
+        $('.closing-qty-input').each(function () {
+            const closingQty = parseFloat($(this).val()); // Get the value of closing qty
+            if (!isNaN(closingQty)) {
+                totalClosingQty += closingQty; // Add to total closing quantity
+            }
+        });
+
+        // Update the Physical Stock field with the total sum
+        $('input[name="sum_of_closing"]').val(totalClosingQty.toFixed(2));
+        $('#total_phy_stock').val(totalClosingQty.toFixed(2));
+        updateBookValue();
+    }
+
+    // Add event listeners to all closing inputs to trigger the calculation on keyup
+    $(document).on('keyup', '.closing-qty-input, .closing-input', function () {
+        updatePhysicalStock(); // Update physical stock when closing qty changes
+        updateSalesAndDifference(); // Update sales difference when closing meter reading changes
+    });
+
+    function updateTotalReceipts() {
+        const inTransit = parseFloat($('input[name="in_transit"]').val()) || 0;
+        const finalReceipts = parseFloat($('input[name="final_receipts"]').val()) || 0;
+
+        // Calculate total receipts based on the given formula
+        const totalReceipts = finalReceipts - inTransit;
+
+        // Update total receipts field
+        $('input[name="total_receipts"]').val(totalReceipts.toFixed(2));
+        $('#total_receipts').val(totalReceipts.toFixed(2));
+        updateBookValue();
+    }
+
+    // Function to update Final Receipts when Total Receipts and In Transit change
+    function updateFinalReceipts() {
+        const totalReceipts = parseFloat($('input[name="total_receipts"]').val()) || 0;
+        const inTransit = parseFloat($('input[name="in_transit"]').val()) || 0;
+
+        // Calculate final receipts based on the formula
+        const finalReceipts = totalReceipts + inTransit;
+
+        // Update final receipts field
+        $('input[name="final_receipts"]').val(finalReceipts.toFixed(2));
+        $('input[name="receipts"]').val(finalReceipts.toFixed(2));
+        // $('#total_receipts').val(finalReceipts.toFixed(2));
+        updateBookValue();
+    }
+
+    // Event listeners for Total Receipts and In Transit inputs
+    $(document).on('keyup', 'input[name="in_transit"], input[name="final_receipts"]', function () {
+        // Update total receipts when in transit or final receipts change
+        updateTotalReceipts();
+        updateBookValue();
+    });
+
+    // Event listener for Total Receipts input
+    $(document).on('keyup', 'input[name="total_receipts"]', function () {
+        // Update final receipts when total receipts or in transit change
+        updateFinalReceipts();
+        updateBookValue();
+    });
+    // Function to update the Book Value based on the formula (C + D - E)
+    function updateBookValue() {
+        const openingStock = parseFloat($('input[name="opening_stock"]').val()) || 0;
+        const receipts = parseFloat($('#total_receipts').val()) || 0;
+        const sales = parseFloat($('input[name="sales"]').val()) || 0;
+
+        // Calculate Book Value
+        const bookValue = openingStock + receipts - sales;
+
+        // Update the Book Value field
+        $('input[name="book_value"]').val(bookValue.toFixed(2));
+        $('#bookss_stock').val(bookValue.toFixed(2));
+        updateVariance();
+        submitStockForm()
+    }
+
+    function updateVariance() {
+        const total_phy_stock = parseFloat($('#total_phy_stock').val()) || 0;
+        const bookss_stock = parseFloat($('#bookss_stock').val()) || 0;
+        const total_sales = parseFloat($('#total_sales').val()) || 0;
+
+        // Calculate Book Value
+        const variance = total_phy_stock - bookss_stock;
+        const variance_per = (variance / total_sales) * 100;
+
+
+
+        // Update the Book Value field
+        $('#variances').val(variance.toFixed(2));
+        $('#net_gain_loss').val(variance.toFixed(2));
+        $('#variance_of_sales').val(variance_per.toFixed(2));
+
+    }
+
+    // Event listeners for Opening Stock, Receipts, and Sales inputs
+    $(document).on('input', 'input[name="opening_stock"], #total_receipts, input[name="sales"]', function () {
+        // Update Book Value when any of these fields change
+        updateBookValue();
+    });
+
+    $(document).on('submit', '#stock_form', function (e) {
+        e.preventDefault(); // Prevent the default form submission
+        // alert("Running");
+
+        // Validate required fields
+        let isValid = true;
+        $('#stock_form [required]').each(function () {
+            if ($(this).val() === '') {
+                $(this).addClass('is-invalid'); // Add invalid class for visual feedback
+                isValid = false;
+            } else {
+                $(this).removeClass('is-invalid'); // Remove invalid class if field is filled
+            }
+        });
+
+        if (!isValid) {
+            Swal.fire(
+                'Validation Error!',
+                'Please fill all required fields.',
+                'warning'
+            );
+            return; // Stop the execution if there are validation errors
+        }
+
+        var data = new FormData(this);
+        $.ajax({
+            url: "<?php echo $api_url; ?>update/update_dealer_last_recon.php",
+            cache: false,
+            contentType: false,
+            processData: false,
+            method: "POST",
+            data: data,
+            beforeSend: function () {
+                $('#insert').val("Saving");
+                document.getElementById("insert").disabled = true;
+            },
+            success: function (data) {
+                console.log(data);
+                if (data != 1) {
+                    Swal.fire(
+                        'Server Error!',
+                        'Record Not Created',
+                        'error'
+                    );
+                    $('#insert').val("Save");
+                    document.getElementById("insert").disabled = false;
+                } else {
+                    setTimeout(function () {
+                        Swal.fire(
+                            'Success!',
+                            'Record Created Successfully',
+                            'success'
+                        );
+                        location.reload();
+                    }, 2000);
+                }
+            },
+            error: function (xhr, status, error) {
+                // Handle API errors
+                console.log('Error:', error);
+                console.log('Status:', status);
+                console.log('Response:', xhr.responseText);
+            }
+        });
+    });
+
+
+    function stock_reco_new(data) {
+        // var resp = data[0];
+        data.forEach(resp => {
+            var tank_dip = JSON.parse(resp.tanks);
+            var nozzless = JSON.parse(resp.nozzel);
+            if (data)
+                var is_totalizer_data = resp.is_totalizer_data ? JSON.parse(resp.is_totalizer_data) : [];
+
+            var table = `<form method="post" id="stock_form" enctype="multipart/form-data" class="container-fluid">
+    <div class="row my-3">
+        <div class="col-md-12">
+        <h6 style="text-align: center;padding: 3px 11px;background: #f2f2f2;">
+                                                    Stock Reconcilation ${resp.product_name}</h6>
+            <div class="container">
+                <div class="row">
+                <div class="col-md-6">
+                                                    <div class="row">
+                                                        <div class="col-md-4">Site Name :</div>
+                                                        <div class="col-md-8" style="border-bottom: 1px solid #000;">${resp.dealer_name}</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="row">
+                                                        <div class="col-md-4">Date :</div>
+                                                        <div class="col-md-8" style="border-bottom: 1px solid #000;">${resp.created_at}</div>
+                                                    </div>
+                                                </div>
+                </div>
+            </div>
+
+            <!-- Product Details -->
+            <div class="container">
+                <div class="row my-3">
+                <div class="col-md-6">
+                                                    <div class="row">
+                                                        <div class="col-md-4">Product :</div>
+                                                        <div class="col-md-8" style="border-bottom: 1px solid #000;">${resp.product_name}</div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="row">
+                                                        <div class="col-md-4">Total Days :</div>
+                                                        <div class="col-md-8" style="border-bottom: 1px solid #000;">${resp.total_days}
+                                                        <input type="hidden" id="no_day_no" name="no_day_no" value="${resp.total_days}" class="form-control" required>
+                                                        <input type="hidden" id="tanks_data" name="tanks_data" value="${resp.tanks}" class="form-control" required>
+                                                        <input type="hidden" id="nozels_data" name="nozels_data" value="${resp.nozzel}" class="form-control" required>
+                                                        <input type="hidden" id="recon_id" name="recon_id" value="${resp.id}" class="form-control" required>
+                                                        <input type="hidden" id="task_id" name="task_id" value="${resp.task_id}" class="form-control" required>
+                                                        <input type="hidden" id="user_id" name="user_id" value="<?php echo $_SESSION['user_id'] ?>" class="form-control" required>
+                                                        <input type="hidden" id="dealer_id" name="dealer_id" value="<?php echo $_SESSION['user_id'] ?>" class="form-control" required>
+                                                        <input type="hidden" id="product_id" name="product_id" value="<?php echo $_SESSION['user_id'] ?>" class="form-control" required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                </div>
+            </div>
+
+            <!-- Date Range -->
+            <div class="container">
+                <div class="row my-3">
+                <div class="col-md-6">
+                                                    <div class="row">
+                                                        <div class="col-md-4">From:</div>
+                                                        <div class="col-md-8" style="border-bottom: 1px solid #000;">${resp.last_recon_date}</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="row">
+                                                        <div class="col-md-4">To :</div>
+                                                        <div class="col-md-8" style="border-bottom: 1px solid #000;">${resp.created_at}</div>
+                                                    </div>
+                                                </div>
+                </div>
+            </div>
+
+            <!-- Opening and Closing Dips -->
+            <div class="col-md-12 mt-3">
+                <h6 style="text-align: center; padding: 3px 11px; background: #f2f2f2;">
+                    Opening and Closing Dips
+                </h6>
+                <table class="dynamic_table" style="width:100%">
+                    <tr>
+                        <th></th>
+                        <th colspan="2" style="text-align: center;">Opening</th>
+                        <th></th>
+                        <th colspan="2" style="text-align: center;">Closing</th>
+                    </tr>
+                    <tr>
+                        <th>Tanks</th>
+                        <th>Dip mm</th>
+                        <th>Qty in Ltrs</th>
+                        <td></td>
+                        <th>Dip mm</th>
+                        <th>Qty in Ltrs</th>
+                    </tr>
+
+                    <!-- Loop through tanks data -->
+                    ${tank_dip.map(item => `
+                                <tr class="tank-row">
+                                    <th>${item.name}</th>
+                                    <td><input type="text" name="opening_dip_${item.name}" value="${item.opening_dip}" class="form-control opening-input" readonly required></td>
+                                    <td><input type="text" name="opening_qty_${item.name}" value="${item.opening}" class="form-control opening-qty" readonly required></td>
+                                    <td>
+                                        <input type="hidden" name="tank_id_${item.name}" value="${item.id}" class="form-control tank-id" required>
+                                        <input type="hidden" name="tank_name${item.name}" value="${item.name}" class="form-control tank-name" required>
+                                    </td>
+                                    <td><input type="text" name="closing_dip_${item.name}" value="${item.closing_dip}" class="form-control closing-input" required></td>
+                                    <td><input type="text" name="closing_qty_${item.name}" value="${item.closing}" class="form-control closing-qty-input closing-qty-input" required></td>
+                                </tr>
+                            `).join('')}
+
+                            <tr>
+                                <th colspan="2">Opening Stock</th>
+                                <td><input type="text" name="sum_of_opening" value="${resp.sum_of_opening}" class="form-control" readonly required></td>
+                                <th colspan="2">Physical Stock</th>
+                                <td><input type="text" name="sum_of_closing" value="${resp.sum_of_closing}" class="form-control" readonly required></td>
+                            </tr>
+                </table>
+            </div>
+
+            <!-- Meter Readings -->
+            <div class="col-md-12">
+                <h6 style="text-align: center; padding: 3px 11px; background: #f2f2f2;">
+                    Opening and Closing Meter Readings
+                </h6>
+                <table class="dynamic_table" style="width:100%">
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th>Opening (A)</th>
+                        <th>Closing (B)</th>
+                        <th>Sales (B-A)</th>
+                    </tr>
+
+                    <!-- Loop through nozzle data -->
+                    ${nozzless.map(item => `
+                        <tr class="nozzle-row">
+                                    <th>${item.name}</th>
+                                    <td>
+                                        <input type="hidden" name="nozzle_id_${item.name}" value="${item.id}" class="form-control nozzle-id" required>
+                                        <input type="hidden" name="nozzle_name_${item.name}" value="${item.name}" class="form-control nozzle-name">
+                                        <input type="hidden" name="nozzle_dispencer_id_${item.name}" value="${item.dispencer_id}" class="form-control dispenser-id" required>
+                                        <input type="hidden" name="nozzle_dispenser_name_${item.name}" value="${item.dispenser_name}" class="form-control dispenser-name" required>
+                                    </td>
+                                    <td></td>
+                                    <td><input type="text" name="nozzle_opening_${item.name}" value="${item.opening}" class="form-control opening-input" readonly required></td>
+                                    <td><input type="text" name="nozzle_closing_${item.name}" value="${item.closing}" class="form-control closing-input" required></td>
+                                    <td><input type="text" name="nozzle_difference_${item.name}" class="form-control difference-cell" readonly value="${parseFloat(item.closing) - parseFloat(item.opening)}" required></td>
+                                </tr>
+                            `).join('')}
+
+                    <!-- Totalizer Data -->
+                    ${is_totalizer_data.map(item => `
+                        <tr class="nozzle-row">
+                                    <th>${item.name}</th>
+                                    <td>
+                                        <input type="hidden" name="nozzle_id_${item.name}" value="${item.id}" class="form-control nozzle-id" required>
+                                        <input type="hidden" name="nozzle_name_${item.name}" value="${item.name}" class="form-control nozzle-name" required>
+                                        <input type="hidden" name="nozzle_dispencer_id_${item.name}" value="${item.dispencer_id}" class="form-control dispenser-id" required>
+                                        <input type="hidden" name="nozzle_dispenser_name_${item.name}" value="${item.dispenser_name}" class="form-control dispenser-name" required>
+                                    </td>
+                                    <td></td>
+                                    <td><input type="text" name="nozzle_opening_${item.name}" value="${item.opening}" class="form-control opening-input" readonly required></td>
+                                    <td><input type="text" name="nozzle_closing_${item.name}" value="${item.closing}" class="form-control closing-input" required></td>
+                                    <td><input type="text" name="nozzle_difference_${item.name}" class="form-control difference-cell" readonly value="${parseFloat(item.closing) - parseFloat(item.opening)}" required></td>
+                                </tr>
+                    `).join('')}
+
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <th colspan="2">Total Sales for the Period</th>
+                        <td> <input type="text" id="total_sales" name="total_sales" class="form-control" value="${resp.total_sales}" readonly required></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-md-12">
+                <h6 style="text-align: center; padding: 3px 11px; background: #f2f2f2;">
+                </h6>
+                <table class="dynamic_table" style="width:100%">
+    
+    
+   
+
+    <!-- Final Receipts -->
+    <tr>
+        <th>Total Receipts (IN LTRS)</th>
+        <td>
+            <input type="number" name="final_receipts" value="${resp.total_recipt}" class="form-control" required> 
+        </td>
+    </tr>
+    <!-- In Transit -->
+    <tr class="d-none">
+        <th>In Transit (IN LTRS)</th>
+        <td>
+            <input type="number" name="in_transit" value="" class="form-control"> 
+        </td>
+    </tr>
+    <!-- Total Receipts -->
+    <tr class="d-none">
+        <th>Final Receipts (IN LTRS) (Total Receipts - In Transit)</th>
+        <td>
+            <input type="number" name="total_receipts" value="" class="form-control"> 
+        </td>
+    </tr>
+</table>
+
+            </div>
+
+            <!-- Final Analysis -->
+            <div class="col-md-12">
+        <!-- Opening Stock, Receipts, Sales, Book Value Form -->
+        <table class="dynamic_table" style="width:100%">
+    <tr>
+        <th>(C) Opening Stock</th>
+        <th>(D) Final Receipts</th>
+        <th>(E) Sales</th>
+        <th>(C+D-E) Equals to</th>
+        <th>Book Value</th>
+    </tr>
+    <tr>
+        <td><input type="number" name="opening_stock" value="${resp.sum_of_opening}" required class="form-control" readonly></td>
+        <td><input type="number" id="total_receipts" name="receipts" value="${resp.total_recipt}" required class="form-control" readonly></td>
+        <td><input type="number" id="total_nozel_sales" name="sales" value="${resp.total_sales}" required class="form-control" readonly></td>
+        <td style="text-align: center;">=</td>
+        <td><input type="number" name="book_value" value="${parseInt(resp.sum_of_opening) + parseInt(resp.total_recipt) - parseInt(resp.total_sales)}" class="form-control" readonly required></td>
+    </tr>
+</table>
+    </div>
+    <div class="col-md-12">
+                                                <h6 style="text-align: center;padding: 3px 11px;background: #f2f2f2;">Final Analysis
+                                                </h6>
+                                              
+                                            </div>
+    <div class="col-md-12">
+        <!-- Physical vs Book Stock Form -->
+        <table class="dynamic_table" style="width:100%">
+            <tr>
+                <th>(F) Physical Stock</th>
+                <th>(G) Book Stock</th>
+                <th>(F-G) Equals to</th>
+                <th>Variance</th>
+            </tr>
+            <tr>
+                <td><input type="number" id="total_phy_stock" name="physical_stock" value="${resp.sum_of_closing}" required class="form-control" readonly></td>
+                <td><input type="number" id="bookss_stock" name="book_stock" value="${resp.book_value}" class="form-control" readonly required></td>
+                <td style="text-align: center;">=</td>
+                <td><input type="number" id="variances" name="variance" value="${parseFloat(resp.sum_of_closing) - parseFloat(resp.book_value)}"  class="form-control" readonly required></td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Remarks Section -->
+    <div class="col-md-12">
+        <table class="dynamic_table" style="width:100%">
+            <tr>
+                <th class="w-50">Remarks</th>
+                <td class="w-50">
+                    <textarea name="remarks" rows="3" class="form-control" required>${resp.remark}</textarea>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Shortage Claim Section -->
+    <div class="col-md-12">
+        <table class="dynamic_table" style="width:100%">
+            <tr>
+                <th class="w-50">Shortage Claim for the period (TLs short received by in Ltrs)</th>
+                <td class="w-50">
+                    <input type="number" name="shortage_claim" value="${resp.shortage_claim}" class="form-control" required>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Net Gain or Loss Section -->
+    <div class="col-md-12">
+        <table class="dynamic_table" style="width:100%">
+            <tr>
+                <th class="w-50">Net Gain or Loss</th>
+                <td class="w-50">
+                    <input type="number" id='net_gain_loss' name="net_gain_or_loss" value="${resp.variance}" readonly class="form-control" required>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Variance as % of Sales -->
+    <div class="col-md-12">
+        <table class="dynamic_table" style="width:100%">
+            <tr>
+                <th class="w-50">Variance as % of Sales (for the period.)</th>
+                <td class="w-50">
+                    <input type="number" id="variance_of_sales" name="variance_of_sales" value="${parseFloat(resp.variance_of_sales).toFixed(2)}" readonly class="form-control" required>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Average Daily Sales -->
+    <div class="col-md-12">
+        <table class="dynamic_table" style="width:100%">
+            <tr>
+                <th class="w-50">Average Daily sales</th>
+                <td class="w-50">
+                    <input type="number" id="average_daily_sales" name="average_daily_sales" value="${parseFloat(resp.average_daily_sales).toFixed(2)}" readonly class="form-control" required>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-md-12">
+        <table class="dynamic_table" style="width:100%">
+            <tr>
+                <th class="w-50">Reason For Update</th>
+                <td class="w-50">
+                    <textarea name="reason" rows="3" class="form-control" required></textarea>
+                </td>
+            </tr>
+        </table>
+    </div>
+            <!-- Submit Button -->
+            <div class="col-md-12" style="text-align: center;">
+                <button type="submit" class="btn btn-primary" >Update</button>
+            </div>
+        </div>
+    </div>
+</form>`;
+
+            $('#survey-container').append(table);
+            updateSalesAndDifference();
+        });
+        $('#survey_modal').modal('show');
+    }
+
+
+    function submitStockForm() {
+        const tanksData = [];
+        const nozzlesData = [];
+
+        // Collect tank data
+        $('.tank-row').each(function () {
+            // Get the tank row and check if it exists
+            const tankRow = $(this);
+            // const id = tankRow.data('id');  // Assuming each tank row has a data-id attribute
+
+            // Ensure that the tankRow has the required elements
+            console.log(tankRow.find('.tank-id').val())
+            const id = tankRow.find('.tank-id').val() || ''; // Default to empty string if not found
+            const name = tankRow.find('.tank-name').val() || ''; // Default to empty string if not found
+            const opening = tankRow.find('.opening-qty').val() || ''; // Default to empty string if not found
+            const closing = tankRow.find('.closing-qty-input').val() || ''; // Default to empty string if not found
+            const opening_dip = tankRow.find('.opening-input').val() || ''; // Default to empty string if not found
+            const closing_dip = tankRow.find('.closing-input').val() || ''; // Default to empty string if not found
+
+            // Construct the tank object and push to tanksData
+            const tank = {
+                id: id || '', // Default to empty string if not found
+                name: name,
+                opening: opening,
+                closing: closing,
+                opening_dip: opening_dip,
+                closing_dip: closing_dip
+            };
+            tanksData.push(tank);
+        });
+
+        // Collect nozzle data
+        $('.nozzle-row').each(function () {
+            // Get the nozzle row and check if it exists
+            const nozzleRow = $(this);
+            // const id = nozzleRow.data('id');  // Assuming each nozzle row has a data-id attribute
+
+            // Ensure that the nozzleRow has the required elements
+            const id = nozzleRow.find('.nozzle-id').val() || ''; // Default to empty string if not found
+            const name = nozzleRow.find('.nozzle-name').val() || ''; // Default to empty string if not found
+            const opening = nozzleRow.find('.opening-input').val() || ''; // Default to empty string if not found
+            const closing = nozzleRow.find('.closing-input').val() || ''; // Default to empty string if not found
+            const dispenser_id = nozzleRow.find('.dispenser-id').val() ||
+                ''; // Default to empty string if not found
+            const dispenser_name = nozzleRow.find('.dispenser-name').val() ||
+                ''; // Default to empty string if not found
+
+            // Construct the nozzle object and push to nozzlesData
+            const nozzle = {
+                id: id || '', // Default to empty string if not found
+                name: name,
+                opening: opening,
+                closing: closing,
+                dispencer_id: dispenser_id,
+                dispenser_name: dispenser_name
+            };
+            nozzlesData.push(nozzle);
+        });
+
+        // Combine data into a single object if needed
+        const result = {
+            tanks: tanksData,
+            nozzles: nozzlesData
+        };
+
+        $('#tanks_data').val(JSON.stringify(tanksData, null, 2));
+        $('#nozels_data').val(JSON.stringify(nozzlesData, null, 2));
+
+
+
+        // Output the generated JSON to the console
+        console.log(JSON.stringify(result, null, 2));
+
+
+
+
+    }
+
+
+
 
 // Call the function with your API response
 // displaySurvey(apiResponse);

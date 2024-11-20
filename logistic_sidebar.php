@@ -9,7 +9,7 @@
                 <img src="assets/images/logo-dark-sm.png" class='small_logo' alt="" style="width: 26px;height: 26px;">
             </span>
             <span class="logo-lg">
-                <img src="assets/images/logo-dark.png" class="logo_image" alt="" style="width: 96px;height: 96px;">
+                <img src="assets/images/logo-dark.png" class="logo_image" alt="" style="width: 95px;height: 40px;">
             </span>
         </a>
 

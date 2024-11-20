@@ -9,11 +9,12 @@
 
     <meta charset="utf-8" />
     <title>
-        Dealer Location Request | <?php echo $_SESSION['user_name'];?>
+        Lubes Sizes |
+        <?php echo $_SESSION['user_name']; ?>
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
-    <meta content="Themesdesign" name="author" />
+    <meta content="Byco" name="description" />
+    <meta content="Byco" name="author" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -50,27 +51,27 @@
                 <div class="container-fluid">
                     <div class="row">
 
-                        <!-- <div class="col-md-6">
+                        <div class="col-md-6">
                             <button class="btn btn-soft-primary waves-effect waves-light" type="button"
                                 data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" id="add_btn"
                                 aria-controls="offcanvasRight"><i
                                     class="bx bxs-add-to-queue font-size-16 align-middle me-2 cursor-pointer"></i>Add</button>
-                        </div> -->
+                        </div>
                     </div>
                     <div class="card">
                         <div class="card-body">
-                            <h3>Dealer Location Request</h3>
+                            <h3>Lubes Sizes</h3>
 
                             <table id="myTable" class="display" style="width:100%">
                                 <thead>
                                     <tr>
                                         <th>S.No</th>
-                                        <th>Dealer Name</th>
-                                        <th>Request By</th>
-                                        <th>Coordinates</th>
-                                        <th>Request At</th>
-                                        <th>View</th>
-                                        <th>Delete</th>
+                                        <th>Pack Size (Ltrs & Kg.)</th>
+                                        <th>Ctn Size (Ltrs)</th>
+                                        <th>Packs in CTN</th>
+                                        <th>Created At</th>
+                                        <!-- <th>Edit</th>
+                                        <th>Delete</th> -->
 
                                     </tr>
                                 </thead>
@@ -107,7 +108,7 @@
     <!-- chat offcanvas -->
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
         <div class="offcanvas-header border-bottom">
-            <h5 id="offcanvasRightLabel">Sizes</h5>
+            <h5 id="offcanvasRightLabel"></h5>
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
@@ -117,8 +118,19 @@
 
                     <div class="form-row mb-4">
                         <div class="form-group col-md-12">
-                            <label for="inputEmail4">Sizes</label>
-                            <input type="number" class="form-control" id="name" name="name" required>
+                            <label for="inputEmail4"> Pack Size (Ltrs & Kg.) </label>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter Size"
+                                required>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label for="inputEmail4"> Ctn Size (Ltrs)</label>
+                            <input type="text" class="form-control" id="ctn_sizes" name="ctn_sizes" placeholder="Enter Size"
+                                required>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label for="inputEmail4">Packs in CTN</label>
+                            <input type="text" class="form-control" id="pack_in_ctn" name="pack_in_ctn" placeholder="Enter Size"
+                                required>
                         </div>
 
 
@@ -205,7 +217,7 @@
             if (update_id == 0) {
                 var data = new FormData(this);
                 $.ajax({
-                    url: "<?php echo $api_url; ?>create/create_containers_sizes.php",
+                    url: "<?php echo $api_url; ?>create/lubes/create_lubes_sizes.php",
                     cache: false,
                     contentType: false,
                     processData: false,
@@ -251,6 +263,12 @@
 
                         }
 
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle API errors
+                        console.log('Error:', error);
+                        console.log('Status:', status);
+                        console.log('Response:', xhr.responseText);
                     }
                 });
             } else {
@@ -312,84 +330,54 @@
         });
         load_all_select();
     })
-    //     function deleteData(id){
-
-    // var settings = {
-    //         "url": "<?php echo $api_url; ?>get/get_container_sizes.php?key=03201232927&id=" + id + "",
-    //         "method": "GET",
-    //         "timeout": 0,
-    //     };
-
-    //     $.ajax({
-    //         ...settings,
-    //         statusCode: {
-    //             200: function(response) {
-
-    //                 $('#row_id').val(response[0]['id'])
-    //                 $('#name').val(response[0]['sizes']);
-
-    //             }
-    //         }
-    //     })
-    //     $('#offcanvasRight').offcanvas('show');
-
-    // }
+  
 
     function deleteData(id) {
-        // Show confirmation dialog
-        Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // If confirmed, proceed with the deletion
-                var settings = {
-                    "url": "<?php echo $api_url; ?>delete/delete_extra_location_req.php?key=03201232927&id=" +
-                        id,
-                    "method": "GET",
-                    "timeout": 0,
-                };
 
-                $.ajax({
-                    ...settings,
-                    statusCode: {
-                        200: function(response) {
-                            Swal.fire(
-                                'Deleted!',
-                                'Record Deleted Successfully',
-                                'success'
-                            );
-                            setTimeout(function() {
-                                location
-                                    .reload(); // Refresh the page or perform any other action
-                            }, 2000);
-                        },
-                        success: function(data) {
-                            // Additional success handling if needed
-                        },
-                        error: function(xhr, textStatus, errorThrown) {
-                            Swal.fire(
-                                'Server Error!',
-                                'Record Not Deleted',
-                                'error'
-                            );
-                        }
-                    }
-                });
+        var settings = {
+            "url": "<?php echo $api_url; ?>delete/delete_container_size.php?key=03201232927&id=" + id + "",
+            "method": "GET",
+            "timeout": 0,
+        };
+
+        $.ajax({
+            ...settings,
+            statusCode: {
+                200: function(response) {
+                    Swal.fire(
+                        'Success!',
+                        'Record Deleted Successfully',
+                        'success'
+                    )
+                    setTimeout(function() {
+
+                        // location.reload();
+
+
+                    }, 2000);
+
+                },
+                success: function(data) {
+                    // Additional success handling if needed
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    Swal.fire(
+                        'Server Error!',
+                        'Record Not Deleted',
+                        'error'
+                    )
+
+                    // console.log("Request failed with status code: " + xhr.status);
+                }
             }
-        });
-    }
+        })
 
+    }
 
     function editData(id) {
 
         var settings = {
-            "url": "<?php echo $api_url; ?>get/get_order_product_qty.php?key=03201232927&id=" + id + "",
+            "url": "<?php echo $api_url; ?>get/get_container_sizes.php?key=03201232927&id=" + id + "",
             "method": "GET",
             "timeout": 0,
         };
@@ -416,7 +404,7 @@
             redirect: 'follow'
         };
 
-        fetch("<?php echo $api_url; ?>get/get_dealers_location_request.php?key=03201232927&id=<?php echo $_SESSION['user_id'] ?>",
+        fetch("<?php echo $api_url; ?>get/lubes/get_all_lubes_sizes.php?key=03201232927&id=<?php echo $_SESSION['user_id'] ?>",
                 requestOptions)
             .then(response => response.json())
             .then(response => {
@@ -426,18 +414,18 @@
                 $.each(response, function(index, data) {
                     table.row.add([
                         index + 1,
-                        data.dealer_name,
-                        data.username,
-                        (data.coordinates !== 'null' ?
-                            `${data.coordinates}` :
-                            "Error"),
+                        data.name,
+                        data.ctn_size,
+                        data.ctn_qty,
                         data.created_at,
-                        '<a type="button" id="View" name="view" href="dealers_location_approve.php?id=' +
-                        data.id +
-                        '" target="_blank" class="btn btn-soft-warning waves-effect waves-light"><i class="fas fa-eye font-size-16 align-middle"></i></a>',
-                        '<button type="button" id="delete" name="delete" onclick="deleteData(' +
-                        data.id +
-                        ')" class="btn btn-soft-danger waves-effect waves-light"><i class="bx bx-trash-alt font-size-16 align-middle"></i></button>'
+                        // '<button type="button" id="edit" name="edit" onclick="editData(' +
+                        // data.id +
+                        // ')" class="btn btn-soft-danger waves-effect waves-light"><i class="bx bx-edit-alt font-size-16 align-middle"></i></button>',
+
+
+                        // '<button type="button" id="delete" name="delete" onclick="deleteData(' +
+                        // data.id +
+                        // ')" class="btn btn-soft-danger waves-effect waves-light"><i class="bx bx-trash-alt font-size-16 align-middle"></i></button>'
                     ]).draw(false);
                 });
             })
@@ -449,7 +437,7 @@
     function load_all_select() {
 
         $.ajax({
-            url: '<?php echo $api_url;?>get/get_tm.php?key=03201232927',
+            url: '<?php echo $api_url; ?>get/get_tm.php?key=03201232927',
             method: 'GET',
             dataType: 'json',
             success: function(data) {
@@ -472,7 +460,7 @@
         });
 
         $.ajax({
-            url: '<?php echo $api_url;?>get/get_zm.php?key=03201232927',
+            url: '<?php echo $api_url; ?>get/get_zm.php?key=03201232927',
             method: 'GET',
             dataType: 'json',
             success: function(data) {
