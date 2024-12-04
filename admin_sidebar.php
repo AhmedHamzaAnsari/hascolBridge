@@ -161,8 +161,10 @@
                                 <li><a href="inspection_report.php" data-key="t-level-1.14">All Inspection Report</a>
                                 </li>
                                 <li><a href="all_visit_info.php" data-key="t-level-1.14">Visit HIstory Report</a></li>
-                                <li><a href="dealers_recons_new.php" data-key="t-level-1.14">Dealers Reconciliation</a></li>
+                                <li><a href="dealers_recons_new.php" data-key="t-level-1.14">Dealers Reconciliation Report</a></li>
                                 <li><a href="admin_recon_report_3.php" data-key="t-level-1.14">Visit Calander Report</a></li>
+                                <li><a href="all_dealers_recons_product_wise.php" data-key="t-level-1.14">Product Wise TM Reconciliation Report</a></li>
+
 
 
                             </ul>
