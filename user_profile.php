@@ -218,7 +218,14 @@
                                                             </td>
 
                                                         </tr>
-                                                        <tr>
+                                                        <?php
+                                                            $pre = $_SESSION['privilege'];
+                                                            $disabledAttribute = ($pre == 'ASM') ? 'd-none' : '';
+                                                            // $disabledAttribute = (strpos($pre, 'TM') === 0) ? 'disabled' : '';
+                                                            
+                                                            ?>
+
+                                                        <tr class="row <?php echo $$disabledAttribute;?>">
                                                             <th class="fw-bold">Setups :</th>
                                                             <td class="text-muted">
                                                                 <a href="user_setup.php?id=<?php echo $_GET['id']; ?>"
@@ -281,7 +288,7 @@
                             <div class="col-xl-6">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h5 class="card-title mb-0">ATGS</h5>
+                                        <h5 class="card-title mb-0">Tanks</h5>
                                     </div>
 
                                     <div class="card-body pt-1" style="max-height: 310px; overflow:auto">
@@ -336,28 +343,28 @@
                                                 <span>Nozel's Tanks</span>
                                             </a>
                                         </li> -->
-                                        <li class="nav-item">
+                                        <!-- <li class="nav-item">
                                             <a class="nav-link" data-bs-toggle="tab" href="#messages" role="tab">
                                                 <span>Reconcilation</span>
                                             </a>
-                                        </li>
+                                        </li> -->
                                         <li class="nav-item ">
                                             <a class="nav-link active" data-bs-toggle="tab" href="#post" role="tab">
                                                 <span>Orders</span>
                                             </a>
                                         </li>
-                                        <li class="nav-item">
+                                        <!-- <li class="nav-item">
                                             <a class="nav-link" data-bs-toggle="tab" href="#complaint_tab" role="tab">
                                                 <span>Complaint</span>
                                             </a>
-                                        </li>
+                                        </li> -->
 
 
-                                        <li class="nav-item">
+                                        <!-- <li class="nav-item">
                                             <a class="nav-link" data-bs-toggle="tab" href="#lubes_order" role="tab">
                                                 <span>Inspection</span>
                                             </a>
-                                        </li>
+                                        </li> -->
                                         <li class="nav-item">
                                             <a class="nav-link" data-bs-toggle="tab" href="#sale_performance"
                                                 role="tab">
@@ -1832,7 +1839,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="timeline">
-                                        <div class="timeline-container">
+                                        <div class="timeline-container" style="overflow: auto;height: 80vh;">
                                             <div class="timeline-end">
                                                 <p>Start</p>
                                             </div>
@@ -1873,7 +1880,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="timeline">
-                                        <div class="timeline-container">
+                                        <div class="timeline-container" style="overflow: auto;height: 80vh;">
                                             <div class="timeline-end">
                                                 <p>Start</p>
                                             </div>
@@ -2798,10 +2805,10 @@ function dealers_visits() {
 
 
                     index + 1,
-                        data.time,
-                        data.visit_close_time,
-                        data.name,
-                        data.dealer_name,
+                    data.time,
+                    data.visit_close_time,
+                    data.name,
+                    data.dealer_name,
                     data.type,
                     data.current_status,
                     inpection,
@@ -2887,7 +2894,7 @@ function tanks_view() {
                         '</div>' +
                         '<div class="flex-shrink-0">' +
                         '<h5 class="font-size-14 mb-0 text-truncate w-xs bg-light p-2 rounded text-center"> ' +
-                        data.current_dip +
+                        data.current_reading +
                         '</h5>' +
                         '</div>' +
                         '</div>' +
@@ -2902,7 +2909,7 @@ function tanks_view() {
                     ' <div class="d-flex align-items-center">' +
                     '<i class="fas fa-truck-moving font-size-14 text-dark ms-1"></i>' +
                     '<div class="flex-grow-1 ms-3 overflow-hidden">' +
-                    '<h5 class="font-size-15 mb-1 text-truncate">No ATGS Found</h5>' +
+                    '<h5 class="font-size-15 mb-1 text-truncate">No Tanks Found</h5>' +
                     '</div>' +
                     '<div class="flex-shrink-0">' +
                     '<h5 class="font-size-14 mb-0 text-truncate w-xs bg-light p-2 rounded text-center"> ---</h5>' +
@@ -4008,7 +4015,8 @@ function get_ledger_backlog() {
                         // '<p class="mb-0 mt-2 pt-1 text-muted">Previous Ledger : ' + data.old_ledger +
                         // '</p>' +
 
-                        '<p class="mb-0 mt-2 pt-1 text-muted">Update Ledger : ' + parseFloat(data.new_ledger).toLocaleString() +
+                        '<p class="mb-0 mt-2 pt-1 text-muted">Update Ledger : ' + parseFloat(data
+                            .new_ledger).toLocaleString() +
                         '</p>' +
                         '<p class="mb-0 mt-2 pt-1 text-muted">Date : ' + data.datetime +
                         '</p>' +

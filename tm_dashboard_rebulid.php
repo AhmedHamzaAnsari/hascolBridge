@@ -218,7 +218,7 @@
                                 <option value="Pending">Pending</option>
                                 <option value="Late">Late</option>
                                 <option value="Upcoming">Upcoming</option>
-                                <option value="Complete">Complete</option>
+                                <option value="Completed">Completed</option>
 
 
 
@@ -231,7 +231,7 @@
                     </div>
 
                     <div class="row my-3">
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="card">
                                 <div class="card-body">
                                     <div>
@@ -311,9 +311,9 @@
                                                     <small> Pending</small>: <span id="Pending_tasks"
                                                         class="text-warning">0</span>
                                                 </h6>
-                                                <h6 onclick="check_task_status('Complete')" class="mb-0 font-size-12"
+                                                <h6 onclick="check_task_status('Completed')" class="mb-0 font-size-12"
                                                     style="cursor: pointer">
-                                                    <small> Complete</small> : <span id="completed_tasks"
+                                                    <small> Completed</small> : <span id="completed_tasks"
                                                         class="text-success">0</span>
                                                 </h6>
                                                 <h6 onclick="check_task_status('Late')" class="mb-0 font-size-12"
@@ -321,8 +321,8 @@
                                                     <small> Late</small> : <span id="late_tasks"
                                                         class="text-danger">0</span>
                                                 </h6>
-                                                <h6 onclick="check_task_status('Upcoming')" class="mb-0 font-size-12"
-                                                    style="cursor: pointer">
+                                                <h6 onclick="check_task_status('Upcoming')"
+                                                    class="mb-0 font-size-12 d-none" style="cursor: pointer">
                                                     <small> Upcoming</small> : <span id="upcoming_tasks"
                                                         class="text-info">0</span>
                                                 </h6>
@@ -524,6 +524,9 @@
                             <div class="card">
                                 <div class="card-body" style="height: 350px;">
                                     <strong>Task</strong>
+                                    <select id="tm_select">
+                                        <option value="all">All Users</option>
+                                    </select>
                                     <canvas id="task_users"></canvas>
 
                                 </div>
@@ -587,7 +590,7 @@
                                                 <th>User</th>
                                                 <th>Site Name</th>
                                                 <th>Date</th>
-                                                <th>Complete Time</th>
+                                                <th>Completed Time</th>
                                                 <th>Status</th>
                                                 <th>Description</th>
                                                 <th>Created At</th>
@@ -1196,162 +1199,26 @@
 
 
 
-        ///banner image start
-        const dropArea = document.getElementById('dropArea');
-        const fileInput = document.getElementById('fileInput');
-        const fileInputLabel = document.getElementById('fileInputLabel');
-        const imageContainer = document.getElementById('imageContainer');
-        const imagePreview = document.getElementById('imagePreview');
-        const removeButton = document.getElementById('removeButton');
 
-        dropArea.addEventListener('dragover', (event) => {
-            event.preventDefault();
-            dropArea.style.border = '2px solid #000';
+
+        $('#tm_select').on('change', function() {
+            var selectedUser = $(this).val();
+            updateChartData(selectedUser);
         });
 
-        dropArea.addEventListener('dragleave', () => {
-            dropArea.style.border = '2px dashed #ccc';
-        });
-
-        dropArea.addEventListener('drop', (event) => {
-            event.preventDefault();
-            dropArea.style.border = '2px dashed #ccc';
-
-            const selectedFile = event.dataTransfer.files[0];
-            processImage(selectedFile);
-        });
-
-        fileInput.addEventListener('change', () => {
-            const selectedFile = fileInput.files[0];
-            processImage(selectedFile);
-        });
-
-        // removeButton.addEventListener('click', () => {
-        //     imageContainer.style.display = 'none';
-        //     fileInput.value = ''; // Clear the selected file
-        //     fileInputLabel.style.display = 'block';
-        // });
-
-        function processImage(selectedFile) {
-            if (selectedFile) {
-                const fileExtension = selectedFile.name.split('.').pop().toLowerCase();
-                const resolution = {
-                    width: 0,
-                    height: 0
-                };
-
-                if (fileExtension === 'jpg' || fileExtension === 'jpeg' || fileExtension === 'png' ||
-                    fileExtension === 'gif') {
-                    const reader = new FileReader();
-
-                    reader.onload = function(e) {
-                        const img = new Image();
-                        img.src = e.target.result;
-
-                        img.onload = function() {
-                            resolution.width = img.width;
-                            resolution.height = img.height;
-
-                            if (resolution.width === 1200 && resolution.height === 200) {
-                                imagePreview.src = e.target.result;
-                                //    . imageContainer.style.display = 'block';
-                                fileInputLabel.style.display = 'none';
-                                // removeButton.style.display = 'block';
-                            } else {
-                                fileInput.value = '';
-                                alert(
-                                    'Invalid resolution. Please select an image with a resolution of 1200x200.'
-                                );
-                            }
-                        };
-                    };
-
-                    reader.readAsDataURL(selectedFile);
-                } else {
-                    alert('Invalid file format. Please select an image file.');
-                }
+        // Function to update chart data based on selection
+        function updateChartData(selectedUser) {
+            // Assuming 'response' is your dataset
+            var filteredData = task_data; // Default to all users
+            if (selectedUser && selectedUser !== 'All Users') {
+                filteredData = task_data.filter(function(dealer) {
+                    return dealer.user_name === selectedUser;
+                });
             }
-        }
-        ///banner image end
-        /// logo image start
-
-        const dropArea2 = document.getElementById('dropArea2');
-        const fileInput2 = document.getElementById('fileInput2');
-        const fileInputLabel2 = document.getElementById('fileInputLabel2');
-        const imageContainer2 = document.getElementById('imageContainer2');
-        const imagePreview2 = document.getElementById('imagePreview2');
-        const removeButton2 = document.getElementById('removeButton2');
-
-        dropArea2.addEventListener('dragover', (event) => {
-            event.preventDefault();
-            dropArea2.style.border = '2px solid #000';
-        });
-
-        dropArea2.addEventListener('dragleave', () => {
-            dropArea2.style.border = '2px dashed #ccc';
-        });
-
-        dropArea2.addEventListener('drop', (event) => {
-            event.preventDefault();
-            dropArea2.style.border = '2px dashed #ccc';
-
-            const selectedFile2 = event.dataTransfer.files[0];
-            processImage2(selectedFile2);
-        });
-
-        fileInput2.addEventListener('change', () => {
-            const selectedFile2 = fileInput2.files[0];
-            processImage2(selectedFile2);
-        });
-
-        // removeButton2.addEventListener('click', () => {
-        //     imageContainer2.style.display = 'none';
-        //     fileInput2.value = ''; // Clear the selected file
-        //     fileInputLabel2.style.display = 'block';
-        // });
-
-        function processImage2(selectedFile2) {
-            if (selectedFile2) {
-                const fileExtension2 = selectedFile2.name.split('.').pop().toLowerCase();
-                const resolution2 = {
-                    width: 0,
-                    height: 0
-                };
-
-                if (fileExtension2 === 'jpg' || fileExtension2 === 'jpeg' || fileExtension2 === 'png' ||
-                    fileExtension2 === 'gif') {
-                    const reader2 = new FileReader();
-
-                    reader2.onload = function(e) {
-                        const img2 = new Image();
-                        img2.src = e.target.result;
-
-                        img2.onload = function() {
-                            resolution2.width = img2.width;
-                            resolution2.height = img2.height;
-
-                            if (resolution2.width === 96 && resolution2.height === 96) {
-                                imagePreview2.src = e.target.result;
-                                // imageContainer2.style.display = 'block';
-                                fileInputLabel2.style.display = 'none';
-                                // removeButton2.style.display = 'block';
-                            } else {
-                                fileInput2.value = '';
-                                alert(
-                                    'Invalid resolution. Please select an image with a resolution of 96x96.'
-                                );
-                            }
-                        };
-                    };
-
-                    reader2.readAsDataURL(selectedFile2);
-                } else {
-                    alert('Invalid file format. Please select an image file.');
-                }
-            }
+            // Update the chart with filtered data
+            task_datas_charts(filteredData, 'task_users', 'user_name', 'Task Chart', 'tm_select');
         }
 
-        ///logo image end
 
 
 
@@ -1705,7 +1572,7 @@
                         data.time,
                         data.visit_close_time,
                         data.current_status,
-                        // (data.status === '1') ? 'Complete' : 'Pending',
+                        // (data.status === '1') ? 'Completed' : 'Pending',
                         data.description,
                         data.task_create_time,
                     ]).draw(false);
@@ -1738,11 +1605,11 @@
                 var lateCount = 0;
                 var upcomingCount = 0;
 
-                // Loop through the array and count Pending and Complete records
+                // Loop through the array and count Pending and Completed records
                 $.each(response, function(index, record) {
                     if (record.current_status === 'Pending') {
                         pendingCount++;
-                    } else if (record.current_status === 'Complete') {
+                    } else if (record.current_status === 'Completed') {
                         completeCount++;
                     } else if (record.current_status === 'Late') {
                         lateCount++;
@@ -1756,8 +1623,8 @@
                 $('#late_tasks').text(lateCount);
                 $('#upcoming_tasks').text(upcomingCount);
 
-                task_datas(response, 'task_users', 'user_name', 'Users Task')
-                task_datas(response, 'task_status', 'current_status', 'Task Status')
+                task_datas(response, 'task_users', 'user_name', 'Users Task', 'tm_select')
+                task_datas(response, 'task_status', 'current_status', 'Task Status','')
 
 
             })
@@ -1782,7 +1649,8 @@
                         '<div class="col-md-3"><small>Pending : ' + data.sum_pending + '</small></div>' +
                         '<div class="col-md-3"><small>Late : ' + data.sum_Late + '</small> </div>' +
                         '<div class="col-md-3"><small>Upcoming : ' + data.sum_Upcoming + '</small></div>' +
-                        '<div class="col-md-3"><small>Complete : ' + data.sum_Complete + ' </small></div>' +
+                        '<div class="col-md-3"><small>Completed : ' + data.sum_Complete +
+                        ' </small></div>' +
                         '</div>' +
                         '</div>' +
                         '</div>' +
@@ -1885,7 +1753,7 @@
 
 
 
-                // Loop through the array and count Pending and Complete records
+                // Loop through the array and count Pending and Completed records
 
 
                 $('#Pending_orders').text(pendingCount_order);
@@ -1916,7 +1784,7 @@
         // Log the URL for debugging
         console.log(
             '<?php echo $api_url; ?>get/get_region_district_dealers.php?key=03201232927&pre=<?php echo $_SESSION['privilege']; ?>&user_id=<?php echo $_SESSION['user_id']; ?>'
-            );
+        );
 
         // Perform AJAX request
         $.ajax({
@@ -2472,7 +2340,7 @@
                 data.visit_close_time,
                 data.current_status,
 
-                // (data.status === 1) ? 'Complete' : 'Pending',
+                // (data.status === 1) ? 'Completed' : 'Pending',
                 data.description,
                 data.task_create_time,
 
@@ -2484,11 +2352,11 @@
         var lateCount = 0;
         var upcomingCount = 0;
 
-        // Loop through the array and count Pending and Complete records
+        // Loop through the array and count Pending and Completed records
         $.each(filteredTaskData, function(index, record) {
             if (record.current_status === 'Pending') {
                 pendingCount++;
-            } else if (record.current_status === 'Complete') {
+            } else if (record.current_status === 'Completed') {
                 completeCount++;
             } else if (record.current_status === 'Late') {
                 lateCount++;
@@ -2501,15 +2369,14 @@
         $('#completed_tasks').text(completeCount);
         $('#late_tasks').text(lateCount);
         $('#upcoming_tasks').text(upcomingCount);
-        // table.clear().draw();
-        // task_datas(filteredTaskData, 'region_chart', 'user_name', 'Users Task')
-        task_datas(filteredTaskData, 'task_users', 'user_name', 'Users Task')
-        task_datas(filteredTaskData, 'task_status', 'current_status', 'Task Status')
+        
+        
+        task_datas(filteredTaskData, 'task_users', 'user_name', 'Users Task', 'tm_select')
+        task_datas(filteredTaskData, 'task_status', 'current_status', 'Task Status','')
 
 
-        // Update the DataTable with filtered data
-        // var dataTable = $('#dealer-table').DataTable();
-        // table.clear().rows.add(filteredData).draw();
+      
+        
 
         var filteredData_orders = dealers_order_data.filter(function(item) {
             // return selectedCity.includes(item.city);
@@ -2526,12 +2393,8 @@
 
         // Calculate count of distinct 'sap_no' values
         var distinctASMCount = [...new Set(filteredData_orders.map(dealer => dealer.asm))].length;
-        // $('#rm_counts').text(distinctTmCount);
-        // $('#tm_counts').text(distinctASMCount);
-
-        // Output the results
-        // console.log('Distinct TM Count:', distinctTmCount);
-        // console.log('Distinct ASM No Count:', distinctASMCount);
+       
+        
 
         console.log(filteredData_orders)
         order_tables.clear().draw();
@@ -3142,7 +3005,7 @@
         line_charts(id, provincesArray, countsArray, name)
     }
 
-    function task_datas(response, id, value, name) {
+    function task_datas(response, id, value, name,select_id) {
         var provinceCount = {};
         console.log(response)
         // Loop through the dealers data
@@ -3182,11 +3045,11 @@
         var lateCount = 0;
         var upcomingCount = 0;
 
-        // Loop through the array and count Pending and Complete records
+        // Loop through the array and count Pending and Completed records
         $.each(response, function(index, record) {
             if (record.current_status === 'Pending') {
                 pendingCount++;
-            } else if (record.current_status === 'Complete') {
+            } else if (record.current_status === 'Completed') {
                 completeCount++;
             } else if (record.current_status === 'Late') {
                 lateCount++;
@@ -3206,37 +3069,40 @@
         console.log(provincesArray);
         console.log(countsArray);
 
+        if (select_id && $('#' + select_id).length) {
+            $('#' + select_id).empty().append('<option value="All Users">All Users</option>');
+            Object.keys(provinceCount).forEach(function(tm_name) {
+                $('#' + select_id).append(`<option value="${tm_name}">${tm_name}</option>`);
+            });
+        }
+
+
         user_task(id, provincesArray, countsArray, name)
     }
     // user_task();
 
+    function task_datas_charts(response, id, value, name, select_id) {
+        var provinceCount = {};
+        console.log(response);
+        // Loop through the dealers data
+        $.each(response, function(index, dealer) {
+            var province = dealer[value];
+            provinceCount[province] = (provinceCount[province] || 0) + 1;
+        });
+
+        
+
+        // Populate dropdown if select_id is provided
+        
+        // Update chart
+        var provincesArray = Object.keys(provinceCount);
+        var countsArray = Object.values(provinceCount);
+        user_task(id, provincesArray, countsArray, name);
+    }
+
     function user_task(id, leb, ser, name) {
 
 
-        // var options = {
-        //     series: ser,
-        //     chart: {
-        //         type: 'donut',
-        //     },
-        //     labels: leb,
-        //     title: {
-        //         text: name
-        //     },
-        //     responsive: [{
-        //         breakpoint: 480,
-        //         options: {
-        //             chart: {
-        //                 width: 300
-        //             },
-        //             legend: {
-        //                 position: 'bottom'
-        //             }
-        //         }
-        //     }]
-        // };
-
-        // var chart = new ApexCharts(document.querySelector("#task_users"), options);
-        // chart.render();
 
         var data = {
             labels: leb,

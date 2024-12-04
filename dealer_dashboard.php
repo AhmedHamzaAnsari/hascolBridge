@@ -236,7 +236,7 @@
                                 <option value="Pending">Pending</option>
                                 <option value="Late">Late</option>
                                 <option value="Upcoming">Upcoming</option>
-                                <option value="Complete">Complete</option>
+                                <option value="Completed">Completed</option>
 
 
 
@@ -329,9 +329,9 @@
                                                     <small> Pending</small>: <span id="Pending_tasks"
                                                         class="text-warning">0</span>
                                                 </h6>
-                                                <h6 onclick="check_task_status('Complete')" class="mb-0 font-size-12"
+                                                <h6 onclick="check_task_status('Completed')" class="mb-0 font-size-12"
                                                     style="cursor: pointer">
-                                                    <small> Complete</small> : <span id="completed_tasks"
+                                                    <small> Completed</small> : <span id="completed_tasks"
                                                         class="text-success">0</span>
                                                 </h6>
                                                 <h6 onclick="check_task_status('Late')" class="mb-0 font-size-12"
@@ -339,8 +339,8 @@
                                                     <small> Late</small> : <span id="late_tasks"
                                                         class="text-danger">0</span>
                                                 </h6>
-                                                <h6 onclick="check_task_status('Upcoming')" class="mb-0 font-size-12"
-                                                    style="cursor: pointer">
+                                                <h6 onclick="check_task_status('Upcoming')"
+                                                    class="mb-0 font-size-12 d-none" style="cursor: pointer">
                                                     <small> Upcoming</small> : <span id="upcoming_tasks"
                                                         class="text-info">0</span>
                                                 </h6>
@@ -507,6 +507,9 @@
                             <div class="card">
                                 <div class="card-body" style="height: 350px;">
                                     <strong>Task</strong>
+                                    <select id="tm_select">
+                                        <option value="all">All Users</option>
+                                    </select>
                                     <canvas id="task_users"></canvas>
 
                                 </div>
@@ -571,7 +574,7 @@
                                                 <th>User</th>
                                                 <th>Site Name</th>
                                                 <th>Date</th>
-                                                <th>Complete Time</th>
+                                                <th>Completed Time</th>
                                                 <th>Status</th>
                                                 <th>Description</th>
                                                 <th>Created At</th>
@@ -736,9 +739,9 @@
                                                                         </th>
                                                                         <th class="text-center">Late
                                                                         </th>
-                                                                        <th class="text-center">Upcoming
-                                                                        </th>
-                                                                        <th class="text-center">Complete
+                                                                        <!-- <th class="text-center">Upcoming
+                                                                        </th> -->
+                                                                        <th class="text-center">Completed
                                                                         </th>
                                                                     </tr>
                                                                 </thead>
@@ -1070,6 +1073,24 @@
     $(document).ready(function() {
         $('.multi_select').select2();
         $('.selectpicker').select2();
+
+        $('#tm_select').on('change', function() {
+            var selectedUser = $(this).val();
+            updateChartData(selectedUser);
+        });
+
+        // Function to update chart data based on selection
+        function updateChartData(selectedUser) {
+            // Assuming 'response' is your dataset
+            var filteredData = task_data; // Default to all users
+            if (selectedUser && selectedUser !== 'All Users') {
+                filteredData = task_data.filter(function(dealer) {
+                    return dealer.user_name === selectedUser;
+                });
+            }
+            // Update the chart with filtered data
+            task_datas_charts(filteredData, 'task_users', 'user_name', 'Task Chart', 'tm_select');
+        }
         users_tasking = $('#users_tasking').DataTable({
             dom: 'Bfrtip',
 
@@ -1345,7 +1366,7 @@
 
                     },
                     success: function(data) {
-                        console.log(data)
+                        // console.log(data)
 
                         if (data != 1) {
                             Swal.fire(
@@ -1409,7 +1430,7 @@
 
                     },
                     success: function(data) {
-                        console.log(data)
+                        // console.log(data)
 
                         if (data != 1) {
                             Swal.fire(
@@ -1465,7 +1486,7 @@
 
                     },
                     success: function(data) {
-                        console.log(data)
+                        // console.log(data)
 
                         if (data != 1) {
                             Swal.fire(
@@ -1519,12 +1540,12 @@
             method: 'GET',
             redirect: 'follow'
         };
-        console.log("<?php echo $api_url; ?>get/dealers.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>");
+        // console.log("<?php echo $api_url; ?>get/dealers.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>");
         fetch("<?php echo $api_url; ?>get/dealers.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>",
                 requestOptions)
             .then(response => response.json())
             .then(response => {
-                console.log(response)
+                // console.log(response)
                 dealers_data = response;
                 var verifiedCount = 0;
                 var nonVerifiedCount = 0;
@@ -1590,15 +1611,15 @@
 
             })
             .catch(error => console.log('error', error));
-        console.log(
-            "<?php echo $api_url; ?>get/inspection/all_dealers_inspection.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>&from=" +
-            fromdate + "&to=" + todate + "")
+        // console.log(
+        //     "<?php echo $api_url; ?>get/inspection/all_dealers_inspection.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>&from=" +
+        //     fromdate + "&to=" + todate + "")
         fetch("<?php echo $api_url; ?>get/inspection/all_dealers_inspection.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>&from=" +
                 fromdate + "&to=" + todate + "",
                 requestOptions)
             .then(response => response.json())
             .then(response => {
-                console.log(response)
+                // console.log(response)
                 task_data = response;
 
                 $('#task_count').html(response.length);
@@ -1613,7 +1634,7 @@
                         data.time,
                         data.visit_close_time,
                         data.current_status,
-                        // (data.status === '1') ? 'Complete' : 'Pending',
+                        // (data.status === '1') ? 'Completed' : 'Pending',
                         data.description,
                         data.task_create_time,
                         '<a href="javascript:void(0);" onclick="check_reschedule(' + data.task_id +
@@ -1649,11 +1670,11 @@
                 var lateCount = 0;
                 var upcomingCount = 0;
 
-                // Loop through the array and count Pending and Complete records
+                // Loop through the array and count Pending and Completed records
                 $.each(response, function(index, record) {
                     if (record.current_status === 'Pending') {
                         pendingCount++;
-                    } else if (record.current_status === 'Complete') {
+                    } else if (record.current_status === 'Completed') {
                         completeCount++;
                     } else if (record.current_status === 'Late') {
                         lateCount++;
@@ -1667,8 +1688,8 @@
                 $('#late_tasks').text(lateCount);
                 $('#upcoming_tasks').text(upcomingCount);
 
-                task_datas(response, 'task_users', 'user_name', 'Users Task')
-                task_datas(response, 'task_status', 'current_status', 'Task Status')
+                task_datas(response, 'task_users', 'user_name', 'Users Task', 'tm_select')
+                task_datas(response, 'task_status', 'current_status', 'Task Status', '')
 
 
             })
@@ -1693,7 +1714,7 @@
                     //     '<div class="col-md-3"><small>Pending : ' + data.sum_pending + '</small></div>' +
                     //     '<div class="col-md-3"><small>Late : ' + data.sum_Late + '</small> </div>' +
                     //     '<div class="col-md-3"><small>Upcoming : ' + data.sum_Upcoming + '</small></div>' +
-                    //     '<div class="col-md-3"><small>Complete : ' + data.sum_Complete + ' </small></div>' +
+                    //     '<div class="col-md-3"><small>Completed : ' + data.sum_Complete + ' </small></div>' +
                     //     '</div>' +
                     //     '</div>' +
                     //     '</div>' +
@@ -1724,7 +1745,7 @@
                         lang,
                         data.sum_pending,
                         data.sum_Late,
-                        data.sum_Upcoming,
+                        // data.sum_Upcoming,
                         data.sum_Complete
                     ]).draw();
                 });
@@ -1738,9 +1759,9 @@
             .catch(error => console.log('error', error));
 
         // Log the URL for debugging
-        console.log(
-            '<?php echo $api_url; ?>get/get_region_district_dealers.php?key=03201232927&pre=<?php echo $_SESSION['privilege']; ?>&user_id=<?php echo $_SESSION['user_id']; ?>'
-        );
+        // console.log(
+        //     '<?php echo $api_url; ?>get/get_region_district_dealers.php?key=03201232927&pre=<?php echo $_SESSION['privilege']; ?>&user_id=<?php echo $_SESSION['user_id']; ?>'
+        // );
 
         // Perform AJAX request
         $.ajax({
@@ -1748,7 +1769,7 @@
             method: 'GET',
             dataType: 'json',
             success: function(data) {
-                console.log(data); // Log the data for debugging
+                // console.log(data); // Log the data for debugging
 
                 // Parse the JSON strings returned from the API
                 var district = JSON.parse(data[0]['district']);
@@ -1993,7 +2014,7 @@
             method: 'GET',
             dataType: 'json',
             success: function(data) {
-                console.log(data)
+                // console.log(data)
                 // Iterate through the data and append options to the select element
                 $('#tm').empty();
                 $('#tm').append($('<option>', {
@@ -2024,7 +2045,7 @@
             method: 'GET',
             dataType: 'json',
             success: function(data) {
-                console.log(data);
+                // console.log(data);
                 // Iterate through the data and append options to the select element
                 $('#asm').empty();
                 $('#asm').append($('<option>', {
@@ -2135,7 +2156,7 @@
         var ownerships = $('#ownerships').val();
 
         // Get other selected values similarly
-        console.log(selectedCity)
+        // console.log(selectedCity)
 
         // Filter the dealers based on selected values
         // var filteredDealers = dealers_data.filter(function(dealer) {
@@ -2181,7 +2202,7 @@
         // $('#asm_users').empty();
         $('#apend_tm_users').empty();
 
-        console.log(distinctASMdata)
+        // console.log(distinctASMdata)
         // Iterate through the distinct ASM data
         $.each(distinctASMdata, function(index, item) {
             // Append the option to the select element
@@ -2225,7 +2246,7 @@
 
         $('#apend_rm_users').empty();
 
-        console.log(distincttmdata)
+        // console.log(distincttmdata)
         // Iterate through the distinct ASM data
         $.each(distincttmdata, function(index, item) {
             // Append the option to the select element
@@ -2266,7 +2287,7 @@
         var retail_sites = 0;
         var coco_sites = 0;
         var none_sites = 0;
-        console.log(filteredData)
+        // console.log(filteredData)
         table.clear().draw();
         $.each(filteredData, function(index, data) {
             // $('#loader').hide();
@@ -2344,7 +2365,7 @@
                 data.time,
                 data.visit_close_time,
                 data.current_status,
-                // (data.status === '1') ? 'Complete' : 'Pending',
+                // (data.status === '1') ? 'Completed' : 'Pending',
                 data.description,
                 data.task_create_time,
                 '<a href="javascript:void(0);" onclick="check_reschedule(' + data.task_id +
@@ -2358,11 +2379,11 @@
         var lateCount = 0;
         var upcomingCount = 0;
 
-        // Loop through the array and count Pending and Complete records
+        // Loop through the array and count Pending and Completed records
         $.each(filteredTaskData, function(index, record) {
             if (record.current_status === 'Pending') {
                 pendingCount++;
-            } else if (record.current_status === 'Complete') {
+            } else if (record.current_status === 'Completed') {
                 completeCount++;
             } else if (record.current_status === 'Late') {
                 lateCount++;
@@ -2377,8 +2398,8 @@
         $('#upcoming_tasks').text(upcomingCount);
         // table.clear().draw();
         // task_datas(filteredTaskData, 'region_chart', 'user_name', 'Users Task')
-        task_datas(filteredTaskData, 'task_users', 'user_name', 'Users Task')
-        task_datas(filteredTaskData, 'task_status', 'current_status', 'Task Status')
+        task_datas(filteredTaskData, 'task_users', 'user_name', 'Users Task', 'tm_select')
+        task_datas(filteredTaskData, 'task_status', 'current_status', 'Task Status', '')
 
 
         // Update the DataTable with filtered data
@@ -2525,7 +2546,7 @@
         var time = new Date();
         var currentTime = time.toLocaleString();
         circle_point.push(cirlat + ", " + cirlng)
-        console.log(circle_point)
+        // console.log(circle_point)
 
         // alert(n);
 
@@ -2540,7 +2561,7 @@
             var lng = this.getCenter().lng();
             var radius = this.getRadius();
             circle_point_edit.push(lat + ", " + lng)
-            console.log(circle_point_edit)
+            // console.log(circle_point_edit)
             document.getElementById("lati").value = circle_point_edit;
             document.getElementById("type").value = 'circle';
 
@@ -2552,7 +2573,7 @@
             var lng = this.getCenter().lng();
             var radius = this.getRadius();
             circle_point_edit.push(lat + ", " + lng)
-            console.log(circle_point_edit)
+            // console.log(circle_point_edit)
             document.getElementById("lati").value = circle_point_edit;
             document.getElementById("type").value = 'circle';
 
@@ -2574,7 +2595,7 @@
 
         }
         poly_points.push(coordStr)
-        console.log(poly_points);
+        // console.log(poly_points);
         var time = new Date();
         var currentTime = time.toLocaleString();
         document.getElementById("lati").value = poly_points;
@@ -2588,12 +2609,12 @@
             for (var i = 0; i < polygon.getPath().getLength(); i++) {
                 var co_string = polygon.getPath().getAt(i).toUrlValue(6);
                 var spl_co = co_string.split(",");
-                console.log(polygon.getPath().getAt(i).toUrlValue(6))
+                // console.log(polygon.getPath().getAt(i).toUrlValue(6))
                 coordStr_edit += spl_co[0] + "," + spl_co[1] + ";";
 
             }
             poly_points_edit.push(coordStr_edit)
-            console.log(poly_points_edit);
+            // console.log(poly_points_edit);
             document.getElementById("lati").value = poly_points_edit;
             document.getElementById("type").value = 'polygon';
         });
@@ -2604,12 +2625,12 @@
             for (var i = 0; i < polygon.getPath().getLength(); i++) {
                 var co_string = polygon.getPath().getAt(i).toUrlValue(6);
                 var spl_co = co_string.split(",");
-                console.log(polygon.getPath().getAt(i).toUrlValue(6))
+                // console.log(polygon.getPath().getAt(i).toUrlValue(6))
                 coordStr_edit += spl_co[0] + "," + spl_co[1] + ";";
 
             }
             poly_points_edit.push(coordStr_edit)
-            console.log(poly_points_edit);
+            // console.log(poly_points_edit);
             document.getElementById("lati").value = poly_points_edit;
             document.getElementById("type").value = 'polygon';
         });
@@ -2620,12 +2641,12 @@
             for (var i = 0; i < polygon.getPath().getLength(); i++) {
                 var co_string = polygon.getPath().getAt(i).toUrlValue(6);
                 var spl_co = co_string.split(",");
-                console.log(polygon.getPath().getAt(i).toUrlValue(6))
+                // console.log(polygon.getPath().getAt(i).toUrlValue(6))
                 coordStr_edit += spl_co[0] + "," + spl_co[1] + ";";
 
             }
             poly_points_edit.push(coordStr_edit)
-            console.log(poly_points_edit);
+            // console.log(poly_points_edit);
             document.getElementById("lati").value = poly_points_edit;
             document.getElementById("type").value = 'polygon';
         });
@@ -2835,7 +2856,7 @@
 
     function chart_datas(response, id, value, name) {
         var provinceCount = {};
-        console.log(value)
+        // console.log(value)
         // Loop through the dealers data
         $.each(response, function(index, dealer) {
             if (value == 'region') {
@@ -2862,47 +2883,24 @@
             provinceCount[province] = (provinceCount[province] || 0) + 1;
         });
 
-        console.log(provinceCount);
+        // console.log(provinceCount);
         var provincesArray = Object.keys(provinceCount);
         var countsArray = Object.values(provinceCount);
-        console.log(provincesArray);
-        console.log(countsArray);
+        // console.log(provincesArray);
+        // console.log(countsArray);
 
         line_charts(id, provincesArray, countsArray, name)
     }
 
-    function task_datas(response, id, value, name) {
+
+
+    // Main function remains largely the same
+    function task_datas(response, id, value, name, select_id) {
         var provinceCount = {};
-        console.log(response)
+
         // Loop through the dealers data
         $.each(response, function(index, dealer) {
-            if (value == 'region') {
-                var province = dealer.region;
-
-            } else if (value == 'province') {
-                var province = dealer.province;
-
-            } else if (value == 'city') {
-                var province = dealer.city;
-
-            } else if (value == 'district') {
-                var province = dealer.district;
-
-            } else if (value == 'tm') {
-                var province = dealer.tm_name;
-
-            } else if (value == 'asm') {
-                var province = dealer.asm_name;
-
-            } else if (value == 'user_name') {
-                var province = dealer.user_name;
-
-            } else if (value == 'current_status') {
-                var province = dealer.current_status;
-
-            }
-
-            // Check if the province is already in the count, if not, initialize it to 1, otherwise increment
+            var province = dealer[value];
             provinceCount[province] = (provinceCount[province] || 0) + 1;
         });
 
@@ -2911,11 +2909,11 @@
         var lateCount = 0;
         var upcomingCount = 0;
 
-        // Loop through the array and count Pending and Complete records
+        // Count task statuses
         $.each(response, function(index, record) {
             if (record.current_status === 'Pending') {
                 pendingCount++;
-            } else if (record.current_status === 'Complete') {
+            } else if (record.current_status === 'Completed') {
                 completeCount++;
             } else if (record.current_status === 'Late') {
                 lateCount++;
@@ -2924,49 +2922,46 @@
             }
         });
 
+        // Update status counts
         $('#Pending_tasks').text(pendingCount);
         $('#completed_tasks').text(completeCount);
         $('#late_tasks').text(lateCount);
         $('#upcoming_tasks').text(upcomingCount);
 
-        console.log(provinceCount);
+        // Populate dropdown if select_id is provided
+        if (select_id && $('#' + select_id).length) {
+            $('#' + select_id).empty().append('<option value="All Users">All Users</option>');
+            Object.keys(provinceCount).forEach(function(tm_name) {
+                $('#' + select_id).append(`<option value="${tm_name}">${tm_name}</option>`);
+            });
+        }
+
+        // Update chart
         var provincesArray = Object.keys(provinceCount);
         var countsArray = Object.values(provinceCount);
-        console.log(provincesArray);
-        console.log(countsArray);
-
-        user_task(id, provincesArray, countsArray, name)
+        user_task(id, provincesArray, countsArray, name);
     }
-    // user_task();
+
+    function task_datas_charts(response, id, value, name, select_id) {
+        var provinceCount = {};
+        console.log(response);
+        // Loop through the dealers data
+        $.each(response, function(index, dealer) {
+            var province = dealer[value];
+            provinceCount[province] = (provinceCount[province] || 0) + 1;
+        });
+
+        
+
+        // Populate dropdown if select_id is provided
+        
+        // Update chart
+        var provincesArray = Object.keys(provinceCount);
+        var countsArray = Object.values(provinceCount);
+        user_task(id, provincesArray, countsArray, name);
+    }
 
     function user_task(id, leb, ser, name) {
-
-
-        // var options = {
-        //     series: ser,
-        //     chart: {
-        //         type: 'donut',
-        //     },
-        //     labels: leb,
-        //     title: {
-        //         text: name
-        //     },
-        //     responsive: [{
-        //         breakpoint: 480,
-        //         options: {
-        //             chart: {
-        //                 width: 300
-        //             },
-        //             legend: {
-        //                 position: 'bottom'
-        //             }
-        //         }
-        //     }]
-        // };
-
-        // var chart = new ApexCharts(document.querySelector("#task_users"), options);
-        // chart.render();
-
         var data = {
             labels: leb,
             datasets: [{
@@ -2980,26 +2975,28 @@
             }]
         };
 
-        // Get the canvas element
-        var ctx = document.getElementById('' + id + '').getContext('2d');
+        // Destroy existing chart if it exists
+        var ctx = document.getElementById(id).getContext('2d');
         var existingChart = Chart.getChart(ctx);
         if (existingChart) {
             existingChart.destroy();
         }
-        // Create the donut chart
-        var donutChart = new Chart(ctx, {
+
+        // Create new chart
+        new Chart(ctx, {
             type: 'doughnut',
             data: data,
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                cutoutPercentage: 50, // Adjust the cutoutPercentage to create a donut
+                cutoutPercentage: 50,
                 legend: {
                     position: 'bottom'
                 }
             }
         });
-    };
+    }
+
 
     function getting_listing(user) {
         $('.user_lists').addClass('d-none')
@@ -3022,7 +3019,7 @@
     }
 
     function check_dealers_status(value) {
-        console.log(value)
+        // console.log(value)
         // var searchText = $('#searchInput').val();
         table.search(value).draw();
     }
@@ -3033,15 +3030,15 @@
             method: 'GET',
             redirect: 'follow'
         };
-        console.log(
-            "<?php echo $api_url; ?>get/get_reshedule_detail.php?key=03201232927&id=<?php echo $_SESSION['user_id'] ?>&task_id=" +
-            task_id + "")
+        // console.log(
+        //     "<?php echo $api_url; ?>get/get_reshedule_detail.php?key=03201232927&id=<?php echo $_SESSION['user_id'] ?>&task_id=" +
+        //     task_id + "")
         fetch("<?php echo $api_url; ?>get/get_reshedule_detail.php?key=03201232927&id=<?php echo $_SESSION['user_id'] ?>&task_id=" +
                 task_id + "",
                 requestOptions)
             .then(response => response.json())
             .then(response => {
-                console.log(response)
+                // console.log(response)
 
                 schedule_table.clear().draw();
                 $.each(response, function(index, data) {
@@ -3059,6 +3056,7 @@
 
         $('#task_reschedule_modal').modal('show');
     }
+
     function blocking() {
         $.blockUI({
             message: `

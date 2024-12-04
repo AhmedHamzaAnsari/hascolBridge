@@ -99,15 +99,7 @@
         <?php include 'sidebar.php'; ?>
 
         <!-- Left Sidebar End -->
-        <?php
-       $pre = $_GET['pre'];
 
-       // Set the disabled attribute based on the value of $pre
-       $disabledAttribute = ($pre == 'ASM' || $pre == 'TM') ? 'disabled' : '';
-       
-        // $disabledAttribute = (strpos($pre, 'TM') === 0) ? 'disabled' : '';
-        
-        ?>
 
         <!-- ============================================================== -->
         <!-- Start right Content here -->
@@ -140,7 +132,7 @@
                 </div>
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-md-3 d-none">
+                        <div class="col-md-3 ">
                             <label for="inputEmail4">Region</label>
 
                             <select data-live-search="true" class="form-control selectpicker" id="regions"
@@ -152,7 +144,7 @@
                             </select>
 
                         </div>
-                        <div class="col-md-3 d-none">
+                        <div class="col-md-3">
                             <label for="inputEmail4">Province</label>
 
                             <select data-live-search="true" class="form-control selectpicker" id="province"
@@ -164,7 +156,7 @@
                             </select>
 
                         </div>
-                        <div class="col-md-3 d-none">
+                        <div class="col-md-3">
                             <label for="inputEmail4">City</label>
 
                             <select data-live-search="true" class="form-control selectpicker" id="city" name="city"
@@ -188,7 +180,7 @@
                             </select>
 
                         </div>
-                        <div class="col-md-3 d-none">
+                        <div class="col-md-3">
                             <label for="inputEmail4">RM</label>
 
                             <select data-live-search="true" class="form-control selectpicker" id="tm_user"
@@ -204,7 +196,31 @@
                             <label for="inputEmail4">TM</label>
 
                             <select data-live-search="true" class="form-control selectpicker" id="asm_users"
-                                name="asm_users" required multiple <?= $disabledAttribute ?>>
+                                name="asm_users" required multiple>
+                                <option value="">Select</option>
+
+
+
+                            </select>
+
+                        </div>
+                        <div class="col-md-3">
+                            <label for="inputEmail4">Company / Brand</label>
+
+                            <select data-live-search="true" class="form-control selectpicker" id="company_brand"
+                                name="company_brand" required multiple>
+                                <option value="">Select</option>
+
+
+
+                            </select>
+
+                        </div>
+                        <div class="col-md-3">
+                            <label for="inputEmail4">Ownership</label>
+
+                            <select data-live-search="true" class="form-control selectpicker" id="ownerships"
+                                name="ownerships" required multiple>
                                 <option value="">Select</option>
 
 
@@ -220,7 +236,7 @@
                                 <option value="Pending">Pending</option>
                                 <option value="Late">Late</option>
                                 <option value="Upcoming">Upcoming</option>
-                                <option value="Completed">Completed</option>
+                                <option value="Complete">Completed</option>
 
 
 
@@ -233,7 +249,7 @@
                     </div>
 
                     <div class="row my-3">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="card">
                                 <div class="card-body">
                                     <div>
@@ -313,7 +329,7 @@
                                                     <small> Pending</small>: <span id="Pending_tasks"
                                                         class="text-warning">0</span>
                                                 </h6>
-                                                <h6 onclick="check_task_status('Completed')" class="mb-0 font-size-12"
+                                                <h6 onclick="check_task_status('Complete')" class="mb-0 font-size-12"
                                                     style="cursor: pointer">
                                                     <small> Completed</small> : <span id="completed_tasks"
                                                         class="text-success">0</span>
@@ -323,13 +339,13 @@
                                                     <small> Late</small> : <span id="late_tasks"
                                                         class="text-danger">0</span>
                                                 </h6>
-                                                <h6 onclick="check_task_status('Upcoming')" class="mb-0 font-size-12 d-none"
-                                                    style="cursor: pointer">
+                                                <h6 onclick="check_task_status('Upcoming')"
+                                                    class="mb-0 font-size-12 d-none" style="cursor: pointer">
                                                     <small> Upcoming</small> : <span id="upcoming_tasks"
                                                         class="text-info">0</span>
                                                 </h6>
-                                                <h6 onclick="getting_listing('listing_users')"
-                                                    class="mb-0 font-size-12 d-none" style="cursor: pointer">
+                                                <h6 onclick="getting_listing('listing_users')" class="mb-0 font-size-12"
+                                                    style="cursor: pointer">
                                                     <small> Visits Users</small> : <span id="vistes_users"
                                                         class="text-info">0</span>
                                                 </h6>
@@ -347,42 +363,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3 d-none">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div>
-                                        <div class="d-flex align-items-center">
-                                            <div class="avatar">
-                                                <div class="avatar-title rounded bg-primary-subtle ">
-                                                    <i class="bx bx-check-shield font-size-24 mb-0 text-primary"></i>
-                                                </div>
-                                            </div>
-
-                                            <div class="flex-grow-1 ms-3">
-                                                <h6 class="mb-0 font-size-15">Order</h6>
-                                            </div>
-
-                                            <div class="flex-grow-1 ms-3">
-                                                <h6 class="mb-0 font-size-12"><small> Invoiced </small>: <span
-                                                        id="Pending_orders">0</span> </h6>
-                                                <h6 class="mb-0 font-size-12"><small> Scheduled</small> : <span
-                                                        id="completed_orders">0</span> </h6>
-                                                <h6 onclick="getting_listing('orders_dealers')"
-                                                    class="mb-0 font-size-12 " style="cursor: pointer"><small> Stations
-                                                        Order</small> : <span id="no_of_dealers_orders">0</span> </h6>
-                                            </div>
-                                        </div>
-
-                                        <div>
-
-                                            <h4 class="mt-4 pt-1 mb-0 font-size-22" id="dealers_order_count">0</h4>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 d-none">
+                        <div class="col-md-3">
                             <div class="card">
                                 <div class="card-body">
                                     <div>
@@ -418,7 +399,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3 d-none">
+                        <div class="col-md-3">
                             <div class="card">
                                 <div class="card-body">
                                     <div>
@@ -432,7 +413,7 @@
                                             <div class="flex-grow-1 ms-3">
                                                 <h6 class="mb-0 font-size-15">TM</h6>
                                             </div>
-                                            <!-- <div class="flex-grow-1 ms-3" onclick="getting_listing('ASM')">
+                                            <div class="flex-grow-1 ms-3" onclick="getting_listing('ASM')">
                                                 <svg style="float: right;" xmlns="http://www.w3.org/2000/svg" width="24"
                                                     height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -441,7 +422,7 @@
                                                     <circle cx="12" cy="5" r="1"></circle>
                                                     <circle cx="12" cy="19" r="1"></circle>
                                                 </svg>
-                                            </div> -->
+                                            </div>
 
 
                                         </div>
@@ -497,7 +478,7 @@
 
 
                         </div>
-                        <div class="col-md-6 d-none">
+                        <div class="col-md-6">
                             <div class="card">
                                 <div class="card-body">
                                     <canvas id="rm_chart"></canvas>
@@ -508,7 +489,7 @@
 
                         </div>
 
-                        <div class="col-md-6 d-none">
+                        <div class="col-md-6">
                             <div class="card">
                                 <div class="card-body">
                                     <canvas id="tm_chart"></canvas>
@@ -526,6 +507,9 @@
                             <div class="card">
                                 <div class="card-body" style="height: 350px;">
                                     <strong>Task</strong>
+                                    <select id="tm_select">
+                                        <option value="all">All Users</option>
+                                    </select>
                                     <canvas id="task_users"></canvas>
 
                                 </div>
@@ -555,11 +539,12 @@
                                     <tr>
                                         <th class="text-center">S.No</th>
                                         <th class="text-center">Name</th>
-                                        <th class="text-center">SAP #</th>
+                                        <th class="text-center">JD Code</th>
                                         <th class="text-center">Is Verified </th>
                                         <th class="text-center">Email</th>
                                         <th class="text-center">Contact</th>
                                         <th class="text-center">Location</th>
+                                        <th class="text-center">Region</th>
                                         <th class="text-center">City</th>
                                         <th class="text-center">Province</th>
                                         <th class="text-center">Retail-Type</th>
@@ -593,6 +578,7 @@
                                                 <th>Status</th>
                                                 <th>Description</th>
                                                 <th>Created At</th>
+                                                <th>Is-Reschedule</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -602,44 +588,6 @@
                                 </div>
                             </div>
 
-                        </div>
-                    </div>
-                    <div class="row d-none">
-                        <div class="col-md-12">
-                            <div class="card">
-
-                                <div class="card-body" style="overflow: auto;">
-                                    <div id="loader" style="display: none;text-align: center;">Loading Data...</div>
-
-                                    <table id="order_tables" class="display" style="width:100%">
-                                        <thead>
-                                            <tr>
-                                                <th class="text-center">S.No</th>
-                                                <th class="text-center">Date</th>
-                                                <th class="text-center">Site Name</th>
-                                                <th class="text-center">Username</th>
-                                                <th class="text-center">Type</th>
-                                                <th class="text-center">Depot</th>
-                                                <th class="text-center">Total Amount</th>
-                                                <!-- <th class="text-center">Ledger Amount</th> -->
-                                                <th class="text-center">Sales Order</th>
-                                                <th class="text-center">Sap Status</th>
-                                                <th class="text-center">Execution Status</th>
-                                                <th class="text-center">City</th>
-                                                <th class="text-center">Province</th>
-                                                <th class="text-center">Region</th>
-                                                <th class="text-center">View Orders</th>
-                                                <th class="text-center">Track</th>
-
-
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
-                                    </table>
-
-                                </div>
-                            </div>
                         </div>
                     </div>
 
@@ -777,42 +725,29 @@
                                             <div class="card-body">
 
 
-                                                <div class="mx-n4 simplebar-scrollable-y" data-simplebar="init"
-                                                    style="max-height: 421px;">
-                                                    <div class="simplebar-wrapper" style="margin: 0px;">
-                                                        <div class="simplebar-height-auto-observer-wrapper">
-                                                            <div class="simplebar-height-auto-observer"></div>
-                                                        </div>
-                                                        <div class="simplebar-mask">
-                                                            <div class="simplebar-offset"
-                                                                style="right: 0px; bottom: 0px;">
-                                                                <div class="simplebar-content-wrapper" tabindex="0"
-                                                                    role="region" aria-label="scrollable content"
-                                                                    style="height: auto; overflow: hidden scroll;">
-                                                                    <div class="simplebar-content"
-                                                                        style="padding: 0px;">
-                                                                        <div class="border-bottom loyal-customers-box pt-2"
-                                                                            id='liat_vist_users'>
-
-                                                                        </div>
-
-
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="simplebar-placeholder"
-                                                            style="width: 325px; height: 432px;"></div>
-                                                    </div>
-                                                    <div class="simplebar-track simplebar-horizontal"
-                                                        style="visibility: hidden;">
-                                                        <div class="simplebar-scrollbar"
-                                                            style="width: 0px; display: none;"></div>
-                                                    </div>
-                                                    <div class="simplebar-track simplebar-vertical"
-                                                        style="visibility: visible;">
-                                                        <div class="simplebar-scrollbar"
-                                                            style="height: 410px; transform: translate3d(0px, 0px, 0px); display: block;">
+                                                <div class="container-fluid">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <table id="users_tasking" class="display"
+                                                                style="width:100%">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th class="text-center">S.No</th>
+                                                                        <th class="text-center">Users</th>
+                                                                        <th class="text-center">Privilege</th>
+                                                                        <th class="text-center">Pending
+                                                                        </th>
+                                                                        <th class="text-center">Late
+                                                                        </th>
+                                                                        <!-- <th class="text-center">Upcoming
+                                                                        </th> -->
+                                                                        <th class="text-center">Completed
+                                                                        </th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                </tbody>
+                                                            </table>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -824,60 +759,49 @@
                                 </div>
                             </div>
 
-                            <div class="container-fluid user_lists" id="dealers_orders_list">
+                        </div>
+
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div>
+
+
+            <div id="task_reschedule_modal" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel"
+                aria-hidden="true" data-bs-scroll="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <!-- <h5 class="modal-title" id="myModalLabel">Create Permit Type</h5> -->
+                            <h5 class="modal-title" id="myModalLabel">
+                                <h5 id="labelc"></h5>
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container-fluid">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <h4>Stations Orders</h4>
-                                        <div class="card">
-                                            <div class="card-body">
+                                        <h3>Visit Reschedule Detail</h3>
 
+                                        <table id="schedule_table" class="display" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>S.No</th>
+                                                    <th>Old Date</th>
+                                                    <th>New Date</th>
+                                                    <th>Description</th>
+                                                    <th>Created By</th>
+                                                    <th>Created At</th>
 
-                                                <div class="mx-n4 simplebar-scrollable-y" data-simplebar="init"
-                                                    style="max-height: 421px;">
-                                                    <div class="simplebar-wrapper" style="margin: 0px;">
-                                                        <div class="simplebar-height-auto-observer-wrapper">
-                                                            <div class="simplebar-height-auto-observer"></div>
-                                                        </div>
-                                                        <div class="simplebar-mask">
-                                                            <div class="simplebar-offset"
-                                                                style="right: 0px; bottom: 0px;">
-                                                                <div class="simplebar-content-wrapper" tabindex="0"
-                                                                    role="region" aria-label="scrollable content"
-                                                                    style="height: auto; overflow: hidden scroll;">
-                                                                    <div class="simplebar-content"
-                                                                        style="padding: 0px;">
-                                                                        <div class="border-bottom loyal-customers-box pt-2"
-                                                                            id='list_dealers_no'>
-
-                                                                        </div>
-
-
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="simplebar-placeholder"
-                                                            style="width: 325px; height: 432px;"></div>
-                                                    </div>
-                                                    <div class="simplebar-track simplebar-horizontal"
-                                                        style="visibility: hidden;">
-                                                        <div class="simplebar-scrollbar"
-                                                            style="width: 0px; display: none;"></div>
-                                                    </div>
-                                                    <div class="simplebar-track simplebar-vertical"
-                                                        style="visibility: visible;">
-                                                        <div class="simplebar-scrollbar"
-                                                            style="height: 410px; transform: translate3d(0px, 0px, 0px); display: block;">
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
+
 
                         </div>
 
@@ -923,7 +847,7 @@
                             </span>
                         </div>
                         <div class="form-group col-md-2">
-                            <label for="inputEmail4">Dealer SAP #</label>
+                            <label for="inputEmail4">Dealer JD Code</label>
                             <span id="lorry_span">
                                 <input type="text" class="form-control" id="dealer_sap_no" name="dealer_sap_no"
                                     required>
@@ -1131,53 +1055,7 @@
             </div>
         </div>
     </div>
-    <div id="products_price_backlog_modal" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel"
-        aria-hidden="true" data-bs-scroll="true">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <!-- <h5 class="modal-title" id="myModalLabel">Create Permit Type</h5> -->
-                    <h5 class="modal-title" id="myModalLabel">
-                        <h5 id="labelc">Order Detail</h5>
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="table-responsive">
-                                    <table class="table table-nowrap table-hover mb-1" id="product_price_backlog">
-                                        <thead class="bg-light">
-                                            <tr>
-                                                <th class="text-center">S.No</th>
-                                                <th class="text-center">Date</th>
-                                                <th class="text-center">Site Name</th>
-                                                <!-- <th class="text-center">Customer</th>
-                                        <th class="text-center">SAP Code</th> -->
-                                                <th class="text-center">Product Type</th>
-                                                <th class="text-center">Rate</th>
-                                                <th class="text-center">Qty</th>
-                                                <th class="text-center">Delivered</th>
-                                                <th class="text-center">Depot</th>
-                                                <!-- <th class="text-center">Delivery Type</th> -->
-                                                <th class="text-center">Order Amount</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
 
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div>
     <!-- JAVASCRIPT -->
 
     <?php include 'script_tags.php'; ?>
@@ -1189,13 +1067,47 @@
     var type;
     var subtype;
     var dealers_data = "";
-    var dealers_order_data = "";
-
     var task_data = "";
+    var schedule_table = "";
+
     $(document).ready(function() {
         $('.multi_select').select2();
         $('.selectpicker').select2();
 
+        $('#tm_select').on('change', function() {
+            var selectedUser = $(this).val();
+            updateChartData(selectedUser);
+        });
+
+        // Function to update chart data based on selection
+        function updateChartData(selectedUser) {
+            // Assuming 'response' is your dataset
+            var filteredData = task_data; // Default to all users
+            if (selectedUser && selectedUser !== 'All Users') {
+                filteredData = task_data.filter(function(dealer) {
+                    return dealer.user_name === selectedUser;
+                });
+            }
+            // Update the chart with filtered data
+            task_datas_charts(filteredData, 'task_users', 'user_name', 'Task Chart', 'tm_select');
+        }
+        users_tasking = $('#users_tasking').DataTable({
+            dom: 'Bfrtip',
+
+
+            buttons: ['copy', 'excel', 'csv', 'pdf', 'print']
+
+
+        });
+
+        schedule_table = $('#schedule_table').DataTable({
+            dom: 'Bfrtip',
+
+
+            buttons: ['copy', 'excel', 'csv', 'pdf', 'print']
+
+
+        });
 
 
         ///banner image start
@@ -1375,22 +1287,36 @@
 
 
         });
-        order_tables = $('#order_tables').DataTable({
-            dom: 'Bfrtip',
+        // $('.selectpicker').on('change', function() {
+        //     table.search(this.value).draw();
+        // });
+
+        // $('.selectpicker').on('change', function() {
+        //     // Clear the array before updating it
+        //     selectedValues = [];
+
+        //     // Iterate over all select elements with class 'all_select'
+        //     $('.selectpicker').each(function() {
+        //         // Get the selected value of each select and push it into the array
+        //         selectedValues.push($(this).val());
+        //     });
+
+        //     var searchString = selectedValues.join(' ');
+
+        //     // Perform search and redraw the DataTable
+        //     table.search(searchString).draw();
+        //     // Log the array or perform other actions with it
+        //     console.log(selectedValues);
+        //     var rowCount = table.rows({
+        //         search: 'applied'
+        //     }).count();
+        //     console.log(rowCount)
+
+        //     $('#dealers_count').html(rowCount)
 
 
-            buttons: ['copy', 'excel', 'csv', 'pdf', 'print']
 
-
-        });
-        product_price_backlog = $('#product_price_backlog').DataTable({
-            dom: 'Bfrtip',
-
-
-            buttons: ['copy', 'excel', 'csv', 'pdf', 'print']
-
-        });
-
+        // });
 
 
 
@@ -1440,7 +1366,7 @@
 
                     },
                     success: function(data) {
-                        console.log(data)
+                        // console.log(data)
 
                         if (data != 1) {
                             Swal.fire(
@@ -1504,7 +1430,7 @@
 
                     },
                     success: function(data) {
-                        console.log(data)
+                        // console.log(data)
 
                         if (data != 1) {
                             Swal.fire(
@@ -1525,7 +1451,7 @@
                                 )
                                 $('#insert_form')[0].reset();
                                 $('#offcanvasRight').modal('hide');
-                                // fetchtable();
+                                fetchtable();
                                 $('#insert').val("Save");
                                 document.getElementById("insert").disabled = false;
                                 location.reload();
@@ -1560,7 +1486,7 @@
 
                     },
                     success: function(data) {
-                        console.log(data)
+                        // console.log(data)
 
                         if (data != 1) {
                             Swal.fire(
@@ -1583,7 +1509,7 @@
                                 document.getElementById("imagePreview").src = ""
                                 $('#insert_form')[0].reset();
                                 $('#offcanvasRight').modal('hide');
-                                // fetchtable();
+                                fetchtable();
                                 $('#insert').val("Save");
                                 document.getElementById("insert").disabled = false;
                                 location.reload();
@@ -1614,12 +1540,12 @@
             method: 'GET',
             redirect: 'follow'
         };
-        console.log("<?php echo $api_url; ?>get/dealers.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>");
+        // console.log("<?php echo $api_url; ?>get/dealers.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>");
         fetch("<?php echo $api_url; ?>get/dealers.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>",
                 requestOptions)
             .then(response => response.json())
-            .then(async response => {
-                console.log(response)
+            .then(response => {
+                // console.log(response)
                 dealers_data = response;
                 var verifiedCount = 0;
                 var nonVerifiedCount = 0;
@@ -1639,12 +1565,12 @@
                         data.email,
                         data.contact,
                         data.location,
+                        data.region,
                         data.city,
                         data.province,
                         data.rettype_desc,
                         data.created_at
                     ]).draw();
-
 
                     if (data.indent_price == '1') {
                         verifiedCount++;
@@ -1664,6 +1590,7 @@
                         none_sites++;
                     }
                 });
+
                 $('#retail_sites').html(retail_sites);
                 $('#coco_sites').html(coco_sites);
                 $('#none_sites').html(none_sites);
@@ -1672,19 +1599,27 @@
                 $('#nonverified_dealers').html(nonVerifiedCount);
                 $('#logined_dealers').html(loginCount);
 
-
+                // check_data(response);
+                chart_datas(response, 'lineChart', 'province', 'Province')
+                chart_datas(response, 'region_chart', 'region', 'Region')
+                chart_datas(response, 'city_chart', 'city', 'City')
+                chart_datas(response, 'terr_chart', 'district', 'District')
+                chart_datas(response, 'rm_chart', 'tm', 'RM')
+                chart_datas(response, 'tm_chart', 'asm', 'TM')
+                // chart_datas(response, 'depot_chart', 'actual_depot', 'Depot')
+                // chart_datas(response, 'rural_urban', 'cat_2', 'Cat-2')
 
             })
             .catch(error => console.log('error', error));
-        console.log(
-            "<?php echo $api_url; ?>get/inspection/all_dealers_inspection.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>&from=" +
-            fromdate + "&to=" + todate + "")
+        // console.log(
+        //     "<?php echo $api_url; ?>get/inspection/all_dealers_inspection.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>&from=" +
+        //     fromdate + "&to=" + todate + "")
         fetch("<?php echo $api_url; ?>get/inspection/all_dealers_inspection.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>&from=" +
                 fromdate + "&to=" + todate + "",
                 requestOptions)
             .then(response => response.json())
             .then(response => {
-                console.log(response)
+                // console.log(response)
                 task_data = response;
 
                 $('#task_count').html(response.length);
@@ -1699,12 +1634,33 @@
                         data.time,
                         data.visit_close_time,
                         data.current_status,
-                        // (data.status === '1') ? 'Completed' : 'Pending',
+                        // (data.status === '1') ? 'Complete' : 'Pending',
                         data.description,
                         data.task_create_time,
+                        '<a href="javascript:void(0);" onclick="check_reschedule(' + data.task_id +
+                        ')">' + data.schedule_status +
+                        '</a>' // Reschedule link with proper JS handling
                     ]).draw(false);
 
+                    // var existingUser = uniqueUsers.find(function(user) {
+                    //     return user === data.user_name;
+                    // });
+                    // // If the user doesn't exist, add it to the uniqueUsers array
+                    // if (!existingUser) {
+                    //     uniqueUsers.push(data.user_name);
+                    //     var htmlContent = '<div class="d-flex align-items-center">';
+                    //     htmlContent += '<div class="flex-grow-1 ms-3 overflow-hidden">';
+                    //     htmlContent += '<h5 class="font-size-15 mb-1 text-truncate">' + data.user_name+
+                    //         '</h5>';
+                    //     htmlContent += '</div>';
+                    //     htmlContent += '<div class="flex-shrink-0">';
 
+                    //     htmlContent += '</div>';
+                    //     htmlContent += '</div>';
+
+                    //     // Append the HTML content to the container
+                    //     $('#liat_vist_users').append(htmlContent);
+                    // }
                 });
 
 
@@ -1714,11 +1670,11 @@
                 var lateCount = 0;
                 var upcomingCount = 0;
 
-                // Loop through the array and count Pending and Completed records
+                // Loop through the array and count Pending and Complete records
                 $.each(response, function(index, record) {
                     if (record.current_status === 'Pending') {
                         pendingCount++;
-                    } else if (record.current_status === 'Completed') {
+                    } else if (record.current_status === 'Complete') {
                         completeCount++;
                     } else if (record.current_status === 'Late') {
                         lateCount++;
@@ -1732,8 +1688,8 @@
                 $('#late_tasks').text(lateCount);
                 $('#upcoming_tasks').text(upcomingCount);
 
-                task_datas(response, 'task_users', 'user_name', 'Users Task')
-                task_datas(response, 'task_status', 'current_status', 'Task Status')
+                task_datas(response, 'task_users', 'user_name', 'Users Task', 'tm_select')
+                task_datas(response, 'task_status', 'current_status', 'Task Status', '')
 
 
             })
@@ -1749,150 +1705,63 @@
                 $.each(response, function(index, data) {
 
 
-                    htmlContent = '<div class="container-fluid">' +
-                        '<div class="row">' +
-                        '<div class="col-md-4">' + data.user_name + '</div>' +
-                        ' <div class="col-md-8">' +
-                        '<div class="container-fluid">' +
-                        '<div class="row">' +
-                        '<div class="col-md-3"><small>Pending : ' + data.sum_pending + '</small></div>' +
-                        '<div class="col-md-3"><small>Late : ' + data.sum_Late + '</small> </div>' +
-                        '<div class="col-md-3"><small>Upcoming : ' + data.sum_Upcoming + '</small></div>' +
-                        '<div class="col-md-3"><small>Completed : ' + data.sum_Complete + ' </small></div>' +
-                        '</div>' +
-                        '</div>' +
-                        '</div>' +
-                        '</div>' +
-                        '</div>';
+                    // htmlContent = '<div class="container-fluid">' +
+                    //     '<div class="row">' +
+                    //     '<div class="col-md-4">' + data.user_name + '</div>' +
+                    //     ' <div class="col-md-8">' +
+                    //     '<div class="container-fluid">' +
+                    //     '<div class="row">' +
+                    //     '<div class="col-md-3"><small>Pending : ' + data.sum_pending + '</small></div>' +
+                    //     '<div class="col-md-3"><small>Late : ' + data.sum_Late + '</small> </div>' +
+                    //     '<div class="col-md-3"><small>Upcoming : ' + data.sum_Upcoming + '</small></div>' +
+                    //     '<div class="col-md-3"><small>Complete : ' + data.sum_Complete + ' </small></div>' +
+                    //     '</div>' +
+                    //     '</div>' +
+                    //     '</div>' +
+                    //     '</div>' +
+                    //     '</div>';
 
                     // Append the HTML content to the container
-                    $('#liat_vist_users').append(htmlContent);
-                });
+                    // $('#liat_vist_users').append(htmlContent);
+                    var lang = data.privilege;
+                    if (lang == 'ZM') {
+                        lang = 'GRM';
+                    } else if (lang == 'TM') {
+                        lang = 'RM';
 
+                    } else if (lang == 'Admin') {
+                        lang = 'Admin';
 
+                    } else if (lang == 'ASM') {
+                        lang = 'TM';
 
+                    } else {
+                        lang = data.privilege;
 
-
-
-            })
-            .catch(error => console.log('error', error));
-        console.log(
-            "<?php echo $api_url; ?>get/get_all_main_orders.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>&from=" +
-            fromdate + "&to=" + todate + "")
-        fetch("<?php echo $api_url; ?>get/get_all_main_orders.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>&from=" +
-                fromdate + "&to=" + todate + "",
-                requestOptions)
-            .then(response => response.json())
-            .then(response => {
-                console.log(response)
-                dealers_order_data = response;
-
-                $('#dealers_order_count').html(response.length);
-                order_tables.clear().draw();
-                var pendingCount_order = 0;
-                var completeCount_order = 0;
-                $.each(response, function(index, data) {
-                    $('#loader').hide();
-                    var status = data.status_value;
-                    console.log(status)
-                    var status_value = '';
-
-                    if (status == 'pending') {
-                        status_value =
-                            '<span id=' + data.id +
-                            ' class="badge rounded-pill cursor-pointer bg-primary approved_check" data-key="t-new">' +
-                            status + '</span>';
-                    } else if (status == 'Not Yet Processed') {
-                        status_value =
-                            '<span id=' + data.id +
-                            ' class="badge rounded-pill cursor-pointer bg-info" data-key="t-new">Pending</span>';
-                    } else if (status == 'Completely Processed') {
-                        status_value =
-                            '<span id=' + data.id +
-                            ' class="badge rounded-pill cursor-pointer bg-success" data-key="t-new">Released</span>';
-                    } else if (status == 3) {
-                        status_value =
-                            '<span id=' + data.id +
-                            ' class="badge rounded-pill cursor-pointer bg-danger" data-key="t-new">Cancel</span>';
-                    } else if (status == 4) {
-                        status_value =
-                            '<span id=' + data.id +
-                            ' class="badge rounded-pill cursor-pointer bg-warning" data-key="t-new">Special Approval</span>';
-                    } else if (status == 5) {
-                        status_value =
-                            '<span id=' + data.id +
-                            ' class="badge rounded-pill cursor-pointer bg-dark approved_check" data-key="t-new">ASM Approved</span>';
                     }
-
-                    message = (data.delivered_status == 1) ? "Invoiced" : "Scheduled";
-                    track = (data.is_tracker == 1) ? "<a href='trip_board_salesOrder.php?no=" + data
-                        .SaleOrder +
-                        "' target='_blank'><i class='fas fa-route font-size-16 align-middle'></i></a>" :
-                        "----";
-                    d_type = (data.type == 'ZDL') ? "Delivered" : "EX-Rack Self";
-
-                    order_tables.row.add([
+                    users_tasking.row.add([
                         index + 1,
-                        data.created_at,
-                        data.name,
-                        data.usersnames,
-                        d_type,
-                        data.consignee_name,
-                        parseFloat(data.total_amount).toLocaleString(),
-                        // data.legder_balance,
-                        data.SaleOrder,
-                        status_value,
-                        message,
-                        data.city,
-                        data.province,
-                        data.region,
-                        '<button type="button" id="view_order" name="view_order" onclick="view_order(' +
-                        data.id +
-                        ')" class="btn btn-soft-danger waves-effect waves-light"><i class="fas fa-eye font-size-16 align-middle"></i></button>',
-                        track,
+                        (data.user_name),
+                        lang,
+                        data.sum_pending,
+                        data.sum_Late,
+                        // data.sum_Upcoming,
+                        data.sum_Complete
                     ]).draw();
-
-                    if (data.delivered_status === '0') {
-                        pendingCount_order++;
-                    } else if (data.delivered_status === '1') {
-                        completeCount_order++;
-                    }
                 });
 
 
 
-                // Loop through the array and count Pending and Completed records
 
 
-                $('#Pending_orders').text(pendingCount_order);
-                $('#completed_orders').text(completeCount_order);
-                try {
-                    setTimeout(async function() {
-                        var tm_ids = "<?php echo $_GET['id'] ?>";
-                        // Code to be executed after the delay
-                        $('#asm_users').val(tm_ids).trigger('change');
-                        const result2 = await filterTable();
-                        console.log('This code executes after a 2-second delay');
-                    }, 2000);
-                } catch (error) {
-                    console.log('error', error);
-                }
-                // check_data(response);
-                // chart_datas(response, 'lineChart', 'province', 'Province')
-                // chart_datas(response, 'region_chart', 'region', 'Region')
-                // chart_datas(response, 'city_chart', 'city', 'City')
-                // chart_datas(response, 'terr_chart', 'district', 'District')
-                // chart_datas(response, 'rm_chart', 'tm', 'RM')
-                // chart_datas(response, 'tm_chart', 'asm', 'TM')
-                // chart_datas(response, 'depot_chart', 'actual_depot', 'Depot')
-                // chart_datas(response, 'rural_urban', 'cat_2', 'Cat-2')
 
             })
             .catch(error => console.log('error', error));
+
         // Log the URL for debugging
-        console.log(
-            '<?php echo $api_url; ?>get/get_region_district_dealers.php?key=03201232927&pre=<?php echo $_SESSION['privilege']; ?>&user_id=<?php echo $_SESSION['user_id']; ?>'
-            );
+        // console.log(
+        //     '<?php echo $api_url; ?>get/get_region_district_dealers.php?key=03201232927&pre=<?php echo $_SESSION['privilege']; ?>&user_id=<?php echo $_SESSION['user_id']; ?>'
+        // );
 
         // Perform AJAX request
         $.ajax({
@@ -1900,7 +1769,7 @@
             method: 'GET',
             dataType: 'json',
             success: function(data) {
-                console.log(data); // Log the data for debugging
+                // console.log(data); // Log the data for debugging
 
                 // Parse the JSON strings returned from the API
                 var district = JSON.parse(data[0]['district']);
@@ -2145,7 +2014,7 @@
             method: 'GET',
             dataType: 'json',
             success: function(data) {
-                console.log(data)
+                // console.log(data)
                 // Iterate through the data and append options to the select element
                 $('#tm').empty();
                 $('#tm').append($('<option>', {
@@ -2176,7 +2045,7 @@
             method: 'GET',
             dataType: 'json',
             success: function(data) {
-                console.log(data);
+                // console.log(data);
                 // Iterate through the data and append options to the select element
                 $('#asm').empty();
                 $('#asm').append($('<option>', {
@@ -2283,9 +2152,11 @@
         var rm_counts = $('#tm_user').val();
         var tm_counts = $('#asm_users').val();
         var task_status_select = $('#task_status_select').val();
+        var company_brand = $('#company_brand').val();
+        var ownerships = $('#ownerships').val();
 
         // Get other selected values similarly
-        console.log(selectedCity)
+        // console.log(selectedCity)
 
         // Filter the dealers based on selected values
         // var filteredDealers = dealers_data.filter(function(dealer) {
@@ -2305,13 +2176,105 @@
                 (regions.length === 0 || regions.includes(item.region)) &&
                 (terri.length === 0 || terri.includes(item.district)) &&
                 (rm_counts.length === 0 || rm_counts.includes(item.tm)) &&
-                (tm_counts.length === 0 || tm_counts.includes(item.asm))
+                (tm_counts.length === 0 || tm_counts.includes(item.asm)) &&
+                (company_brand.length === 0 || company_brand.includes(item.company)) &&
+                (ownerships.length === 0 || ownerships.includes(item.ownership))
             );
         });
         var distinctTmCount = [...new Set(filteredData.map(dealer => dealer.tm))].length;
 
         // Calculate count of distinct 'sap_no' values
         var distinctASMCount = [...new Set(filteredData.map(dealer => dealer.asm))].length;
+
+        var asmMap = new Map();
+
+        // Filter the data to include only unique ASM entries
+        filteredData.forEach(dealer => {
+            if (!asmMap.has(dealer.asm)) {
+                asmMap.set(dealer.asm, dealer);
+            }
+        });
+
+        // Convert the map back to an array to get the filtered data
+        var distinctASMdata = Array.from(asmMap.values());
+
+        // Clear the existing options and content
+        // $('#asm_users').empty();
+        $('#apend_tm_users').empty();
+
+        // console.log(distinctASMdata)
+        // Iterate through the distinct ASM data
+        $.each(distinctASMdata, function(index, item) {
+            // Append the option to the select element
+            $('#asm_users').append($('<option>', {
+                value: item.asm, // Use item.id directly as the value
+                text: item.asm_name // Use item.name directly as the text
+            }));
+
+            // Create the HTML content for each ASM
+            var htmlContent = `
+                <div class="d-flex align-items-center">
+                    <div class="flex-grow-1 ms-3 overflow-hidden">
+                        <h5 class="font-size-15 mb-1 text-truncate">${item.asm_name}</h5>
+                    </div>
+                    <div class="flex-shrink-0">
+                        <h5 class="font-size-14 mb-0 text-truncate w-xs bg-light p-2 rounded text-center">
+                            <a href="asm_dashboard_rebuild.php?id=${item.asm}" target="_blank" rel="noopener noreferrer">
+                                <i class="fas fa-file-import font-size-14 text-primary ms-1"></i>
+                            </a>
+                        </h5>
+                    </div>
+                </div>
+                `;
+
+            // Append the HTML content to the container
+            $('#apend_tm_users').append(htmlContent);
+        });
+
+
+        var tmMap = new Map();
+
+        // Filter the data to include only unique ASM entries
+        filteredData.forEach(dealer => {
+            if (!tmMap.has(dealer.tm)) {
+                tmMap.set(dealer.tm, dealer);
+            }
+        });
+
+        // Convert the map back to an array to get the filtered data
+        var distincttmdata = Array.from(tmMap.values());
+
+        $('#apend_rm_users').empty();
+
+        // console.log(distincttmdata)
+        // Iterate through the distinct ASM data
+        $.each(distincttmdata, function(index, item) {
+            // Append the option to the select element
+            $('#asm_users').append($('<option>', {
+                value: item.tm, // Use item.id directly as the value
+                text: item.tm_name // Use item.name directly as the text
+            }));
+
+            // Create the HTML content for each ASM
+            var htmlContent = `
+                <div class="d-flex align-items-center">
+                    <div class="flex-grow-1 ms-3 overflow-hidden">
+                        <h5 class="font-size-15 mb-1 text-truncate">${item.tm_name}</h5>
+                    </div>
+                    <div class="flex-shrink-0">
+                        <h5 class="font-size-14 mb-0 text-truncate w-xs bg-light p-2 rounded text-center">
+                            <a href="asm_dashboard_rebuild.php?id=${item.tm}" target="_blank" rel="noopener noreferrer">
+                                <i class="fas fa-file-import font-size-14 text-primary ms-1"></i>
+                            </a>
+                        </h5>
+                    </div>
+                </div>
+                `;
+
+            // Append the HTML content to the container
+            $('#apend_rm_users').append(htmlContent);
+        });
+
         $('#rm_counts').text(distinctTmCount);
         $('#tm_counts').text(distinctASMCount);
 
@@ -2324,7 +2287,7 @@
         var retail_sites = 0;
         var coco_sites = 0;
         var none_sites = 0;
-        console.log(filteredData)
+        // console.log(filteredData)
         table.clear().draw();
         $.each(filteredData, function(index, data) {
             // $('#loader').hide();
@@ -2337,6 +2300,7 @@
                 data.email,
                 data.contact,
                 data.location,
+                data.region,
                 data.city,
                 data.province,
                 data.rettype_desc,
@@ -2395,17 +2359,18 @@
         $.each(filteredTaskData, function(index, data) {
             task_table.row.add([
                 index + 1,
-                '<a href="inspection_report.php?name=' + data.user_name + '" target="_blank">' + data
-                .user_name + '</a>',
+                '<a href="inspection_report.php?name=' + data.user_name +
+                '" target="_blank">' + data.user_name + '</a>',
                 data.dealer_name,
                 data.time,
                 data.visit_close_time,
                 data.current_status,
-
-                // (data.status === 1) ? 'Completed' : 'Pending',
+                // (data.status === '1') ? 'Complete' : 'Pending',
                 data.description,
                 data.task_create_time,
-
+                '<a href="javascript:void(0);" onclick="check_reschedule(' + data.task_id +
+                ')">' + data.schedule_status +
+                '</a>' // Reschedule link with proper JS handling
             ]).draw(false);
         });
 
@@ -2414,11 +2379,11 @@
         var lateCount = 0;
         var upcomingCount = 0;
 
-        // Loop through the array and count Pending and Completed records
+        // Loop through the array and count Pending and Complete records
         $.each(filteredTaskData, function(index, record) {
             if (record.current_status === 'Pending') {
                 pendingCount++;
-            } else if (record.current_status === 'Completed') {
+            } else if (record.current_status === 'Complete') {
                 completeCount++;
             } else if (record.current_status === 'Late') {
                 lateCount++;
@@ -2433,158 +2398,13 @@
         $('#upcoming_tasks').text(upcomingCount);
         // table.clear().draw();
         // task_datas(filteredTaskData, 'region_chart', 'user_name', 'Users Task')
-        task_datas(filteredTaskData, 'task_users', 'user_name', 'Users Task')
-        task_datas(filteredTaskData, 'task_status', 'current_status', 'Task Status')
+        task_datas(filteredTaskData, 'task_users', 'user_name', 'Users Task', 'tm_select')
+        task_datas(filteredTaskData, 'task_status', 'current_status', 'Task Status', '')
 
 
         // Update the DataTable with filtered data
         // var dataTable = $('#dealer-table').DataTable();
         // table.clear().rows.add(filteredData).draw();
-
-        var filteredData_orders = dealers_order_data.filter(function(item) {
-            // return selectedCity.includes(item.city);
-            return (
-                (selectedCity.length === 0 || selectedCity.includes(item.city)) &&
-                (selectedProvince.length === 0 || selectedProvince.includes(item.province)) &&
-                (regions.length === 0 || regions.includes(item.region)) &&
-                (terri.length === 0 || terri.includes(item.district)) &&
-                (rm_counts.length === 0 || rm_counts.includes(item.tm)) &&
-                (tm_counts.length === 0 || tm_counts.includes(item.asm))
-            );
-        });
-        var distinctTmCount = [...new Set(filteredData_orders.map(dealer => dealer.tm))].length;
-
-        // Calculate count of distinct 'sap_no' values
-        var distinctASMCount = [...new Set(filteredData_orders.map(dealer => dealer.asm))].length;
-        $('#rm_counts').text(distinctTmCount);
-        $('#tm_counts').text(distinctASMCount);
-
-        // Output the results
-        // console.log('Distinct TM Count:', distinctTmCount);
-        // console.log('Distinct ASM No Count:', distinctASMCount);
-
-        console.log(filteredData_orders)
-        order_tables.clear().draw();
-        var pendingCount_order = 0;
-        var completeCount_order = 0;
-        $.each(filteredData_orders, function(index, data) {
-            // $('#loader').hide();
-            var status = data.status_value;
-            console.log(status)
-            var status_value = '';
-
-            if (status == 'pending') {
-                status_value =
-                    '<span id=' + data.id +
-                    ' class="badge rounded-pill cursor-pointer bg-primary approved_check" data-key="t-new">' +
-                    status + '</span>';
-            } else if (status == 'Not Yet Processed') {
-                status_value =
-                    '<span id=' + data.id +
-                    ' class="badge rounded-pill cursor-pointer bg-info" data-key="t-new">Pending</span>';
-            } else if (status == 'Completely Processed') {
-                status_value =
-                    '<span id=' + data.id +
-                    ' class="badge rounded-pill cursor-pointer bg-success" data-key="t-new">Released</span>';
-            } else if (status == 3) {
-                status_value =
-                    '<span id=' + data.id +
-                    ' class="badge rounded-pill cursor-pointer bg-danger" data-key="t-new">Cancel</span>';
-            } else if (status == 4) {
-                status_value =
-                    '<span id=' + data.id +
-                    ' class="badge rounded-pill cursor-pointer bg-warning" data-key="t-new">Special Approval</span>';
-            } else if (status == 5) {
-                status_value =
-                    '<span id=' + data.id +
-                    ' class="badge rounded-pill cursor-pointer bg-dark approved_check" data-key="t-new">ASM Approved</span>';
-            }
-
-            message = (data.delivered_status == 1) ? "Invoiced" : "Scheduled";
-            d_type = (data.type == 'ZDL') ? "Delivered" : "EX-Rack Self";
-            track = (data.is_tracker == 1) ? "<a href='trip_board_salesOrder.php?no=" + data
-                .SaleOrder +
-                "' target='_blank'><i class='fas fa-route font-size-16 align-middle'></i></a>" : "----";
-
-
-            order_tables.row.add([
-                index + 1,
-                data.created_at,
-                data.name,
-                data.usersnames,
-                d_type,
-                data.consignee_name,
-                parseFloat(data.total_amount).toLocaleString(),
-                // data.legder_balance,
-                data.SaleOrder,
-                status_value,
-                message,
-                data.city,
-                data.province,
-                data.region,
-                '<button type="button" id="view_order" name="view_order" onclick="view_order(' +
-                data.id +
-                ')" class="btn btn-soft-danger waves-effect waves-light"><i class="fas fa-eye font-size-16 align-middle"></i></button>',
-                track,
-            ]).draw();
-            if (data.delivered_status === '0') {
-                pendingCount_order++;
-            } else if (data.delivered_status === '1') {
-                completeCount_order++;
-            }
-        });
-        var distinctNamesCount = new Set(filteredData_orders.map(function(item) {
-            return item.name;
-        })).size;
-
-        // Count of distinct users and their order count
-        var distinctUsersOrderCount = {};
-        filteredData_orders.forEach(function(item) {
-            if (!distinctUsersOrderCount[item.name]) {
-                distinctUsersOrderCount[item.name] = {
-                    username: item.name,
-                    orderCount: 0
-                };
-            }
-            distinctUsersOrderCount[item.name].orderCount++;
-        });
-
-        // Convert distinctUsersOrderCount to an array
-        var distinctUsersOrderCountArray = [];
-        $.each(distinctUsersOrderCount, function(key, value) {
-            distinctUsersOrderCountArray.push(value);
-        });
-
-        console.log('Distinct Names Count:', distinctNamesCount);
-        console.log('Distinct Users Order Count:', distinctUsersOrderCountArray);
-        console.log('Distinct Users Order Count:', distinctUsersOrderCountArray.length);
-        // liat_vist_users
-        $('#list_dealers_no').empty();
-        $.each(distinctUsersOrderCountArray, function(index, data) {
-            console.log(data.username)
-
-            var htmlContent1 = '<div class="container-fluid">' +
-                '<div class="row">' +
-                '<div class="col-md-6">' + data.username + '</div>' +
-                ' <div class="col-md-6">' +
-                '<div class="container-fluid">' +
-                '<div class="row">' +
-                '<div class="col-md-12" ><small style="float: right;">Orders : ' + data.orderCount +
-                '</small></div>' +
-
-                '</div>' +
-                '</div>' +
-                '</div>' +
-                '</div>' +
-                '</div>';
-
-            // Append the HTML content to the container
-            $('#list_dealers_no').append(htmlContent1);
-        });
-        $('#no_of_dealers_orders').text(distinctNamesCount);
-        $('#Pending_orders').text(pendingCount_order);
-        $('#completed_orders').text(completeCount_order);
-        $('#dealers_order_count').text(filteredData_orders.length);
     }
 
 
@@ -2726,7 +2546,7 @@
         var time = new Date();
         var currentTime = time.toLocaleString();
         circle_point.push(cirlat + ", " + cirlng)
-        console.log(circle_point)
+        // console.log(circle_point)
 
         // alert(n);
 
@@ -2741,7 +2561,7 @@
             var lng = this.getCenter().lng();
             var radius = this.getRadius();
             circle_point_edit.push(lat + ", " + lng)
-            console.log(circle_point_edit)
+            // console.log(circle_point_edit)
             document.getElementById("lati").value = circle_point_edit;
             document.getElementById("type").value = 'circle';
 
@@ -2753,7 +2573,7 @@
             var lng = this.getCenter().lng();
             var radius = this.getRadius();
             circle_point_edit.push(lat + ", " + lng)
-            console.log(circle_point_edit)
+            // console.log(circle_point_edit)
             document.getElementById("lati").value = circle_point_edit;
             document.getElementById("type").value = 'circle';
 
@@ -2775,7 +2595,7 @@
 
         }
         poly_points.push(coordStr)
-        console.log(poly_points);
+        // console.log(poly_points);
         var time = new Date();
         var currentTime = time.toLocaleString();
         document.getElementById("lati").value = poly_points;
@@ -2789,12 +2609,12 @@
             for (var i = 0; i < polygon.getPath().getLength(); i++) {
                 var co_string = polygon.getPath().getAt(i).toUrlValue(6);
                 var spl_co = co_string.split(",");
-                console.log(polygon.getPath().getAt(i).toUrlValue(6))
+                // console.log(polygon.getPath().getAt(i).toUrlValue(6))
                 coordStr_edit += spl_co[0] + "," + spl_co[1] + ";";
 
             }
             poly_points_edit.push(coordStr_edit)
-            console.log(poly_points_edit);
+            // console.log(poly_points_edit);
             document.getElementById("lati").value = poly_points_edit;
             document.getElementById("type").value = 'polygon';
         });
@@ -2805,12 +2625,12 @@
             for (var i = 0; i < polygon.getPath().getLength(); i++) {
                 var co_string = polygon.getPath().getAt(i).toUrlValue(6);
                 var spl_co = co_string.split(",");
-                console.log(polygon.getPath().getAt(i).toUrlValue(6))
+                // console.log(polygon.getPath().getAt(i).toUrlValue(6))
                 coordStr_edit += spl_co[0] + "," + spl_co[1] + ";";
 
             }
             poly_points_edit.push(coordStr_edit)
-            console.log(poly_points_edit);
+            // console.log(poly_points_edit);
             document.getElementById("lati").value = poly_points_edit;
             document.getElementById("type").value = 'polygon';
         });
@@ -2821,12 +2641,12 @@
             for (var i = 0; i < polygon.getPath().getLength(); i++) {
                 var co_string = polygon.getPath().getAt(i).toUrlValue(6);
                 var spl_co = co_string.split(",");
-                console.log(polygon.getPath().getAt(i).toUrlValue(6))
+                // console.log(polygon.getPath().getAt(i).toUrlValue(6))
                 coordStr_edit += spl_co[0] + "," + spl_co[1] + ";";
 
             }
             poly_points_edit.push(coordStr_edit)
-            console.log(poly_points_edit);
+            // console.log(poly_points_edit);
             document.getElementById("lati").value = poly_points_edit;
             document.getElementById("type").value = 'polygon';
         });
@@ -3036,7 +2856,7 @@
 
     function chart_datas(response, id, value, name) {
         var provinceCount = {};
-        console.log(value)
+        // console.log(value)
         // Loop through the dealers data
         $.each(response, function(index, dealer) {
             if (value == 'region') {
@@ -3063,47 +2883,24 @@
             provinceCount[province] = (provinceCount[province] || 0) + 1;
         });
 
-        console.log(provinceCount);
+        // console.log(provinceCount);
         var provincesArray = Object.keys(provinceCount);
         var countsArray = Object.values(provinceCount);
-        console.log(provincesArray);
-        console.log(countsArray);
+        // console.log(provincesArray);
+        // console.log(countsArray);
 
         line_charts(id, provincesArray, countsArray, name)
     }
 
-    function task_datas(response, id, value, name) {
+
+
+    // Main function remains largely the same
+    function task_datas(response, id, value, name, select_id) {
         var provinceCount = {};
-        console.log(response)
+
         // Loop through the dealers data
         $.each(response, function(index, dealer) {
-            if (value == 'region') {
-                var province = dealer.region;
-
-            } else if (value == 'province') {
-                var province = dealer.province;
-
-            } else if (value == 'city') {
-                var province = dealer.city;
-
-            } else if (value == 'district') {
-                var province = dealer.district;
-
-            } else if (value == 'tm') {
-                var province = dealer.tm_name;
-
-            } else if (value == 'asm') {
-                var province = dealer.asm_name;
-
-            } else if (value == 'user_name') {
-                var province = dealer.user_name;
-
-            } else if (value == 'current_status') {
-                var province = dealer.current_status;
-
-            }
-
-            // Check if the province is already in the count, if not, initialize it to 1, otherwise increment
+            var province = dealer[value];
             provinceCount[province] = (provinceCount[province] || 0) + 1;
         });
 
@@ -3112,11 +2909,11 @@
         var lateCount = 0;
         var upcomingCount = 0;
 
-        // Loop through the array and count Pending and Completed records
+        // Count task statuses
         $.each(response, function(index, record) {
             if (record.current_status === 'Pending') {
                 pendingCount++;
-            } else if (record.current_status === 'Completed') {
+            } else if (record.current_status === 'Complete') {
                 completeCount++;
             } else if (record.current_status === 'Late') {
                 lateCount++;
@@ -3125,49 +2922,46 @@
             }
         });
 
+        // Update status counts
         $('#Pending_tasks').text(pendingCount);
         $('#completed_tasks').text(completeCount);
         $('#late_tasks').text(lateCount);
         $('#upcoming_tasks').text(upcomingCount);
 
-        console.log(provinceCount);
+        // Populate dropdown if select_id is provided
+        if (select_id && $('#' + select_id).length) {
+            $('#' + select_id).empty().append('<option value="All Users">All Users</option>');
+            Object.keys(provinceCount).forEach(function(tm_name) {
+                $('#' + select_id).append(`<option value="${tm_name}">${tm_name}</option>`);
+            });
+        }
+
+        // Update chart
         var provincesArray = Object.keys(provinceCount);
         var countsArray = Object.values(provinceCount);
-        console.log(provincesArray);
-        console.log(countsArray);
-
-        user_task(id, provincesArray, countsArray, name)
+        user_task(id, provincesArray, countsArray, name);
     }
-    // user_task();
+
+    function task_datas_charts(response, id, value, name, select_id) {
+        var provinceCount = {};
+        console.log(response);
+        // Loop through the dealers data
+        $.each(response, function(index, dealer) {
+            var province = dealer[value];
+            provinceCount[province] = (provinceCount[province] || 0) + 1;
+        });
+
+        
+
+        // Populate dropdown if select_id is provided
+        
+        // Update chart
+        var provincesArray = Object.keys(provinceCount);
+        var countsArray = Object.values(provinceCount);
+        user_task(id, provincesArray, countsArray, name);
+    }
 
     function user_task(id, leb, ser, name) {
-
-
-        // var options = {
-        //     series: ser,
-        //     chart: {
-        //         type: 'donut',
-        //     },
-        //     labels: leb,
-        //     title: {
-        //         text: name
-        //     },
-        //     responsive: [{
-        //         breakpoint: 480,
-        //         options: {
-        //             chart: {
-        //                 width: 300
-        //             },
-        //             legend: {
-        //                 position: 'bottom'
-        //             }
-        //         }
-        //     }]
-        // };
-
-        // var chart = new ApexCharts(document.querySelector("#task_users"), options);
-        // chart.render();
-
         var data = {
             labels: leb,
             datasets: [{
@@ -3181,26 +2975,28 @@
             }]
         };
 
-        // Get the canvas element
-        var ctx = document.getElementById('' + id + '').getContext('2d');
+        // Destroy existing chart if it exists
+        var ctx = document.getElementById(id).getContext('2d');
         var existingChart = Chart.getChart(ctx);
         if (existingChart) {
             existingChart.destroy();
         }
-        // Create the donut chart
-        var donutChart = new Chart(ctx, {
+
+        // Create new chart
+        new Chart(ctx, {
             type: 'doughnut',
             data: data,
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                cutoutPercentage: 50, // Adjust the cutoutPercentage to create a donut
+                cutoutPercentage: 50,
                 legend: {
                     position: 'bottom'
                 }
             }
         });
-    };
+    }
+
 
     function getting_listing(user) {
         $('.user_lists').addClass('d-none')
@@ -3213,9 +3009,6 @@
         } else if (user == 'listing_users') {
             $('#viste_mode').removeClass('d-none')
 
-        } else if (user == 'orders_dealers') {
-            $('#dealers_orders_list').removeClass('d-none')
-
         }
         $('#listing_users').modal('show');
     }
@@ -3226,48 +3019,42 @@
     }
 
     function check_dealers_status(value) {
-        console.log(value)
+        // console.log(value)
         // var searchText = $('#searchInput').val();
         table.search(value).draw();
     }
 
-    function view_order(id) {
-        if (id != "") {
-            var requestOptions = {
-                method: 'GET',
-                redirect: 'follow'
-            };
-            console.log("<?php echo $api_url; ?>get/get_main_sub_orders.php?key=03201232927&id=" + id + "");
-            fetch("<?php echo $api_url; ?>get/get_main_sub_orders.php?key=03201232927&id=" + id + "", requestOptions)
-                .then(response => response.json())
-                .then(response => {
-                    console.log(response)
-                    if (response.length > 0) {
-                        product_price_backlog.clear().draw();
+    function check_reschedule(task_id) {
 
-                        $.each(response, function(index, data) {
-                            product_price_backlog.row.add([
-                                index + 1,
-                                data.date,
-                                data.name,
-                                // data.name,
-                                data.product_name,
-                                data.rate,
-                                data.quantity,
-                                data.delivery_based,
-                                data.consignee_name,
-                                data.amount
+        var requestOptions = {
+            method: 'GET',
+            redirect: 'follow'
+        };
+        // console.log(
+        //     "<?php echo $api_url; ?>get/get_reshedule_detail.php?key=03201232927&id=<?php echo $_SESSION['user_id'] ?>&task_id=" +
+        //     task_id + "")
+        fetch("<?php echo $api_url; ?>get/get_reshedule_detail.php?key=03201232927&id=<?php echo $_SESSION['user_id'] ?>&task_id=" +
+                task_id + "",
+                requestOptions)
+            .then(response => response.json())
+            .then(response => {
+                // console.log(response)
 
-                            ]).draw(false);
+                schedule_table.clear().draw();
+                $.each(response, function(index, data) {
+                    schedule_table.row.add([
+                        index + 1,
+                        data.old_time,
+                        data.new_time,
+                        data.description,
+                        data.username,
+                        data.created_at
+                    ]).draw(false);
+                });
+            })
+            .catch(error => console.log('error', error));
 
-                        });
-                    }
-                    $('#products_price_backlog_modal').modal('show');
-                })
-                .catch(error => console.log('error', error));
-
-        }
-
+        $('#task_reschedule_modal').modal('show');
     }
 
     function blocking() {

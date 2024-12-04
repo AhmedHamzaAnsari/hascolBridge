@@ -197,6 +197,7 @@
                                         <th class="text-center">Email</th>
                                         <th class="text-center">Contact</th>
                                         <th class="text-center">Password</th>
+                                        <th class="text-center">Co-ordinates</th>
                                         <!-- <th class="text-center">Indent Price (PMG)</th>
                                         <th class="text-center">Nozzle Price (PMG)</th> -->
                                         <th class="text-center">Ledger Balance</th>
@@ -912,7 +913,7 @@
             method: 'GET',
             redirect: 'follow'
         };
-        console.log("<?php echo $api_url; ?>get/dealers.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>");
+        console.log("<?php echo $api_url; ?>get/dealers.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>");
         fetch("<?php echo $api_url; ?>get/dealers.php?key=03201232927&pre=<?php echo $_SESSION['privilege'] ?>&user_id=<?php echo $_SESSION['user_id'] ?>",
                 requestOptions)
             .then(response => response.json())
@@ -935,6 +936,7 @@
                         data.email,
                         data.contact,
                         '********',
+                        data.co_ordinates,
                         parseFloat(data.acount).toLocaleString(),
                         data.zm_name,
                         data.tm_name,
