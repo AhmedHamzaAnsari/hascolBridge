@@ -6,19 +6,19 @@
     <div class="navbar-brand-box">
         <a href="index.html" class="logo logo-dark">
             <span class="logo-sm">
-                <img src="assets/images/logo-dark-sm.png" class='small_logo' alt="" style="width: 26px;height: 26px;">
+                <img src="" class='small_logo' alt="" style="width: 26px;height: 26px;">
             </span>
             <span class="logo-lg">
-                <img src="assets/images/logo-dark.png" class="logo_image" alt="" style="width: 95px;height: 40px;">
+                <img src="" class="logo_image" alt="" style="width: 95px;height: 40px;">
             </span>
         </a>
 
         <a href="index.html" class="logo logo-light">
             <span class="logo-lg">
-                <img src="assets/images/logo-light.png" alt="" height="30">
+                <img src="" alt="" height="30">
             </span>
             <span class="logo-sm">
-                <img src="assets/images/logo-light-sm.png" class='small_logo' alt="" style="width: 26px;height: 26px;">
+                <img src="" class='small_logo' alt="" style="width: 26px;height: 26px;">
             </span>
         </a>
     </div>
@@ -164,6 +164,7 @@
                                 <li><a href="dealers_recons_new.php" data-key="t-level-1.14">Dealers Reconciliation Report</a></li>
                                 <li><a href="admin_recon_report_3.php" data-key="t-level-1.14">Visit Calander Report</a></li>
                                 <li><a href="all_dealers_recons_product_wise.php" data-key="t-level-1.14">Product Wise TM Reconciliation Report</a></li>
+                                <li><a href="all_dealers_recons_product_wise_new.php" data-key="t-level-1.14"> Reconciliation Analyzing Report</a></li>
 
 
 

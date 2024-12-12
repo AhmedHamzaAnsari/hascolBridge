@@ -204,7 +204,7 @@
                             </select>
 
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-3 d-none">
                             <label for="inputEmail4">Company / Brand</label>
 
                             <select data-live-search="true" class="form-control selectpicker" id="company_brand"
@@ -216,7 +216,7 @@
                             </select>
 
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-3 d-none">
                             <label for="inputEmail4">Ownership</label>
 
                             <select data-live-search="true" class="form-control selectpicker" id="ownerships"
@@ -266,12 +266,12 @@
                                             <div class="flex-grow-1 ms-3">
                                                 <h6 onclick="check_dealers_status('Verified')" class="mb-0 font-size-12"
                                                     style="cursor: pointer">
-                                                    <small> Verified </small>: <span id="verified_dealers"
+                                                    <small> Total Stations </small>: <span id="verified_dealers"
                                                         class="text-success">0</span>
                                                 </h6>
 
                                                 <h6 onclick="check_dealers_status('Not-Active')"
-                                                    class="mb-0 font-size-12" style="cursor: pointer">
+                                                    class="mb-0 font-size-12 d-none" style="cursor: pointer">
                                                     <small> Not-Active </small> : <span id="nonverified_dealers"
                                                         class="text-danger">0</span>
                                                 </h6>
@@ -282,16 +282,16 @@
                                                 </h6>
                                                 <h6 onclick="check_dealers_status('Retail/3rd Party Site')"
                                                     class="mb-0 font-size-12" style="cursor: pointer">
-                                                    <small> Retail/3rd Party Site </small> : <span id="retail_sites"
+                                                    <small> Dealer Stations </small> : <span id="retail_sites"
                                                         class="text-success">0</span>
                                                 </h6>
                                                 <h6 onclick="check_dealers_status('Retail/3rd Party Site')"
                                                     class="mb-0 font-size-12" style="cursor: pointer">
-                                                    <small> COCO site </small> : <span id="coco_sites"
+                                                    <small> COCO Stations </small> : <span id="coco_sites"
                                                         class="text-success">0</span>
                                                 </h6>
                                                 <h6 onclick="check_dealers_status('Retail/3rd Party Site')"
-                                                    class="mb-0 font-size-12" style="cursor: pointer">
+                                                    class="mb-0 font-size-12 d-none" style="cursor: pointer">
                                                     <small> None site </small> : <span id="none_sites"
                                                         class="text-success">0</span>
                                                 </h6>
@@ -346,7 +346,7 @@
                                                 </h6>
                                                 <h6 onclick="getting_listing('listing_users')" class="mb-0 font-size-12"
                                                     style="cursor: pointer">
-                                                    <small> Visits Users</small> : <span id="vistes_users"
+                                                    <small> Visits Summary</small> : <span id="vistes_users"
                                                         class="text-info">0</span>
                                                 </h6>
                                             </div>
@@ -458,7 +458,7 @@
 
 
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 d-none">
                             <div class="card">
                                 <div class="card-body">
                                     <canvas id="city_chart"></canvas>
@@ -489,7 +489,7 @@
 
                         </div>
 
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="card">
                                 <div class="card-body">
                                     <canvas id="tm_chart"></canvas>
@@ -1702,51 +1702,36 @@
             .then(response => {
 
                 $('#vistes_users').html(response.length);
+                users_tasking.clear().draw(); // Clear the DataTable before appending new data
+
+
                 $.each(response, function(index, data) {
-
-
-                    // htmlContent = '<div class="container-fluid">' +
-                    //     '<div class="row">' +
-                    //     '<div class="col-md-4">' + data.user_name + '</div>' +
-                    //     ' <div class="col-md-8">' +
-                    //     '<div class="container-fluid">' +
-                    //     '<div class="row">' +
-                    //     '<div class="col-md-3"><small>Pending : ' + data.sum_pending + '</small></div>' +
-                    //     '<div class="col-md-3"><small>Late : ' + data.sum_Late + '</small> </div>' +
-                    //     '<div class="col-md-3"><small>Upcoming : ' + data.sum_Upcoming + '</small></div>' +
-                    //     '<div class="col-md-3"><small>Completed : ' + data.sum_Complete + ' </small></div>' +
-                    //     '</div>' +
-                    //     '</div>' +
-                    //     '</div>' +
-                    //     '</div>' +
-                    //     '</div>';
-
-                    // Append the HTML content to the container
-                    // $('#liat_vist_users').append(htmlContent);
-                    var lang = data.privilege;
-                    if (lang == 'ZM') {
-                        lang = 'GRM';
-                    } else if (lang == 'TM') {
-                        lang = 'RM';
-
-                    } else if (lang == 'Admin') {
-                        lang = 'Admin';
-
-                    } else if (lang == 'ASM') {
-                        lang = 'TM';
-
-                    } else {
-                        lang = data.privilege;
-
+                    // Determine the privilege mapping
+                    let privilege = data.privilege;
+                    switch (privilege) {
+                        case 'ZM':
+                            privilege = 'GRM';
+                            break;
+                        case 'TM':
+                            privilege = 'RM';
+                            break;
+                        case 'ASM':
+                            privilege = 'TM';
+                            break;
+                        default:
+                            // For 'Admin' or any other value, keep as is
+                            privilege = data.privilege;
+                            break;
                     }
+
+                    // Add a new row to the DataTable
                     users_tasking.row.add([
-                        index + 1,
-                        (data.user_name),
-                        lang,
-                        data.sum_pending,
-                        data.sum_Late,
-                        // data.sum_Upcoming,
-                        data.sum_Complete
+                        index + 1, // Row number
+                        data.user_name, // User name
+                        privilege, // Mapped privilege
+                        data.sum_pending, // Sum of pending tasks
+                        data.sum_Late, // Sum of late tasks
+                        data.sum_Complete // Sum of completed tasks
                     ]).draw();
                 });
 
@@ -2951,10 +2936,10 @@
             provinceCount[province] = (provinceCount[province] || 0) + 1;
         });
 
-        
+
 
         // Populate dropdown if select_id is provided
-        
+
         // Update chart
         var provincesArray = Object.keys(provinceCount);
         var countsArray = Object.values(provinceCount);

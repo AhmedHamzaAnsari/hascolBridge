@@ -248,12 +248,12 @@
                                             <div class="flex-grow-1 ms-3">
                                                 <h6 onclick="check_dealers_status('Verified')" class="mb-0 font-size-12"
                                                     style="cursor: pointer">
-                                                    <small> Verified </small>: <span id="verified_dealers"
+                                                    <small> Total Stations </small>: <span id="verified_dealers"
                                                         class="text-success">0</span>
                                                 </h6>
 
                                                 <h6 onclick="check_dealers_status('Not-Active')"
-                                                    class="mb-0 font-size-12" style="cursor: pointer">
+                                                    class="mb-0 font-size-12 d-none" style="cursor: pointer">
                                                     <small> Not-Active </small> : <span id="nonverified_dealers"
                                                         class="text-danger">0</span>
                                                 </h6>
@@ -264,16 +264,16 @@
                                                 </h6>
                                                 <h6 onclick="check_dealers_status('Retail/3rd Party Site')"
                                                     class="mb-0 font-size-12" style="cursor: pointer">
-                                                    <small> Retail/3rd Party Site </small> : <span id="retail_sites"
+                                                    <small> Dealers Stations </small> : <span id="retail_sites"
                                                         class="text-success">0</span>
                                                 </h6>
                                                 <h6 onclick="check_dealers_status('Retail/3rd Party Site')"
                                                     class="mb-0 font-size-12" style="cursor: pointer">
-                                                    <small> COCO site </small> : <span id="coco_sites"
+                                                    <small> COCO Stations </small> : <span id="coco_sites"
                                                         class="text-success">0</span>
                                                 </h6>
                                                 <h6 onclick="check_dealers_status('Retail/3rd Party Site')"
-                                                    class="mb-0 font-size-12" style="cursor: pointer">
+                                                    class="mb-0 font-size-12 d-none" style="cursor: pointer">
                                                     <small> None site </small> : <span id="none_sites"
                                                         class="text-success">0</span>
                                                 </h6>
@@ -328,7 +328,7 @@
                                                 </h6>
                                                 <h6 onclick="getting_listing('listing_users')"
                                                     class="mb-0 font-size-12 d-none" style="cursor: pointer">
-                                                    <small> Visits Users</small> : <span id="vistes_users"
+                                                    <small> Visits Summary</small> : <span id="vistes_users"
                                                         class="text-info">0</span>
                                                 </h6>
                                             </div>
@@ -475,7 +475,7 @@
 
 
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 d-none">
                             <div class="card">
                                 <div class="card-body">
                                     <canvas id="city_chart"></canvas>

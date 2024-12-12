@@ -162,7 +162,7 @@
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link" data-bs-toggle="tab" href="#nozel" role="tab">
-                                                <span>Nozel</span>
+                                                <span>Nozzle</span>
                                             </a>
                                         </li>
                                         <li class="nav-item">
@@ -250,7 +250,7 @@
                                             <thead>
                                                 <tr>
                                                     <th class="text-center">S.No</th>
-                                                    <th class="text-center">Nozel</th>
+                                                    <th class="text-center">Nozzle</th>
                                                     <th class="text-center">Product</th>
                                                     <th class="text-center">Tank</th>
                                                     <th class="text-center">Dispenser</th>
@@ -294,7 +294,7 @@
                                                                 <th class="text-center">From</th>
                                                                 <th class="text-center">To</th>
                                                                 <th class="text-center">Indent Price</th>
-                                                                <th class="text-center">Nozel Price</th>
+                                                                <th class="text-center">Nozzle Price</th>
                                                                 <th class="text-center">Update Time</th>
                                                                 <?php if ($pre == 'Admin') { ?>
                                                                     <th class="text-center">Edit</th>
@@ -762,7 +762,7 @@
                                             <tr>
                                                 <th class="text-center">S.No</th>
                                                 <th class="text-center">Product</th>
-                                                <th class="text-center">Nozel #</th>
+                                                <th class="text-center">Nozzle #</th>
                                                 <th class="text-center">Old Dip</th>
                                                 <th class="text-center">New Dip</th>
                                                 <th class="text-center">Time</th>
@@ -1150,7 +1150,7 @@
                                 </div>
 
                                 <div class="col-6">
-                                    <label for=""> Nozel</label><br>
+                                    <label for=""> Nozzle</label><br>
                                     <select class="form-control multi_select" id="nozel_select" name="nozzels_id[]"
                                         multiple placeholder="This is a placeholder">
 
@@ -1289,7 +1289,7 @@
                                         </div>
                                     </div>
                                     <div class="mb-3 row">
-                                        <label for="example-text-input" class="col-md-2 col-form-label">Nozel
+                                        <label for="example-text-input" class="col-md-2 col-form-label">Nozzle
                                             Price</label>
                                         <div class="col-md-10">
                                             <input type="number" class="form-control" id='nozel_price_pro' step="any"
@@ -1500,7 +1500,7 @@
                                                     <th class="text-center">From</th>
                                                     <th class="text-center">To</th>
                                                     <th class="text-center">Indent Price</th>
-                                                    <th class="text-center">Nozel Price</th>
+                                                    <th class="text-center">Nozzle Price</th>
                                                     <th class="text-center">Created At</th>
                                                 </tr>
                                             </thead>
@@ -1584,7 +1584,7 @@
                 <div class="modal-header">
                     <!-- <h5 class="modal-title" id="myModalLabel">Create Permit Type</h5> -->
                     <h5 class="modal-title" id="myModalLabel">
-                        <h5 id="labelc">Update Nozel Last Recon Reading</h5>
+                        <h5 id="labelc">Update Nozzle Last Recon Reading</h5>
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -1593,7 +1593,7 @@
 
                         <div class="row">
                             <div class="col-md-6">
-                                <label for="example-text-input" class="col-md-12 col-form-label">Nozel</label>
+                                <label for="example-text-input" class="col-md-12 col-form-label">Nozzle</label>
 
 
                                 <input type="text" class="form-control" name='nozel_name' id="nozel_name" required
@@ -2120,7 +2120,7 @@
                 // Iterate through the data and append options to the select element
                 $('#nozel_select').append($('<option>', {
                     value: '',
-                    text: 'Select Nozel '
+                    text: 'Select Nozzle '
                 }));
                 $.each(data, function (index, item) {
 
@@ -2602,7 +2602,7 @@
                         '<h5 class="font-size-15 mb-1 text-truncate">' + data.name + '</h5>' +
                         '<p>Duration : ' + data.from + ' - ' + data.to + '</p>' +
                         '<p>Indent Price : ' + data.indent_price + '</p>' +
-                        '<p>Nozel Price : ' + data.nozel_price + '</p>' +
+                        '<p>Nozzle Price : ' + data.nozel_price + '</p>' +
                         '</div>' +
                         '<div class="flex-shrink-0">' +
                         '<h5 class="font-size-14 mb-0 text-truncate w-xs bg-light p-3 rounded text-center"> ' +
